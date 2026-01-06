@@ -1,0 +1,27 @@
+stages:
+  tensor_basics:
+    cmd: python src/tensor_basics.py
+    params:
+      - tensor_basics
+    metrics:
+      - data/tensor_metrics.json:
+          cache: false
+
+  gpu_benchmarks:
+    cmd: python src/gpu_benchmarks.py
+    params:
+      - benchmarks
+    plots:
+      - matmul_benchmark.png:
+          cache: false
+    metrics:
+      - data/benchmark_results.json:
+          cache: false
+
+  memory_profiling:
+    cmd: python src/memory_profiling.py
+    params:
+      - memory_profiling
+    metrics:
+      - data/memory_stats.json:
+          cache: false
