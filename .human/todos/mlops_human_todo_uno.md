@@ -31,7 +31,7 @@ pip3 --version
 
 **Verification**: Run `python3 --version` and confirm 3.10 or higher.
 
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -50,7 +50,7 @@ docker --version
 docker run hello-world
 ```
 
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -78,7 +78,7 @@ which python
 alias deepmlhub="cd /Users/unmeshmali/Downloads/Unmesh/deepmlhub && source .venv/bin/activate"
 ```
 
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -98,7 +98,7 @@ dvc version
 mlflow --version
 ```
 
-- [ ] Done
+- [x] Done
 
 ---
 
@@ -779,10 +779,10 @@ gcloud iam service-accounts keys delete OLD_KEY_ID \
 
 | Phase | Task | Status |
 |-------|------|--------|
-| 0 | H0.1 Install Python | ⬜ |
-| 0 | H0.2 Install Docker | ⬜ |
-| 0 | H0.3 Create venv | ⬜ |
-| 0 | H0.4 Install DVC/MLflow | ⬜ |
+| 0 | H0.1 Install Python | ✅ |
+| 0 | H0.2 Install Docker | ✅ |
+| 0 | H0.3 Create venv | ✅ |
+| 0 | H0.4 Install DVC/MLflow | ✅ |
 | 1 | H1.1 GCP Account | ⬜ |
 | 1 | H1.2 Install gcloud | ⬜ |
 | 1 | H1.3 Create Project | ⬜ |

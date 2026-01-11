@@ -6,4 +6,5 @@ GETTING_STARTED.md
 deepmlhub_setup_guide.md
 showYourWork.md
 deepenv/
+.venv/
 
