@@ -1,5 +1,5 @@
-.agents/
-.agents
+#.agents/
+#.agents
 .claude
 AGENTS.md
 GETTING_STARTED.md

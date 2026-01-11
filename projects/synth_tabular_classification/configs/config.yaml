@@ -1,0 +1,38 @@
+# ============================================
+# SYNTH TABULAR CLASSIFICATION CONFIG
+# ============================================
+# Small data for testing infrastructure
+# Increase n_samples for production
+
+# Data generation settings
+data:
+  n_samples: 1000          # Small for testing (use 100000+ for prod)
+  n_features: 10           # Simple feature set
+  n_classes: 2             # Binary classification
+  random_seed: 42
+  test_size: 0.2
+
+# Model settings (sklearn RandomForest - CPU only)
+model:
+  type: "random_forest"
+  n_estimators: 50         # Small for testing (use 200+ for prod)
+  max_depth: 10
+  random_seed: 42
+
+# Paths (relative to project root)
+paths:
+  raw_data: "data/raw/synthetic_data.csv"
+  train_data: "data/processed/train.csv"
+  test_data: "data/processed/test.csv"
+  model: "models/model.joblib"
+  metrics: "metrics/metrics.json"
+
+# MLflow settings
+mlflow:
+  experiment_name: "synth_tabular_classification"
+  # tracking_uri is set via MLFLOW_TRACKING_URI env var
+
+# Inference settings
+inference:
+  host: "0.0.0.0"
+  port: 8000
