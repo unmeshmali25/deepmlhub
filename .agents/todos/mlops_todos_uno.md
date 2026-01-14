@@ -1,23 +1,134 @@
-# MLOps AI Tasks (Full Infrastructure, Small Data)
+# MLOps Complete Task List (Human + AI)
 
 > **Goal**: Build complete MLOps infrastructure that works at scale, but test with small data (1000 samples, CPU-only).
 > **Approach**: Full cloud setup (GCP, Terraform, K8s) but simple models for testing.
 
 ---
 
-## How This Works
+## IMPORTANT: Instructions for AI Agents
 
-1. **Human** completes tasks in `.human/todos/mlops_human_todo_uno.md` (signups, installs)
-2. **AI** completes tasks in this file (code, configs, Terraform, K8s manifests)
-3. Tasks are numbered with dependencies (e.g., A1.1 requires H1.5 human task complete)
+**STOP AND WAIT** if you encounter a Human task that is not marked ✅ Complete.
+
+Before starting any AI task:
+1. Check if there are prerequisite Human tasks listed
+2. If those Human tasks are NOT marked `✅ Complete`, **STOP IMMEDIATELY**
+3. Inform the user: "I cannot proceed with [AI Task X] because [Human Task Y] must be completed first."
+4. List what the human needs to do
+5. Do NOT attempt workarounds or skip ahead
+
+This ensures the pipeline is built correctly with proper infrastructure in place.
 
 ---
 
-## Phase 0: Local ML Pipeline (No Cloud Yet)
+## Status Legend
 
-**Prerequisites**: Human must complete H0.1-H0.4 first.
+| Symbol | Meaning |
+|--------|---------|
+| ✅ | Complete |
+| 🔄 | In Progress |
+| ⬜ | Not Started |
+| ⏭️ | Skipped |
+| 🚫 | Blocked (waiting on Human task) |
 
-### A0.1 Create Project Directory Structure ✅
+---
+
+## Phase 0: Local ML Pipeline Setup
+
+### Human Prerequisites (Must Complete First)
+
+#### Human 0.1: Install Required Tools on MacBook ✅
+
+**Task**: Install Python, pip, and virtual environment tools.
+
+```bash
+# Check Python version (need 3.10+)
+python3 --version
+
+# If not installed, install via Homebrew
+brew install python@3.10
+
+# Verify pip
+pip3 --version
+```
+
+**Verification**: Run `python3 --version` and confirm 3.10 or higher.
+
+**Status**: ✅ Complete
+
+---
+
+#### Human 0.2: Install Docker Desktop ✅
+
+**Task**: Install Docker Desktop for Mac.
+
+1. Go to: https://www.docker.com/products/docker-desktop/
+2. Download Docker Desktop for Mac (Apple Silicon or Intel)
+3. Install and start Docker Desktop
+4. Open Docker Desktop and complete setup wizard
+
+**Verification**:
+```bash
+docker --version
+docker run hello-world
+```
+
+**Status**: ✅ Complete
+
+---
+
+#### Human 0.3: Create Project Virtual Environment ✅
+
+**Task**: Create a Python virtual environment for the project.
+
+```bash
+cd /Users/unmeshmali/Downloads/Unmesh/deepmlhub
+
+# Create virtual environment
+python3 -m venv .venv
+
+# Activate it
+source .venv/bin/activate
+
+# Verify
+which python
+# Should show: /Users/.../deepmlhub/.venv/bin/python
+```
+
+**Add to your shell profile** (~/.zshrc or ~/.bashrc):
+```bash
+# Auto-activate deepmlhub venv
+alias deepmlhub="cd /Users/unmeshmali/Downloads/Unmesh/deepmlhub && source .venv/bin/activate"
+```
+
+**Status**: ✅ Complete
+
+---
+
+#### Human 0.4: Install DVC and MLflow ✅
+
+**Task**: Install DVC and MLflow in your virtual environment.
+
+```bash
+# Activate venv first
+source .venv/bin/activate
+
+# Install tools
+pip install dvc[gs] mlflow
+
+# Verify
+dvc version
+mlflow --version
+```
+
+**Status**: ✅ Complete
+
+---
+
+### AI Tasks for Phase 0
+
+> **Prerequisites**: Human 0.1-0.4 must be ✅ Complete before AI can proceed.
+
+#### AI 0.1: Create Project Directory Structure ✅
 
 **Create these directories**:
 
@@ -42,9 +153,11 @@ mkdir -p projects/synth_tabular_classification/notebooks
 - `projects/synth_tabular_classification/tests/__init__.py` (empty)
 - `.gitkeep` files in data/raw, data/processed, models, metrics
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.2 Create requirements.txt ✅
+#### AI 0.2: Create requirements.txt ✅
 
 **File**: `projects/synth_tabular_classification/requirements.txt`
 
@@ -77,9 +190,11 @@ ruff>=0.1.0
 mypy>=1.7.0
 ```
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.3 Create Configuration File ✅
+#### AI 0.3: Create Configuration File ✅
 
 **File**: `projects/synth_tabular_classification/configs/config.yaml`
 
@@ -124,9 +239,11 @@ inference:
   port: 8000
 ```
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.4 Create Data Generation Script ✅
+#### AI 0.4: Create Data Generation Script ✅
 
 **File**: `projects/synth_tabular_classification/src/data/generate.py`
 
@@ -185,9 +302,11 @@ if __name__ == "__main__":
     generate_data()
 ```
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.5 Create Data Preprocessing Script ✅
+#### AI 0.5: Create Data Preprocessing Script ✅
 
 **File**: `projects/synth_tabular_classification/src/data/preprocess.py`
 
@@ -263,9 +382,11 @@ if __name__ == "__main__":
     preprocess_data()
 ```
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.6 Create Model Training Script (with MLflow)
+#### AI 0.6: Create Model Training Script (with MLflow) ✅
 
 **File**: `projects/synth_tabular_classification/src/model/train.py`
 
@@ -387,9 +508,11 @@ if __name__ == "__main__":
     train_model()
 ```
 
+**Status**: ✅ Complete
+
 ---
 
-### A0.7 Create Model Evaluation Script
+#### AI 0.7: Create Model Evaluation Script ⬜
 
 **File**: `projects/synth_tabular_classification/src/model/evaluate.py`
 
@@ -499,9 +622,11 @@ if __name__ == "__main__":
     evaluate_model()
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A0.8 Create Prediction Script
+#### AI 0.8: Create Prediction Script ⬜
 
 **File**: `projects/synth_tabular_classification/src/inference/predict.py`
 
@@ -576,7 +701,7 @@ def main():
     print("PREDICTION DEMO")
     print("=" * 50)
     for i, (pred, true, prob) in enumerate(zip(predictions, y_true, probabilities)):
-        status = "✓" if pred == true else "✗"
+        status = "+" if pred == true else "x"
         confidence = max(prob) * 100
         print(f"Sample {i}: predicted={pred}, actual={true} {status} (confidence: {confidence:.1f}%)")
 
@@ -585,9 +710,11 @@ if __name__ == "__main__":
     main()
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A0.9 Create FastAPI Inference Server
+#### AI 0.9: Create FastAPI Inference Server ⬜
 
 **File**: `projects/synth_tabular_classification/src/inference/server.py`
 
@@ -727,9 +854,11 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A0.10 Create Unit Tests
+#### AI 0.10: Create Unit Tests ⬜
 
 **File**: `projects/synth_tabular_classification/tests/test_data.py`
 
@@ -848,9 +977,11 @@ class TestInferenceEndpoints:
         assert len(response.probabilities) == 2
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A0.11 Create .gitignore for Project
+#### AI 0.11: Create .gitignore for Project ⬜
 
 **File**: `projects/synth_tabular_classification/.gitignore`
 
@@ -899,9 +1030,11 @@ Thumbs.db
 .ipynb_checkpoints/
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-## Phase 0 Verification
+### Phase 0 Verification
 
 ```bash
 cd projects/synth_tabular_classification
@@ -939,9 +1072,9 @@ echo "Phase 0 complete!"
 
 ## Phase 1: DVC Pipeline Setup
 
-**Prerequisites**: Human must complete H0.1-H0.4.
+> **Prerequisites**: Human 0.1-0.4 must be ✅ Complete (they are).
 
-### A1.1 Create DVC Pipeline File
+### AI 1.1: Create DVC Pipeline File ⬜
 
 **File**: `projects/synth_tabular_classification/dvc.yaml`
 
@@ -988,9 +1121,11 @@ stages:
           cache: false
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A1.2 Create params.yaml for DVC
+### AI 1.2: Create params.yaml for DVC ⬜
 
 **File**: `projects/synth_tabular_classification/params.yaml`
 
@@ -1009,9 +1144,11 @@ model:
   max_depth: 10
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-### A1.3 Initialize DVC in Project
+### AI 1.3: Initialize DVC in Project ⬜
 
 ```bash
 cd projects/synth_tabular_classification
@@ -1023,9 +1160,11 @@ dvc init --subdir
 ls -la .dvc/
 ```
 
+**Status**: ⬜ Not Started
+
 ---
 
-## Phase 1 Verification
+### Phase 1 Verification
 
 ```bash
 cd projects/synth_tabular_classification
@@ -1050,11 +1189,233 @@ echo "Phase 1 complete!"
 
 ---
 
-## Phase 2: Terraform Infrastructure
+## Phase 2: GCP Account & Terraform Infrastructure
 
-**Prerequisites**: Human must complete H1.1-H1.6, H2.1-H2.3.
+> **STOP**: The following Human tasks MUST be completed before AI can proceed with Phase 2 AI tasks.
 
-### A2.1 Create Terraform Directory Structure
+### Human Prerequisites for Phase 2
+
+#### Human 1.1: Create Google Cloud Account ⬜
+
+**Task**: Sign up for Google Cloud Platform.
+
+1. Go to: https://cloud.google.com/
+2. Click "Get started for free" or "Start free"
+3. Sign in with your Google account
+4. Enter billing information (you get $300 free credit for 90 days)
+5. Accept terms and conditions
+
+**Important**: You won't be charged during the free trial. Set up billing alerts later.
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 1.2: Install Google Cloud CLI (gcloud) ⬜
+
+**Task**: Install the gcloud CLI on your Mac.
+
+**Option A: Homebrew (Recommended)**
+```bash
+brew install --cask google-cloud-sdk
+```
+
+**Option B: Direct Download**
+1. Go to: https://cloud.google.com/sdk/docs/install
+2. Download the macOS package
+3. Extract and run: `./google-cloud-sdk/install.sh`
+
+**After installation**:
+```bash
+# Initialize gcloud
+gcloud init
+
+# This will:
+# 1. Open browser for authentication
+# 2. Ask you to select/create a project
+# 3. Set default region (choose: us-central1)
+```
+
+**Verification**:
+```bash
+gcloud --version
+gcloud auth list
+# Should show your Google account as active
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 1.3: Create GCP Project ⬜
+
+**Task**: Create a new GCP project for this MLOps setup.
+
+```bash
+# Create project (replace YOUR_UNIQUE_ID with something like 'deepmlhub-unmesh')
+gcloud projects create deepmlhub-YOUR_UNIQUE_ID --name="DeepMLHub"
+
+# Set as default project
+gcloud config set project deepmlhub-YOUR_UNIQUE_ID
+
+# Verify
+gcloud config get-value project
+```
+
+**Write down your project ID**: `deepmlhub-__________________`
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 1.4: Link Billing Account ⬜
+
+**Task**: Link your billing account to the new project.
+
+```bash
+# List your billing accounts
+gcloud billing accounts list
+
+# Link billing to project (replace BILLING_ACCOUNT_ID)
+gcloud billing projects link deepmlhub-YOUR_UNIQUE_ID \
+  --billing-account=BILLING_ACCOUNT_ID
+```
+
+**Alternative**: Do this in the Console
+1. Go to: https://console.cloud.google.com/billing
+2. Select your project
+3. Link to billing account
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 1.5: Enable Required GCP APIs ⬜
+
+**Task**: Enable the APIs needed for MLOps infrastructure.
+
+```bash
+gcloud services enable \
+  run.googleapis.com \
+  storage.googleapis.com \
+  container.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com \
+  iam.googleapis.com \
+  secretmanager.googleapis.com \
+  cloudresourcemanager.googleapis.com
+```
+
+**Verification**:
+```bash
+gcloud services list --enabled
+# Should show all the above services
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 1.6: Set Up Billing Alerts (Recommended) ⬜
+
+**Task**: Set up budget alerts so you don't get surprise bills.
+
+1. Go to: https://console.cloud.google.com/billing/budgets
+2. Click "Create Budget"
+3. Set budget amount: $20/month (or your preference)
+4. Set alerts at: 50%, 90%, 100%
+5. Add your email for notifications
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 2.1: Install Terraform ⬜
+
+**Task**: Install Terraform CLI.
+
+```bash
+# Using Homebrew
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+
+# Verify
+terraform --version
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 2.2: Create Terraform State Bucket ⬜
+
+**Task**: Create a GCS bucket to store Terraform state.
+
+```bash
+# Create bucket (must be globally unique)
+gsutil mb -l us-central1 gs://deepmlhub-YOUR_UNIQUE_ID-tfstate
+
+# Enable versioning (protects state history)
+gsutil versioning set on gs://deepmlhub-YOUR_UNIQUE_ID-tfstate
+
+# Verify
+gsutil ls
+```
+
+**Write down your state bucket**: `gs://deepmlhub-__________________-tfstate`
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 2.3: Create Service Account for Terraform ⬜
+
+**Task**: Create a service account that Terraform will use.
+
+```bash
+# Create service account
+gcloud iam service-accounts create terraform \
+  --display-name="Terraform Service Account"
+
+# Grant necessary roles
+PROJECT_ID=$(gcloud config get-value project)
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:terraform@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/editor"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:terraform@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountAdmin"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:terraform@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/storage.admin"
+
+# Download key (store securely!)
+gcloud iam service-accounts keys create ~/.config/gcloud/terraform-key.json \
+  --iam-account=terraform@${PROJECT_ID}.iam.gserviceaccount.com
+
+# Set environment variable
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/terraform-key.json
+```
+
+**Add to your shell profile** (~/.zshrc):
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/terraform-key.json
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+### AI Tasks for Phase 2
+
+> **BLOCKING REQUIREMENT**: AI MUST NOT proceed with these tasks until Human 1.1-1.6 and Human 2.1-2.3 are ALL marked ✅ Complete.
+
+#### AI 2.1: Create Terraform Directory Structure 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 ```bash
 mkdir -p infrastructure/terraform/environments/dev
@@ -1064,9 +1425,13 @@ mkdir -p infrastructure/terraform/modules/artifact-registry
 mkdir -p infrastructure/terraform/modules/gke
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A2.2 Create GCS Module
+#### AI 2.2: Create GCS Module 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 **File**: `infrastructure/terraform/modules/gcs/main.tf`
 
@@ -1153,15 +1518,13 @@ output "mlflow_bucket_url" {
 }
 ```
 
-**File**: `infrastructure/terraform/modules/gcs/variables.tf`
-
-```hcl
-# Variables are defined in main.tf for simplicity
-```
+**Status**: 🚫 Blocked (waiting on Human tasks)
 
 ---
 
-### A2.3 Create Artifact Registry Module
+#### AI 2.3: Create Artifact Registry Module 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 **File**: `infrastructure/terraform/modules/artifact-registry/main.tf`
 
@@ -1206,9 +1569,13 @@ output "repository_url" {
 }
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A2.4 Create MLflow Cloud Run Module
+#### AI 2.4: Create MLflow Cloud Run Module 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 **File**: `infrastructure/terraform/modules/mlflow/main.tf`
 
@@ -1343,9 +1710,13 @@ output "mlflow_service_account" {
 }
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A2.5 Create GKE Module (Optional)
+#### AI 2.5: Create GKE Module (Optional) 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 **File**: `infrastructure/terraform/modules/gke/main.tf`
 
@@ -1455,41 +1826,6 @@ resource "google_container_node_pool" "cpu_pool" {
   }
 }
 
-# GPU Node Pool (Optional - uncomment when needed)
-# resource "google_container_node_pool" "gpu_pool" {
-#   name     = "gpu-pool"
-#   location = var.zone
-#   cluster  = google_container_cluster.primary.name
-#
-#   autoscaling {
-#     min_node_count = 0
-#     max_node_count = 2
-#   }
-#
-#   node_config {
-#     preemptible  = true
-#     machine_type = "n1-standard-4"
-#
-#     guest_accelerator {
-#       type  = "nvidia-tesla-t4"
-#       count = 1
-#       gpu_driver_installation_config {
-#         gpu_driver_version = "LATEST"
-#       }
-#     }
-#
-#     labels = {
-#       workload-type = "gpu"
-#     }
-#
-#     taint {
-#       key    = "nvidia.com/gpu"
-#       value  = "present"
-#       effect = "NO_SCHEDULE"
-#     }
-#   }
-# }
-
 output "cluster_name" {
   value = google_container_cluster.primary.name
 }
@@ -1503,9 +1839,13 @@ output "cluster_zone" {
 }
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A2.6 Create Dev Environment Config
+#### AI 2.6: Create Dev Environment Config 🚫
+
+**Blocked by**: Human 1.1-1.6, Human 2.1-2.3
 
 **File**: `infrastructure/terraform/environments/dev/main.tf`
 
@@ -1640,216 +1980,109 @@ terraform {
 }
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-## Phase 2 Verification
+## Phase 3: GitHub Setup
+
+> **STOP**: The following Human tasks MUST be completed before AI can proceed with Phase 3 AI tasks.
+
+### Human Prerequisites for Phase 3
+
+#### Human 3.1: Create GitHub Repository (If Not Exists) ⬜
+
+**Task**: Ensure your repo is on GitHub.
+
+If not already on GitHub:
+```bash
+cd /Users/unmeshmali/Downloads/Unmesh/deepmlhub
+git remote add origin https://github.com/YOUR_USERNAME/deepmlhub.git
+git push -u origin main
+```
+
+**Note**: Already exists at https://github.com/unmeshmali25/deepmlhub.git
+
+**Status**: ⬜ Not Started (verify it exists)
+
+---
+
+#### Human 3.2: Create GitHub Service Account for CI/CD ⬜
+
+**Task**: Create a GCP service account for GitHub Actions.
 
 ```bash
-cd infrastructure/terraform/environments/dev
+PROJECT_ID=$(gcloud config get-value project)
 
-# Copy example files
-cp terraform.tfvars.example terraform.tfvars
-cp backend.tf.example backend.tf
+# Create service account
+gcloud iam service-accounts create github-actions \
+  --display-name="GitHub Actions"
 
-# Edit files with your values
-# (Human does this manually)
+# Grant roles
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/editor"
 
-# Initialize Terraform
-terraform init
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountUser"
 
-# Plan
-terraform plan
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/storage.admin"
 
-# Apply (human reviews and approves)
-terraform apply
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/artifactregistry.admin"
 
-echo "Phase 2 complete!"
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/container.admin"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:github-actions@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/run.admin"
+
+# Download key
+gcloud iam service-accounts keys create ~/github-actions-key.json \
+  --iam-account=github-actions@${PROJECT_ID}.iam.gserviceaccount.com
 ```
+
+**Status**: ⬜ Not Started
 
 ---
 
-## Phase 3: Docker Images
+#### Human 3.3: Add GitHub Repository Secrets ⬜
 
-**Prerequisites**: Human must complete H5.1-H5.4.
+**Task**: Add secrets to your GitHub repository.
 
-### A3.1 Create Training Dockerfile
+1. Go to: https://github.com/unmeshmali25/deepmlhub/settings/secrets/actions
+2. Click "New repository secret"
+3. Add these secrets:
 
-**File**: `docker/training/Dockerfile`
+| Secret Name | Value |
+|-------------|-------|
+| `GCP_PROJECT_ID` | Your project ID (e.g., `deepmlhub-unmesh`) |
+| `GCP_SA_KEY` | Contents of `~/github-actions-key.json` (entire JSON) |
+| `GCP_REGION` | `us-central1` |
 
-```dockerfile
-FROM python:3.10-slim
-
-# Set working directory
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements
-COPY projects/synth_tabular_classification/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy source code
-COPY projects/synth_tabular_classification/src/ ./src/
-COPY projects/synth_tabular_classification/configs/ ./configs/
-
-# Copy shared utilities (if any)
-# COPY shared/ ./shared/
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-# Default command (can be overridden)
-CMD ["python", "-m", "src.model.train"]
-```
-
-**File**: `docker/training/requirements.txt`
-
-```
-# Same as project requirements, or minimal subset
-scikit-learn>=1.3.0
-pandas>=2.0.0
-numpy>=1.24.0
-PyYAML>=6.0
-joblib>=1.3.0
-mlflow>=2.10.0
-google-cloud-storage>=2.14.0
-```
-
----
-
-### A3.2 Create Inference Dockerfile
-
-**File**: `docker/inference/Dockerfile`
-
-```dockerfile
-FROM python:3.10-slim
-
-# Set working directory
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements
-COPY projects/synth_tabular_classification/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy source code
-COPY projects/synth_tabular_classification/src/ ./src/
-COPY projects/synth_tabular_classification/configs/ ./configs/
-COPY projects/synth_tabular_classification/models/ ./models/
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-# Expose port
-EXPOSE 8000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
-# Run the server
-CMD ["uvicorn", "src.inference.server:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
----
-
-### A3.3 Create .dockerignore
-
-**File**: `.dockerignore`
-
-```
-# Git
-.git/
-.gitignore
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-.eggs/
-dist/
-build/
-.pytest_cache/
-
-# Virtual environments
-.venv/
-venv/
-env/
-
-# IDE
-.vscode/
-.idea/
-
-# Data (use DVC to pull)
-projects/*/data/raw/
-projects/*/data/processed/
-
-# MLflow local runs
-projects/*/mlruns/
-
-# DVC
-.dvc/cache/
-.dvc/tmp/
-
-# OS
-.DS_Store
-
-# Terraform
-infrastructure/terraform/**/.terraform/
-infrastructure/terraform/**/*.tfstate*
-
-# Secrets
-*.key
-*.pem
-*.json
-!package.json
-
-# Agent files
-.agents/
-.human/
-```
-
----
-
-## Phase 3 Verification
-
+**To get the JSON contents**:
 ```bash
-# Build training image
-docker build -f docker/training/Dockerfile -t training:local .
-
-# Build inference image (requires model first)
-cd projects/synth_tabular_classification
-dvc repro  # Generate model
-cd ../..
-docker build -f docker/inference/Dockerfile -t inference:local .
-
-# Test inference container
-docker run -d -p 8000:8000 --name test-inference inference:local
-sleep 5
-curl http://localhost:8000/health
-curl http://localhost:8000/info
-docker stop test-inference && docker rm test-inference
-
-echo "Phase 3 complete!"
+cat ~/github-actions-key.json
+# Copy the entire output
 ```
+
+**Status**: ⬜ Not Started
 
 ---
 
-## Phase 4: GitHub Actions CI/CD
+### AI Tasks for Phase 3
 
-**Prerequisites**: Human must complete H3.1-H3.3.
+> **BLOCKING REQUIREMENT**: AI MUST NOT proceed with these tasks until Human 3.1-3.3 are ALL marked ✅ Complete.
 
-### A4.1 Create CI Workflow
+#### AI 3.1: Create CI Workflow 🚫
+
+**Blocked by**: Human 3.1-3.3
 
 **File**: `.github/workflows/ci.yaml`
 
@@ -1908,9 +2141,13 @@ jobs:
           dvc dag
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A4.2 Create Build and Push Workflow
+#### AI 3.2: Create Build and Push Workflow 🚫
+
+**Blocked by**: Human 3.1-3.3
 
 **File**: `.github/workflows/build-push.yaml`
 
@@ -1992,9 +2229,13 @@ jobs:
           docker push ${IMAGE_TAG} --all-tags
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-### A4.3 Create Training Trigger Workflow
+#### AI 3.3: Create Training Trigger Workflow 🚫
+
+**Blocked by**: Human 3.1-3.3
 
 **File**: `.github/workflows/train.yaml`
 
@@ -2085,33 +2326,384 @@ jobs:
           path: projects/synth_tabular_classification/metrics/
 ```
 
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
 ---
 
-## Phase 4 Verification
+## Phase 4: DVC Remote Setup
+
+> **STOP**: The following Human tasks MUST be completed before AI can proceed with Phase 4 AI tasks.
+
+### Human Prerequisites for Phase 4
+
+#### Human 4.1: Create GCS Bucket for DVC ⬜
+
+**Task**: Create a bucket for DVC data storage.
 
 ```bash
-# Verify workflow files are valid YAML
-python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yaml'))"
-python -c "import yaml; yaml.safe_load(open('.github/workflows/build-push.yaml'))"
-python -c "import yaml; yaml.safe_load(open('.github/workflows/train.yaml'))"
+PROJECT_ID=$(gcloud config get-value project)
 
-# Push to GitHub and check Actions tab
-git add .github/
-git commit -m "Add CI/CD workflows"
-git push
+# Create bucket
+gsutil mb -l us-central1 gs://${PROJECT_ID}-dvc-storage
 
-# Check GitHub Actions for successful runs
-
-echo "Phase 4 complete!"
+# Verify
+gsutil ls
 ```
+
+**Write down your DVC bucket**: `gs://deepmlhub-__________________-dvc-storage`
+
+**Status**: ⬜ Not Started
 
 ---
 
-## Phase 5: Kubernetes Manifests (Optional)
+#### Human 4.2: Configure DVC Remote ⬜
 
-**Prerequisites**: Human must complete H6.1-H6.3.
+**Task**: Configure DVC to use the GCS bucket.
 
-### A5.1 Create Namespace and ConfigMaps
+```bash
+cd /Users/unmeshmali/Downloads/Unmesh/deepmlhub
+
+# Initialize DVC (if not done)
+dvc init
+
+# Add GCS remote
+dvc remote add -d gcs gs://YOUR_PROJECT_ID-dvc-storage
+
+# Configure GCS credentials
+dvc remote modify gcs credentialpath ~/.config/gcloud/terraform-key.json
+
+# Verify
+dvc remote list
+cat .dvc/config
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+## Phase 5: Apply Terraform Infrastructure
+
+> **STOP**: The following Human tasks MUST be completed after AI creates Terraform files.
+
+### Human Prerequisites for Phase 5
+
+#### Human 5.1: Initialize Terraform ⬜
+
+**Task**: Initialize Terraform with the backend.
+
+```bash
+cd infrastructure/terraform/environments/dev
+
+# Initialize (downloads providers, configures backend)
+terraform init
+```
+
+If you see errors about the backend bucket, ensure Human 2.2 is complete.
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 5.2: Review Terraform Plan ⬜
+
+**Task**: Review what Terraform will create.
+
+```bash
+cd infrastructure/terraform/environments/dev
+
+# See what will be created
+terraform plan
+
+# Review the output carefully:
+# - GCS buckets
+# - Service accounts
+# - Cloud Run service (MLflow)
+# - GKE cluster (if included)
+# - Artifact Registry
+```
+
+**Important**: Review the plan before applying. Ask questions if unsure.
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 5.3: Apply Terraform ⬜
+
+**Task**: Create the infrastructure.
+
+```bash
+cd infrastructure/terraform/environments/dev
+
+# Apply (type 'yes' when prompted)
+terraform apply
+```
+
+This will create:
+- GCS bucket for MLflow
+- Cloud Run service for MLflow
+- Artifact Registry for Docker images
+- Service accounts with proper IAM
+
+**Save the outputs**:
+```bash
+terraform output
+# Write down the MLflow URL and other outputs
+```
+
+**MLflow URL**: `https://mlflow-server-____________________.run.app`
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 5.4: Verify MLflow Deployment ⬜
+
+**Task**: Verify MLflow is running on Cloud Run.
+
+```bash
+# Get the MLflow URL
+MLFLOW_URL=$(terraform output -raw mlflow_url)
+
+# Test health (may need authentication)
+curl $MLFLOW_URL
+
+# Or authenticate first
+gcloud auth print-identity-token | xargs -I {} curl -H "Authorization: Bearer {}" $MLFLOW_URL
+```
+
+**Alternative**: Check in Cloud Console
+1. Go to: https://console.cloud.google.com/run
+2. Find `mlflow-server` service
+3. Click the URL to open MLflow UI
+
+**Status**: ⬜ Not Started
+
+---
+
+## Phase 6: Docker Images
+
+> **Prerequisites**: Human 5.1-5.4 must be ✅ Complete.
+
+### AI Tasks for Phase 6
+
+#### AI 6.1: Create Training Dockerfile 🚫
+
+**Blocked by**: Human 5.1-5.4
+
+**File**: `docker/training/Dockerfile`
+
+```dockerfile
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY projects/synth_tabular_classification/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY projects/synth_tabular_classification/src/ ./src/
+COPY projects/synth_tabular_classification/configs/ ./configs/
+
+# Copy shared utilities (if any)
+# COPY shared/ ./shared/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Default command (can be overridden)
+CMD ["python", "-m", "src.model.train"]
+```
+
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
+---
+
+#### AI 6.2: Create Inference Dockerfile 🚫
+
+**Blocked by**: Human 5.1-5.4
+
+**File**: `docker/inference/Dockerfile`
+
+```dockerfile
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY projects/synth_tabular_classification/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY projects/synth_tabular_classification/src/ ./src/
+COPY projects/synth_tabular_classification/configs/ ./configs/
+COPY projects/synth_tabular_classification/models/ ./models/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Run the server
+CMD ["uvicorn", "src.inference.server:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
+---
+
+#### AI 6.3: Create .dockerignore 🚫
+
+**Blocked by**: Human 5.1-5.4
+
+**File**: `.dockerignore`
+
+```
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Data (use DVC to pull)
+projects/*/data/raw/
+projects/*/data/processed/
+
+# MLflow local runs
+projects/*/mlruns/
+
+# DVC
+.dvc/cache/
+.dvc/tmp/
+
+# OS
+.DS_Store
+
+# Terraform
+infrastructure/terraform/**/.terraform/
+infrastructure/terraform/**/*.tfstate*
+
+# Secrets
+*.key
+*.pem
+*.json
+!package.json
+
+# Agent files
+.agents/
+.human/
+```
+
+**Status**: 🚫 Blocked (waiting on Human tasks)
+
+---
+
+## Phase 7: Kubernetes Manifests (Optional)
+
+> **STOP**: The following Human tasks MUST be completed before AI can proceed with Kubernetes setup.
+
+### Human Prerequisites for Phase 7
+
+#### Human 6.1: Apply GKE Terraform ⬜
+
+**Task**: Create the GKE cluster (only when ready for K8s).
+
+```bash
+cd infrastructure/terraform/environments/dev
+
+# Apply with GKE module enabled
+terraform apply -target=module.gke
+```
+
+**Warning**: GKE clusters cost money even when idle (~$70/month for control plane on Autopilot, free on Standard). The Terraform is configured for Standard with scale-to-zero nodes.
+
+**Status**: ⬜ Not Started (or skipped for now)
+
+---
+
+#### Human 6.2: Get GKE Credentials ⬜
+
+**Task**: Configure kubectl to connect to your cluster.
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+
+gcloud container clusters get-credentials deepmlhub-cluster \
+  --zone us-central1-a \
+  --project $PROJECT_ID
+
+# Verify
+kubectl get nodes
+kubectl get namespaces
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+#### Human 6.3: Install kubectl (If Not Installed) ⬜
+
+**Task**: Install kubectl CLI.
+
+```bash
+# Using Homebrew
+brew install kubectl
+
+# Or via gcloud
+gcloud components install kubectl
+
+# Verify
+kubectl version --client
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+### AI Tasks for Phase 7
+
+> **BLOCKING REQUIREMENT**: AI MUST NOT proceed with these tasks until Human 6.1-6.3 are ALL marked ✅ Complete.
+
+#### AI 7.1: Create Namespace and ConfigMaps 🚫
+
+**Blocked by**: Human 6.1-6.3
 
 **File**: `infrastructure/kubernetes/base/namespace.yaml`
 
@@ -2131,37 +2723,13 @@ metadata:
     purpose: inference
 ```
 
-**File**: `infrastructure/kubernetes/base/configmaps/training-config.yaml`
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: training-config
-  namespace: ml-training
-data:
-  # These will be replaced with actual values
-  mlflow_tracking_uri: "https://mlflow-server-XXXXX.run.app"
-  dvc_remote: "gcs"
-  log_level: "INFO"
-```
-
-**File**: `infrastructure/kubernetes/base/configmaps/inference-config.yaml`
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: inference-config
-  namespace: ml-inference
-data:
-  model_version: "latest"
-  log_level: "INFO"
-```
+**Status**: 🚫 Blocked (waiting on Human tasks)
 
 ---
 
-### A5.2 Create Inference Deployment
+#### AI 7.2: Create Inference Deployment 🚫
+
+**Blocked by**: Human 6.1-6.3
 
 **File**: `infrastructure/kubernetes/inference/deployment.yaml`
 
@@ -2230,70 +2798,177 @@ spec:
     targetPort: 8000
   selector:
     app: synth-tabular-api
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: synth-tabular-api-hpa
-  namespace: ml-inference
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: synth-tabular-api
-  minReplicas: 1
-  maxReplicas: 3
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
 ```
+
+**Status**: 🚫 Blocked (waiting on Human tasks)
 
 ---
 
-### A5.3 Create Training Job Template
+## Phase 8: Manual Verifications
 
-**File**: `infrastructure/kubernetes/training/job.yaml`
+### Human 7.1: Test Full Pipeline Locally ⬜
 
-```yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: training-job
-  namespace: ml-training
-spec:
-  backoffLimit: 2
-  template:
-    spec:
-      restartPolicy: Never
+**Task**: Run the ML pipeline locally and verify it works.
 
-      containers:
-      - name: training
-        image: us-central1-docker.pkg.dev/PROJECT_ID/ml/training:latest
+```bash
+cd projects/synth_tabular_classification
 
-        command: ["python", "-m", "src.model.train"]
+# Activate venv
+source ../../.venv/bin/activate
 
-        env:
-        - name: MLFLOW_TRACKING_URI
-          valueFrom:
-            configMapKeyRef:
-              name: training-config
-              key: mlflow_tracking_uri
+# Run pipeline
+dvc repro
 
-        resources:
-          requests:
-            cpu: "1"
-            memory: "2Gi"
-          limits:
-            cpu: "2"
-            memory: "4Gi"
+# Check outputs
+ls data/raw/
+ls data/processed/
+ls models/
+cat metrics/metrics.json
 
-      nodeSelector:
-        workload-type: cpu
+# Start MLflow UI locally
+mlflow ui --backend-store-uri file://$(pwd)/mlruns
+
+# Open http://localhost:5000 and verify experiments
 ```
+
+**Status**: ⬜ Not Started
+
+---
+
+### Human 7.2: Test DVC Push to GCS ⬜
+
+**Task**: Push data to GCS and verify.
+
+```bash
+cd projects/synth_tabular_classification
+
+# Push to remote
+dvc push
+
+# Verify in GCS
+gsutil ls gs://YOUR_PROJECT_ID-dvc-storage/
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+### Human 7.3: Test MLflow Connection to Cloud Run ⬜
+
+**Task**: Verify local training can log to Cloud Run MLflow.
+
+```bash
+cd projects/synth_tabular_classification
+
+# Set environment variable to Cloud Run MLflow
+export MLFLOW_TRACKING_URI=https://mlflow-server-XXXX.run.app
+
+# Authenticate
+gcloud auth print-identity-token > /tmp/token
+export MLFLOW_TRACKING_TOKEN=$(cat /tmp/token)
+
+# Run training (should log to Cloud Run MLflow)
+python -m src.model.train
+
+# Check Cloud Run MLflow UI for new run
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+### Human 7.4: Test Docker Build and Push ⬜
+
+**Task**: Build and push Docker image to Artifact Registry.
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+REGION=us-central1
+
+# Configure Docker for Artifact Registry
+gcloud auth configure-docker ${REGION}-docker.pkg.dev
+
+# Build image
+cd projects/synth_tabular_classification
+docker build -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml/inference:test .
+
+# Push to Artifact Registry
+docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml/inference:test
+
+# Verify in Console
+# Go to: https://console.cloud.google.com/artifacts
+```
+
+**Status**: ⬜ Not Started
+
+---
+
+## Phase 9: Ongoing Human Tasks
+
+### Human 8.1: Monitor Costs ⬜
+
+**Task**: Check GCP costs weekly.
+
+1. Go to: https://console.cloud.google.com/billing
+2. Review cost breakdown
+3. Shut down unused resources
+
+**Cost control tips**:
+- Scale GKE nodes to zero when not training
+- Delete old Docker images from Artifact Registry
+- Use Spot VMs for training
+
+**Status**: ⬜ Set up weekly reminder
+
+---
+
+### Human 8.2: Rotate Service Account Keys ⬜
+
+**Task**: Rotate keys every 90 days for security.
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+
+# List existing keys
+gcloud iam service-accounts keys list \
+  --iam-account=github-actions@${PROJECT_ID}.iam.gserviceaccount.com
+
+# Create new key
+gcloud iam service-accounts keys create ~/github-actions-key-new.json \
+  --iam-account=github-actions@${PROJECT_ID}.iam.gserviceaccount.com
+
+# Update GitHub secret with new key
+
+# Delete old key (after updating GitHub)
+gcloud iam service-accounts keys delete OLD_KEY_ID \
+  --iam-account=github-actions@${PROJECT_ID}.iam.gserviceaccount.com
+```
+
+**Status**: ⬜ Set up quarterly reminder
+
+---
+
+## Quick Reference
+
+### Your Project Values (Fill In)
+
+| Item | Value |
+|------|-------|
+| GCP Project ID | `deepmlhub-________________` |
+| Terraform State Bucket | `gs://deepmlhub-________________-tfstate` |
+| DVC Storage Bucket | `gs://deepmlhub-________________-dvc-storage` |
+| MLflow URL | `https://mlflow-server-________________.run.app` |
+| GKE Cluster | `deepmlhub-cluster` |
+| Region | `us-central1` |
+
+### Important File Locations
+
+| File | Purpose |
+|------|---------|
+| `~/.config/gcloud/terraform-key.json` | Terraform service account key |
+| `~/github-actions-key.json` | GitHub Actions service account key |
+| `.dvc/config` | DVC remote configuration |
+| `infrastructure/terraform/environments/dev/terraform.tfvars` | Terraform variables |
 
 ---
 
@@ -2331,19 +3006,56 @@ dvc remote list
 
 ---
 
-## Status Tracker
+## Master Status Tracker
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 0 | Local ML Pipeline (Python code) | ⬜ Not Started |
-| 1 | DVC Pipeline Setup | ⬜ Not Started |
-| 2 | Terraform Infrastructure | ⬜ Not Started |
-| 3 | Docker Images | ⬜ Not Started |
-| 4 | GitHub Actions CI/CD | ⬜ Not Started |
-| 5 | Kubernetes Manifests | ⬜ Not Started |
+| Phase | Task ID | Description | Owner | Status |
+|-------|---------|-------------|-------|--------|
+| 0 | Human 0.1 | Install Python | Human | ✅ |
+| 0 | Human 0.2 | Install Docker | Human | ✅ |
+| 0 | Human 0.3 | Create venv | Human | ✅ |
+| 0 | Human 0.4 | Install DVC/MLflow | Human | ✅ |
+| 0 | AI 0.1 | Create directory structure | AI | ✅ |
+| 0 | AI 0.2 | Create requirements.txt | AI | ✅ |
+| 0 | AI 0.3 | Create config.yaml | AI | ✅ |
+| 0 | AI 0.4 | Create generate.py | AI | ✅ |
+| 0 | AI 0.5 | Create preprocess.py | AI | ✅ |
+| 0 | AI 0.6 | Create train.py | AI | ✅ |
+| 0 | AI 0.7 | Create evaluate.py | AI | ⬜ |
+| 0 | AI 0.8 | Create predict.py | AI | ⬜ |
+| 0 | AI 0.9 | Create server.py | AI | ⬜ |
+| 0 | AI 0.10 | Create tests | AI | ⬜ |
+| 0 | AI 0.11 | Create .gitignore | AI | ⬜ |
+| 1 | AI 1.1 | Create dvc.yaml | AI | ⬜ |
+| 1 | AI 1.2 | Create params.yaml | AI | ⬜ |
+| 1 | AI 1.3 | Initialize DVC | AI | ⬜ |
+| 2 | Human 1.1 | GCP Account | Human | ⬜ |
+| 2 | Human 1.2 | Install gcloud | Human | ⬜ |
+| 2 | Human 1.3 | Create Project | Human | ⬜ |
+| 2 | Human 1.4 | Link Billing | Human | ⬜ |
+| 2 | Human 1.5 | Enable APIs | Human | ⬜ |
+| 2 | Human 1.6 | Billing Alerts | Human | ⬜ |
+| 2 | Human 2.1 | Install Terraform | Human | ⬜ |
+| 2 | Human 2.2 | State Bucket | Human | ⬜ |
+| 2 | Human 2.3 | Terraform SA | Human | ⬜ |
+| 2 | AI 2.1-2.6 | Terraform modules | AI | 🚫 |
+| 3 | Human 3.1 | GitHub Repo | Human | ⬜ |
+| 3 | Human 3.2 | GitHub SA | Human | ⬜ |
+| 3 | Human 3.3 | GitHub Secrets | Human | ⬜ |
+| 3 | AI 3.1-3.3 | GitHub workflows | AI | 🚫 |
+| 4 | Human 4.1 | DVC Bucket | Human | ⬜ |
+| 4 | Human 4.2 | Configure DVC | Human | ⬜ |
+| 5 | Human 5.1 | Terraform Init | Human | ⬜ |
+| 5 | Human 5.2 | Terraform Plan | Human | ⬜ |
+| 5 | Human 5.3 | Terraform Apply | Human | ⬜ |
+| 5 | Human 5.4 | Verify MLflow | Human | ⬜ |
+| 6 | AI 6.1-6.3 | Docker files | AI | 🚫 |
+| 7 | Human 6.1 | GKE Terraform | Human | ⬜ |
+| 7 | Human 6.2 | GKE Credentials | Human | ⬜ |
+| 7 | Human 6.3 | Install kubectl | Human | ⬜ |
+| 7 | AI 7.1-7.2 | K8s manifests | AI | 🚫 |
+| 8 | Human 7.1 | Test Pipeline | Human | ⬜ |
+| 8 | Human 7.2 | Test DVC Push | Human | ⬜ |
+| 8 | Human 7.3 | Test MLflow Cloud | Human | ⬜ |
+| 8 | Human 7.4 | Test Docker Push | Human | ⬜ |
 
-Update status as you complete each phase:
-- ⬜ Not Started
-- 🔄 In Progress
-- ✅ Complete
-- ⏭️ Skipped
+**Legend**: ⬜ Not Started | 🔄 In Progress | ✅ Complete | ⏭️ Skipped | 🚫 Blocked
