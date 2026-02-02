@@ -6,9 +6,9 @@
 
 # Data generation settings
 data:
-  n_samples: 1000          # Small for testing (use 100000+ for prod)
-  n_features: 10           # Simple feature set
-  n_classes: 2             # Binary classification
+  n_samples: 2000          # Small for testing (use 100000+ for prod)
+  n_features: 13           # Simple feature set
+  n_classes: 3             # Binary classification
   random_seed: 42
   test_size: 0.2
 
