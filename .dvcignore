@@ -1,3 +1,48 @@
-# Add patterns of files dvc should ignore, which could improve
-# the performance. Learn more at
+# DVC Ignore Patterns
 # https://dvc.org/doc/user-guide/dvcignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# MLflow
+mlruns/
+
+# Large data files (use DVC to track these instead)
+# These should be tracked by DVC, not git
+# data/raw/*.csv
+# data/processed/*.csv
+# models/*.joblib
+# models/*.pkl
+
+# Logs
+*.log
+logs/
