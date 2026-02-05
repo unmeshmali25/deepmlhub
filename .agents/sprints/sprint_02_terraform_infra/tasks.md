@@ -37,16 +37,29 @@ Set up GCP infrastructure using Terraform. All human prerequisites are complete.
 
 ## Tasks
 
-### [AI] 2.1: Create Terraform Directory Structure 🔄
+### [AI] 2.1: Create Terraform Directory Structure ✅
 
-**Status**: 🔄 In Progress (2026-02-04)  
+**Status**: ✅ Complete (2026-02-04)  
 **Estimated Time**: 10 minutes  
+**Actual Time**: 2 minutes  
 **Priority**: High
 
 **Definition of Done**:
-- [ ] Directory structure created per plan
-- [ ] All directories have .gitkeep if empty
-- [ ] Structure matches plan specification
+- [x] Directory structure created per plan
+- [x] All directories have .gitkeep if empty
+- [x] Structure matches plan specification
+
+**Created Directories**:
+```
+infrastructure/terraform/
+├── environments/
+│   └── dev/
+├── modules/
+│   ├── artifact-registry/
+│   ├── gcs/
+│   ├── gke/
+│   └── mlflow/
+```
 
 **Directories to Create**:
 ```bash
@@ -61,63 +74,83 @@ infrastructure/terraform/modules/gke
 
 ---
 
-### [AI] 2.2: Create GCS Module ⬜
+### [AI] 2.2: Create GCS Module ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete (2026-02-04)  
 **Estimated Time**: 30 minutes  
+**Actual Time**: 5 minutes  
 **Priority**: High  
 **Blocked By**: AI 2.1
 
 **Definition of Done**:
-- [ ] `main.tf` with DVC and MLflow bucket resources
-- [ ] Variables defined in `variables.tf`
-- [ ] Outputs defined for bucket URLs
-- [ ] Lifecycle rules configured
-- [ ] Versioning enabled
+- [x] `main.tf` with DVC and MLflow bucket resources
+- [x] Variables defined in `variables.tf`
+- [x] Outputs defined for bucket URLs
+- [x] Lifecycle rules configured
+- [x] Versioning enabled
 
-**File**: `infrastructure/terraform/modules/gcs/main.tf`
+**Files Created**:
+- `infrastructure/terraform/modules/gcs/main.tf` - Bucket resources
+- `infrastructure/terraform/modules/gcs/variables.tf` - Input variables
+- `infrastructure/terraform/modules/gcs/outputs.tf` - Bucket URLs/names
 
-**Resources**:
-- DVC storage bucket with versioning and lifecycle rules
-- MLflow artifacts bucket with versioning
+**Resources Created**:
+- `${project_id}-dvc-storage` bucket (with versioning & lifecycle)
+- `${project_id}-mlflow-artifacts` bucket (with versioning & lifecycle)
 
 **Blocking**: AI 2.6
 
 ---
 
-### [AI] 2.3: Create Artifact Registry Module ⬜
+### [AI] 2.3: Create Artifact Registry Module ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete (2026-02-04)  
 **Estimated Time**: 20 minutes  
+**Actual Time**: 3 minutes  
 **Priority**: Medium  
 **Blocked By**: AI 2.1
 
 **Definition of Done**:
-- [ ] Docker repository resource created
-- [ ] Variables and outputs defined
-- [ ] Repository URL output available
+- [x] Docker repository resource created
+- [x] Variables and outputs defined
+- [x] Repository URL output available
 
-**File**: `infrastructure/terraform/modules/artifact-registry/main.tf`
+**Files Created**:
+- `infrastructure/terraform/modules/artifact-registry/main.tf` - Docker repository
+- `infrastructure/terraform/modules/artifact-registry/variables.tf` - Input variables
+- `infrastructure/terraform/modules/artifact-registry/outputs.tf` - Repository URL
 
-**Blocking**: None (can run in parallel with 2.2, 2.4)
+**Resources Created**:
+- Docker repository: `${var.repository_id}` (default: "ml-images")
+
+**Blocking**: None
 
 ---
 
-### [AI] 2.4: Create MLflow Cloud Run Module ⬜
+### [AI] 2.4: Create MLflow Cloud Run Module ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete (2026-02-04)  
 **Estimated Time**: 45 minutes  
+**Actual Time**: 5 minutes  
 **Priority**: High  
 **Blocked By**: AI 2.1
 
 **Definition of Done**:
-- [ ] Cloud Run service resource
-- [ ] Service account with GCS access
-- [ ] IAM bindings for invoker
-- [ ] Environment variables configured
-- [ ] Scaling configured (0-2 instances)
+- [x] Cloud Run service resource
+- [x] Service account with GCS access
+- [x] IAM bindings for invoker
+- [x] Environment variables configured
+- [x] Scaling configured (0-2 instances)
 
-**File**: `infrastructure/terraform/modules/mlflow/main.tf`
+**Files Created**:
+- `infrastructure/terraform/modules/mlflow/main.tf` - Cloud Run service, SA, IAM
+- `infrastructure/terraform/modules/mlflow/variables.tf` - Input variables
+- `infrastructure/terraform/modules/mlflow/outputs.tf` - Service URL, SA email
+
+**Resources Created**:
+- Cloud Run service: `mlflow-server` (scale 0-2, SQLite backend)
+- Service account: `mlflow-server@${project}.iam.gserviceaccount.com`
+- GCS access: `roles/storage.objectAdmin` on artifacts bucket
 
 **Features**:
 - MLflow server on Cloud Run
@@ -129,47 +162,42 @@ infrastructure/terraform/modules/gke
 
 ---
 
-### [AI] 2.5: Create GKE Module (Optional) ⬜
+### [AI] 2.5: Create GKE Module (Optional) ⏭️
 
-**Status**: ⬜ Not Started (Optional)  
-**Estimated Time**: 60 minutes  
+**Status**: ⏭️ Skipped (User Decision)  
 **Priority**: Low  
-**Blocked By**: AI 2.1
-
-**Definition of Done**:
-- [ ] GKE Standard cluster resource
-- [ ] CPU node pool with Spot VMs
-- [ ] Workload Identity enabled
-- [ ] Autoscaling configured
-
-**File**: `infrastructure/terraform/modules/gke/main.tf`
-
-**Note**: Optional for this sprint, can be deferred to Phase 7
-
-**Blocking**: None
+**Note**: Deferred to Phase 7 when Kubernetes is needed
 
 ---
 
-### [AI] 2.6: Create Dev Environment Config ⬜
+### [AI] 2.6: Create Dev Environment Config ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete (2026-02-04)  
 **Estimated Time**: 30 minutes  
+**Actual Time**: 8 minutes  
 **Priority**: High  
 **Blocked By**: AI 2.1, AI 2.2, AI 2.3, AI 2.4
 
 **Definition of Done**:
-- [ ] `main.tf` with all module calls
-- [ ] `variables.tf` with project-specific vars
-- [ ] `terraform.tfvars.example` template
-- [ ] `backend.tf.example` template
-- [ ] Outputs defined for all important values
+- [x] `main.tf` with all module calls
+- [x] `variables.tf` with project-specific vars
+- [x] `terraform.tfvars.example` template
+- [x] `backend.tf.example` template
+- [x] Outputs defined for all important values
 
-**Files**:
-- `infrastructure/terraform/environments/dev/main.tf`
-- `infrastructure/terraform/environments/dev/variables.tf`
-- `infrastructure/terraform/environments/dev/terraform.tfvars.example`
-- `infrastructure/terraform/environments/dev/backend.tf.example`
-- `infrastructure/terraform/environments/dev/outputs.tf`
+**Files Created**:
+- `infrastructure/terraform/environments/dev/main.tf` - Orchestrates all modules
+- `infrastructure/terraform/environments/dev/variables.tf` - 10+ configurable variables
+- `infrastructure/terraform/environments/dev/outputs.tf` - All important URLs and names
+- `infrastructure/terraform/environments/dev/terraform.tfvars.example` - Configuration template
+- `infrastructure/terraform/environments/dev/backend.tf.example` - Remote state template
+- `infrastructure/terraform/environments/dev/.gitignore` - Prevents committing sensitive files
+
+**Features**:
+- Calls GCS, Artifact Registry, and MLflow modules
+- Configurable region, scaling, lifecycle rules
+- Remote state configuration for GCS backend
+- Comprehensive outputs with usage instructions
 
 **Blocking**: Phase 2 completion
 

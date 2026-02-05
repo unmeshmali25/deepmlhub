@@ -1,0 +1,26 @@
+# Dev Environment Configuration
+# Copy this file to terraform.tfvars and fill in your values
+
+# Required: Your GCP Project ID
+project_id = "your-project-id"
+
+# Optional: GCP Region (default: us-central1)
+region = "us-central1"
+
+# Optional: Environment name (default: dev)
+environment = "dev"
+
+# Optional: Days to keep old object versions (default: 30)
+# lifecycle_delete_days = 30
+
+# Optional: Artifact Registry repository name (default: ml-images)
+# artifact_repository_id = "ml-images"
+
+# Optional: MLflow service configuration
+# mlflow_service_name = "mlflow-server"
+# mlflow_min_instances = "0"  # 0 = scale to zero when idle
+# mlflow_max_instances = "2"
+
+# Note: You'll need to build and push a proper MLflow Docker image
+# For now, you can use a placeholder or deploy MLflow separately
+# mlflow_image = "gcr.io/cloudrun/hello"

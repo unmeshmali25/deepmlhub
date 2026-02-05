@@ -64,12 +64,12 @@
 - [x] [HUMAN] 2.0.9: Create Service Account for Terraform
 
 ### [AI] Implementation Tasks
-- [ ] [AI] 2.1: Create Terraform Directory Structure
-- [ ] [AI] 2.2: Create GCS Module
-- [ ] [AI] 2.3: Create Artifact Registry Module
-- [ ] [AI] 2.4: Create MLflow Cloud Run Module
-- [ ] [AI] 2.5: Create GKE Module (Optional)
-- [ ] [AI] 2.6: Create Dev Environment Config
+- [x] [AI] 2.1: Create Terraform Directory Structure
+- [x] [AI] 2.2: Create GCS Module
+- [x] [AI] 2.3: Create Artifact Registry Module
+- [x] [AI] 2.4: Create MLflow Cloud Run Module
+- [⏭️] [AI] 2.5: Create GKE Module (Optional) - Deferred to Phase 7
+- [x] [AI] 2.6: Create Dev Environment Config
 
 ---
 
