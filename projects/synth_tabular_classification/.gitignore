@@ -1,6 +1,10 @@
-# Data (DVC tracked)
-/data/raw/
-/data/processed/
+# Data (DVC tracked) - ignore actual data files but keep .dvc metadata
+/data/raw/*.csv
+/data/raw/*.json
+/data/raw/*.parquet
+/data/processed/*.csv
+/data/processed/*.json
+/data/processed/*.parquet
 
 # Models (DVC tracked)
 /models/*.joblib
