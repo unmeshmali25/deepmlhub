@@ -1,0 +1,73 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'docker/**'
+      - 'projects/**/src/**'
+      - 'projects/**/requirements.txt'
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: ${{ secrets.GCP_REGION }}
+  ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+      
+      - name: Build and push training image
+        run: |
+          if [ -f docker/training/Dockerfile ]; then
+            docker build \
+              -t ${{ env.ARTIFACT_REGISTRY }}/training:${{ github.sha }} \
+              -t ${{ env.ARTIFACT_REGISTRY }}/training:latest \
+              -f docker/training/Dockerfile .
+            docker push ${{ env.ARTIFACT_REGISTRY }}/training:${{ github.sha }}
+            docker push ${{ env.ARTIFACT_REGISTRY }}/training:latest
+          else
+            echo "Training Dockerfile not found, skipping..."
+          fi
+      
+      - name: Build and push inference image
+        run: |
+          if [ -f docker/inference/Dockerfile ]; then
+            docker build \
+              -t ${{ env.ARTIFACT_REGISTRY }}/inference:${{ github.sha }} \
+              -t ${{ env.ARTIFACT_REGISTRY }}/inference:latest \
+              -f docker/inference/Dockerfile .
+            docker push ${{ env.ARTIFACT_REGISTRY }}/inference:${{ github.sha }}
+            docker push ${{ env.ARTIFACT_REGISTRY }}/inference:latest
+          else
+            echo "Inference Dockerfile not found, skipping..."
+          fi
+      
+      - name: Build and push MLflow image
+        run: |
+          if [ -f docker/mlflow/Dockerfile ]; then
+            docker build \
+              -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }} \
+              -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest \
+              -f docker/mlflow/Dockerfile .
+            docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }}
+            docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest
+          else
+            echo "MLflow Dockerfile not found, skipping..."
+          fi

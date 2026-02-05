@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install ruff mypy pytest pytest-cov
+          pip install -r projects/synth_tabular_classification/requirements.txt
+      
+      - name: Lint with ruff
+        run: |
+          ruff check projects/
+          ruff format --check projects/
+      
+      - name: Type check with mypy
+        run: |
+          mypy projects/synth_tabular_classification/src --ignore-missing-imports
+      
+      - name: Run tests
+        run: |
+          cd projects/synth_tabular_classification
+          pytest tests/ -v --cov=src --cov-report=term-missing
+      
+      - name: Check DVC pipeline validity
+        run: |
+          cd projects/synth_tabular_classification
+          dvc dag
