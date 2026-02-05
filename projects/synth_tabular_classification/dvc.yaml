@@ -1,0 +1,53 @@
+stages:
+  generate:
+    cmd: python -m src.data.generate
+    deps:
+      - src/data/generate.py
+      - configs/config.yaml
+    outs:
+      - data/raw/synthetic_data.csv:
+          cache: true
+          persist: false
+
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+      - src/data/preprocess.py
+      - data/raw/synthetic_data.csv
+      - configs/config.yaml
+    outs:
+      - data/processed/train.csv:
+          cache: true
+          persist: false
+      - data/processed/test.csv:
+          cache: true
+          persist: false
+
+  train:
+    cmd: python -m src.model.train
+    deps:
+      - src/model/train.py
+      - data/processed/train.csv
+      - configs/config.yaml
+    outs:
+      - models/model.joblib:
+          cache: true
+          persist: false
+      - metrics/metrics.json:
+          cache: false
+          persist: true
+
+  evaluate:
+    cmd: python -m src.model.evaluate
+    deps:
+      - src/model/evaluate.py
+      - models/model.joblib
+      - data/processed/test.csv
+      - metrics/metrics.json
+    outs:
+      - metrics/classification_report.txt:
+          cache: false
+          persist: true
+      - metrics/confusion_matrix.txt:
+          cache: false
+          persist: true
