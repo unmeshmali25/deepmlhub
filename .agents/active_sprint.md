@@ -1,54 +1,93 @@
-# Active Sprint: GCP & Terraform Infrastructure
+# Active Sprint: DVC Remote Setup
 
-**Sprint**: sprint_02_terraform_infra  
-**Last Updated**: 2026-02-04  
-**Status**: ✅ Complete  
-**Completed**: 2026-02-04  
-**Total Duration**: 23 minutes
-
-### ✅ Completed Tasks
-| Task | Assignee | Completed | Duration |
-|------|----------|-----------|----------|
-| [AI] 2.1: Create Terraform Directory Structure | AI | 2026-02-04 | 2 min |
-| [AI] 2.2: Create GCS Module | AI | 2026-02-04 | 5 min |
-| [AI] 2.3: Create Artifact Registry Module | AI | 2026-02-04 | 3 min |
-| [AI] 2.4: Create MLflow Cloud Run Module | AI | 2026-02-04 | 5 min |
-| [AI] 2.6: Create Dev Environment Config | AI | 2026-02-04 | 8 min |
-| [⏭️] 2.5: GKE Module | - | Skipped | - |
-
-**Deliverables**:
-- ✅ 2 GCS buckets (DVC + MLflow artifacts)
-- ✅ 1 Artifact Registry repository
-- ✅ MLflow tracking server on Cloud Run
-- ✅ Terraform infrastructure modules
-- ✅ Dev environment configuration
-
-**Verification**: All resources confirmed active in GCP Console
+**Sprint**: sprint_04_dvc_remote  
+**Last Updated**: 2026-02-05  
+**Status**: 🔄 Ready to Start
 
 ---
 
-## Verification
+## Sprint Goal
 
-When complete, run:
+Configure DVC to use GCS as remote storage for versioning data and model artifacts. This enables collaboration and ensures data lineage tracking across different environments.
+
+---
+
+## What's Happening Now
+
+### ⬜ Prerequisites (Pending Human)
+| Task | Assignee | Status | Dependencies |
+|------|----------|--------|--------------|
+| [HUMAN] 4.1: Create GCS Bucket for DVC | Human | ⬜ Not Started | GCP Infrastructure |
+| [HUMAN] 4.2: Configure DVC Remote | Human | ⬜ Not Started | HUMAN 4.1 |
+
+### ⬜ Ready to Start (Blocked by Prerequisites)
+| Task | Assignee | Priority | Dependencies |
+|------|----------|----------|--------------|
+| [AI] 4.1: Test DVC Remote Connection | AI | High | All HUMAN 4.x |
+| [AI] 4.2: Document DVC Workflow | AI | Medium | All HUMAN 4.x |
+
+---
+
+## Sprint Metrics
+
+**Tasks**: 0/4 Complete (0%)  
+**Blockers**: [HUMAN] Prerequisites not started  
+**ETA**: ~30 minutes after human prerequisites complete
+
+---
+
+## Prerequisites Detail
+
+### [HUMAN] 4.1: Create GCS Bucket for DVC
+
+**Tasks**:
+1. Create bucket: `gs://deepmlhub-voiceoffers-dvc`
+2. Enable uniform bucket-level access
+3. Grant service account access
+
+**Command**:
 ```bash
-cd infrastructure/terraform/environments/dev
-cp terraform.tfvars.example terraform.tfvars
-# Edit terraform.tfvars with your values
-
-cp backend.tf.example backend.tf
-# Edit backend.tf with your state bucket
-
-terraform init
-terraform plan
-terraform apply
-terraform output
+gcloud storage buckets create gs://deepmlhub-voiceoffers-dvc \
+  --project=deepmlhub-voiceoffers \
+  --location=us-central1 \
+  --uniform-bucket-level-access
 ```
+
+**Verification**: Bucket appears in Cloud Storage console
+
+---
+
+### [HUMAN] 4.2: Configure DVC Remote
+
+**Tasks**:
+1. Add remote to DVC config
+2. Set as default remote
+3. Test connection
+
+**Command**:
+```bash
+cd projects/synth_tabular_classification
+dvc remote add -d gcs gs://deepmlhub-voiceoffers-dvc
+dvc remote modify gcs credentialpath ~/.config/gcloud/application_default_credentials.json
+dvc push  # Test connection
+```
+
+**Verification**: `dvc push` succeeds without errors
+
+---
+
+## Next Steps
+
+Once prerequisites are complete:
+1. AI will test DVC remote connection
+2. Document DVC workflow for the project
+3. Push existing data to remote
 
 ---
 
 ## Quick Links
 
+- [Sprint Tasks](sprints/sprint_04_dvc_remote/tasks.md)
 - [Master Backlog](backlog.md)
-- [Sprint 02 Tasks](sprints/sprint_02_terraform_infra/tasks.md)
+- [Previous Sprint: GitHub Setup](sprints/sprint_03_github_setup/tasks.md)
 - [Architecture Plan](plans/mlops_plan_uno.md)
-- [AGENTS.md](../AGENTS.md)
