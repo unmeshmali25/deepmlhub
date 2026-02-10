@@ -1,16 +1,17 @@
 # Sprint 6: Docker Images
 
-**Status**: 🔄 Ready to Start  
+**Status**: ✅ Complete  
 **Sprint Goal**: Create Dockerfiles for training and inference  
-**Started**: 2026-02-05
+**Started**: 2026-02-05  
+**Completed**: 2026-02-10
 
 ---
 
 ## Summary
 
-Create Docker images for the ML pipeline. Training image for running the full pipeline, inference image for serving predictions via API.
+Created Docker images for the ML pipeline. Training image for running the full pipeline, inference image for serving predictions via API.
 
-**Current Status**: 0/3 tasks complete  
+**Current Status**: 3/3 complete ✅  
 **Prerequisites**: Sprint 5 (Terraform infrastructure applied) ✅ Complete
 
 ---
@@ -26,91 +27,123 @@ Create Docker images for the ML pipeline. Training image for running the full pi
 
 ## Tasks
 
-### [AI] 6.1: Create Training Dockerfile ⬜
+### [AI] 6.1: Create Training Dockerfile ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete  
+**Completed**: 2026-02-10  
 **Priority**: High  
 **Assigned To**: AI
 
 **Definition of Done**:
-- [ ] Dockerfile created for training
-- [ ] Base image is python:3.10-slim
-- [ ] All dependencies installed
-- [ ] Source code copied
-- [ ] Default command runs training
+- [x] Dockerfile created for training
+- [x] Base image is python:3.10-slim
+- [x] All dependencies installed
+- [x] Source code copied
+- [x] Default command runs training
 
 **File**: `docker/training/Dockerfile`
 
-**Requirements**:
-- Python 3.10
-- Install requirements.txt
-- Copy src/ and configs/
-- Set PYTHONPATH
-- Default CMD runs training
-- MLflow integration configured
-- DVC support for data
+**Delivered**:
+- Multi-stage Dockerfile with python:3.10-slim base
+- Installs git and curl for DVC operations
+- Non-root user for security (mluser)
+- Copies requirements.txt first for caching
+- Copies src/, configs/, dvc.yaml, params.yaml
+- Creates necessary directories (data, models, metrics)
+- CMD runs training pipeline via `python -m src.model.train`
+
+**Security Features**:
+- Non-root user (mluser)
+- Minimal base image (python-slim)
+- No secrets copied
+- Read-only filesystem ready
 
 ---
 
-### [AI] 6.2: Create Inference Dockerfile ⬜
+### [AI] 6.2: Create Inference Dockerfile ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete  
+**Completed**: 2026-02-10  
 **Priority**: High  
 **Assigned To**: AI
 
 **Definition of Done**:
-- [ ] Dockerfile created for inference
-- [ ] Base image is python:3.10-slim
-- [ ] Model files copied
-- [ ] Health check configured
-- [ ] Exposes port 8000
-- [ ] Runs uvicorn server
+- [x] Dockerfile created for inference
+- [x] Base image is python:3.10-slim
+- [x] Model files copied
+- [x] Health check configured
+- [x] Exposes port 8000
+- [x] Runs uvicorn server
 
 **File**: `docker/inference/Dockerfile`
 
-**Requirements**:
-- Python 3.10
-- Install requirements.txt
-- Copy src/, configs/, and models/
-- Health check endpoint
-- Expose port 8000
-- Run uvicorn
-- Optimized for Cloud Run
+**Delivered**:
+- Python 3.10-slim base image
+- Copies models/ directory for serving
+- Health check configured (curl to /health endpoint)
+- Exposes port 8000
+- Runs uvicorn with FastAPI app
+- Non-root user for security
+- Cloud Run optimized (single process, binds to 0.0.0.0)
+
+**Health Check**:
+- Endpoint: `/health`
+- Interval: 30s
+- Timeout: 30s
+- Start period: 5s
+- Retries: 3
 
 ---
 
-### [AI] 6.3: Create .dockerignore ⬜
+### [AI] 6.3: Create .dockerignore ✅
 
-**Status**: ⬜ Not Started  
+**Status**: ✅ Complete  
+**Completed**: 2026-02-10  
 **Priority**: Medium  
 **Assigned To**: AI
 
 **Definition of Done**:
-- [ ] .dockerignore created
-- [ ] Excludes unnecessary files
-- [ ] Keeps build small
+- [x] .dockerignore created
+- [x] Excludes unnecessary files
+- [x] Keeps build small
 
 **File**: `.dockerignore`
 
-**Should Exclude**:
-- .git/
-- __pycache__/
-- .venv/
-- data/ (use DVC to pull)
-- mlruns/
-- .dvc/cache/
-- Terraform state files
-- Secrets (*.key, *.pem)
+**Excluded Categories**:
+- Git files (.git/, .gitignore)
+- Python cache (__pycache__, *.pyc, .pytest_cache)
+- Virtual environments (.venv/, venv/)
+- Data files (data/, use DVC to pull instead)
+- MLflow runs (mlruns/)
+- DVC cache (.dvc/cache/)
+- Terraform files (terraform/, *.tfstate)
+- Secrets (*.key, *.pem, .env)
 - Agent files (.agents/)
-- Test files and cache
+- Tests and coverage (tests/, .coverage/)
+- IDE files (.vscode/, .idea/)
+- OS files (.DS_Store, Thumbs.db)
+- Build artifacts (dist/, build/, *.egg-info/)
 
 ---
 
 ## Verification
 
+**Status**: ⚠️ Docker daemon not available during development
+
+Dockerfiles have been created and are ready for building. Follow these steps to build and test:
+
+### Prerequisites
+- Ensure Docker Desktop is running (macOS: `open -a Docker`)
+- Authenticate with GCP Artifact Registry
+
+### Build Commands
+
 ```bash
 PROJECT_ID=deepmlhub-voiceoffers
 REGION=us-central1
+
+# Navigate to project
+cd projects/synth_tabular_classification
 
 # Configure Docker for Artifact Registry
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
@@ -120,7 +153,7 @@ docker build -f docker/training/Dockerfile \
   -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml-images/training:latest \
   .
 
-# Build inference image
+# Build inference image (requires trained model)
 docker build -f docker/inference/Dockerfile \
   -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml-images/inference:latest \
   .
@@ -132,6 +165,11 @@ docker run -p 8000:8000 ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml-images/inferen
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml-images/training:latest
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/ml-images/inference:latest
 ```
+
+### Files Created
+- `docker/training/Dockerfile` - Training pipeline container
+- `docker/inference/Dockerfile` - FastAPI inference container
+- `.dockerignore` - Optimized build context
 
 ---
 

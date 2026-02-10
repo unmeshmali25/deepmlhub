@@ -1,0 +1,76 @@
+# Docker ignore file for optimized builds
+# Excludes unnecessary files from Docker build context
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+
+# Virtual environments
+.venv
+venv/
+env/
+ENV/
+
+# Data (use DVC to pull data)
+data/
+
+# MLflow runs
+mlruns/
+
+# DVC cache (use dvc pull instead)
+.dvc/cache/
+
+# Terraform
+terraform/
+terraform.tfstate
+terraform.tfstate.*
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Secrets and keys
+*.key
+*.pem
+*.p12
+.env
+.env.local
+.env.*
+
+# Agent files
+.agents/
+
+# Test files
+tests/
+.coverage
+htmlcov/
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
