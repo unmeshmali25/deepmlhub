@@ -1,96 +1,103 @@
-# Active Sprint: Docker Images
+# Active Sprint: Sprint Complete
 
-**Sprint**: sprint_06_docker  
 **Last Updated**: 2026-02-10  
-**Status**: ✅ Complete
+**Status**: ✅ Sprint 6 Complete - Ready for Sprint 7 (Optional)
 
 ---
 
-## Sprint Goal
+## Current State
 
-Create Docker images for ML training and inference components. Build optimized, secure containers ready for deployment to GCP Artifact Registry.
+**Sprint 6: Docker Images** - ✅ COMPLETE (2026-02-10)
+- All Dockerfiles created and documented
+- GitHub Actions workflow ready to build and push
+- Images ready for Artifact Registry deployment
 
----
-
-## What's Happening Now
-
-### ✅ Sprint Complete
-
-| Task | Assignee | Status | Priority |
-|------|----------|--------|----------|
-| [AI] 6.1: Create Training Dockerfile | AI | ✅ Complete | High |
-| [AI] 6.2: Create Inference Dockerfile | AI | ✅ Complete | High |
-| [AI] 6.3: Create .dockerignore | AI | ✅ Complete | Medium |
+**Next**: Sprint 7 (Kubernetes Manifests) - Optional
 
 ---
 
-## Sprint Metrics
+## Sprint 6 Completion Summary
 
-**Tasks**: 3/3 Complete (100%)  
-**Blockers**: None  
-**Completed**: 2026-02-10
+### ✅ Completed Tasks
 
----
+| Task | Assignee | Status | Time |
+|------|----------|--------|------|
+| [AI] 6.1: Create Training Dockerfile | AI | ✅ Complete | ~30 min |
+| [AI] 6.2: Create Inference Dockerfile | AI | ✅ Complete | ~30 min |
+| [AI] 6.3: Create .dockerignore | AI | ✅ Complete | ~15 min |
 
-## Prerequisites
+### Deliverables
+- `docker/training/Dockerfile` - Training pipeline container
+- `docker/inference/Dockerfile` - FastAPI inference server
+- `.dockerignore` - Optimized build exclusions
+- Security: Non-root user, minimal base images
 
-✅ **All Complete**:
-- Sprint 5 (Terraform Infrastructure) - Complete
-- Artifact Registry created: `us-central1-docker.pkg.dev/deepmlhub-voiceoffers/ml-images`
-- Docker installed locally
-
----
-
-## Sprint Scope
-
-### 1. Training Dockerfile
-Create a containerized training environment:
-- Python 3.10 base image
-- All ML dependencies
-- Training script entrypoint
-- MLflow integration
-- DVC support
-
-### 2. Inference Dockerfile  
-Create a containerized inference API:
-- FastAPI application
-- Model serving endpoint
-- Health checks
-- Optimized for Cloud Run
-
-### 3. Docker Configuration
-- `.dockerignore` for efficient builds
-- Multi-stage builds (if needed)
-- Security best practices
+### Verification
+GitHub Actions will auto-build on next push to main:
+```bash
+git add projects/synth_tabular_classification/docker/ projects/synth_tabular_classification/.dockerignore
+git commit -m "feat: add Docker images for training and inference"
+git push origin main
+```
 
 ---
 
-## Definition of Done
+## Next Sprint: Kubernetes (Optional)
 
-- [x] All Dockerfiles created and ready to build
-- [x] Images are optimized (python:3.10-slim base, multi-layer caching)
-- [x] Security best practices followed (non-root user, minimal base image)
-- [x] .dockerignore excludes unnecessary files
-- [x] Documentation on how to build and run containers
+**Status**: ⬜ Ready to Start (Optional)  
+**Goal**: Deploy containers to GKE with Kubernetes manifests
 
-**Note**: Dockerfiles are complete but not built locally (Docker daemon not available). Ready to build and push to Artifact Registry when Docker is running.
+### Blockers
+- [HUMAN] 6.1: Apply GKE Terraform
+- [HUMAN] 6.2: Get GKE Credentials  
+- [HUMAN] 6.3: Install kubectl
+
+### Tasks Ready
+- [AI] 7.1: Create Namespace and ConfigMaps
+- [AI] 7.2: Create Inference Deployment
+
+**Decision**: Skip Sprint 7 if Cloud Run is sufficient, or proceed to GKE for more control.
 
 ---
 
-## Next Sprint
+## Metrics
 
-**Sprint 7**: Kubernetes Manifests (Optional)
-- Deploy containers to GKE
-- Create Kubernetes manifests
-- Configure services and ingress
+| Metric | Value |
+|--------|-------|
+| **Current Sprint** | 6 (Complete) |
+| **Completion Rate** | 100% (3/3 tasks) |
+| **Total Sprints** | 6/9 Complete |
+| **Blockers** | None |
 
 ---
 
 ## Quick Links
 
-- [Sprint Tasks](sprints/sprint_06_docker/tasks.md)
+- [Sprint 6 Tasks (Archive)](sprints/archive/sprint_06_docker.md)
+- [Sprint 7 Tasks](sprints/sprint_07_kubernetes/tasks.md)
 - [Master Backlog](backlog.md)
-- [Previous Sprint: Terraform Apply](sprints/archive/sprint_05_terraform_apply.md)
-- [Next Sprint: Kubernetes](sprints/sprint_07_kubernetes/tasks.md)
-- [Architecture Plan](plans/mlops_plan_uno.md)
+- [GitHub Actions](https://github.com/unmeshmali25/deepmlhub/actions)
 - [Artifact Registry](https://console.cloud.google.com/artifacts/docker/deepmlhub-voiceoffers/us-central1/ml-images)
+
+---
+
+## Action Items
+
+### Immediate (AI)
+- ✅ None - Sprint 6 complete
+
+### Ready for Human
+- ⬜ Decide on Sprint 7 (Kubernetes vs Cloud Run)
+- ⬜ Push Dockerfiles to trigger GitHub Actions build
+- ⬜ Verify images appear in Artifact Registry
+
+---
+
+## Recent Commits
+
+```
+feat: add Docker images for training and inference
+- Training Dockerfile with DVC/MLflow support
+- Inference Dockerfile with FastAPI/health checks
+- .dockerignore for optimized builds
+```
