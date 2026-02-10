@@ -70,7 +70,7 @@ jobs:
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest \
               -f projects/synth_tabular_classification/docker/mlflow/Dockerfile \
-              .
+              projects/synth_tabular_classification
             docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }}
             docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest
           else
