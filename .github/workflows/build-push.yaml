@@ -4,15 +4,16 @@ on:
   push:
     branches: [main, master]
     paths:
-      - 'docker/**'
-      - 'projects/**/src/**'
-      - 'projects/**/requirements.txt'
+      - 'projects/synth_tabular_classification/docker/**'
+      - 'projects/synth_tabular_classification/src/**'
+      - 'projects/synth_tabular_classification/requirements.txt'
   workflow_dispatch:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: ${{ secrets.GCP_REGION }}
   ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
+  ARTIFACTS_BUCKET: ${{ secrets.ARTIFACTS_BUCKET }}
 
 jobs:
   build-and-push:
@@ -35,11 +36,12 @@ jobs:
       
       - name: Build and push training image
         run: |
-          if [ -f docker/training/Dockerfile ]; then
+          if [ -f projects/synth_tabular_classification/docker/training/Dockerfile ]; then
             docker build \
               -t ${{ env.ARTIFACT_REGISTRY }}/training:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/training:latest \
-              -f docker/training/Dockerfile .
+              -f projects/synth_tabular_classification/docker/training/Dockerfile \
+              projects/synth_tabular_classification
             docker push ${{ env.ARTIFACT_REGISTRY }}/training:${{ github.sha }}
             docker push ${{ env.ARTIFACT_REGISTRY }}/training:latest
           else
@@ -48,11 +50,12 @@ jobs:
       
       - name: Build and push inference image
         run: |
-          if [ -f docker/inference/Dockerfile ]; then
+          if [ -f projects/synth_tabular_classification/docker/inference/Dockerfile ]; then
             docker build \
               -t ${{ env.ARTIFACT_REGISTRY }}/inference:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/inference:latest \
-              -f docker/inference/Dockerfile .
+              -f projects/synth_tabular_classification/docker/inference/Dockerfile \
+              projects/synth_tabular_classification
             docker push ${{ env.ARTIFACT_REGISTRY }}/inference:${{ github.sha }}
             docker push ${{ env.ARTIFACT_REGISTRY }}/inference:latest
           else
@@ -61,11 +64,13 @@ jobs:
       
       - name: Build and push MLflow image
         run: |
-          if [ -f docker/mlflow/Dockerfile ]; then
+          if [ -f projects/synth_tabular_classification/docker/mlflow/Dockerfile ]; then
             docker build \
+              --build-arg ARTIFACTS_BUCKET=${{ secrets.ARTIFACTS_BUCKET }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest \
-              -f docker/mlflow/Dockerfile .
+              -f projects/synth_tabular_classification/docker/mlflow/Dockerfile \
+              .
             docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }}
             docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest
           else
