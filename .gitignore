@@ -8,3 +8,6 @@ showYourWork.md
 deepenv/
 .venv/
 
+# Ignore all projects except synth_tabular_classification
+projects/pytorch_*/
+projects/.DS_Store
