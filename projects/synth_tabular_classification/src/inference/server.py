@@ -57,7 +57,7 @@ class PredictionRequest(BaseModel):
     features: List[List[float]] = Field(
         ...,
         description="List of feature vectors",
-        example=[[0.1, -0.2, 0.3, 0.4, -0.5, 0.6, -0.7, 0.8, -0.9, 1.0]],
+        examples=[[[0.1, -0.2, 0.3, 0.4, -0.5, 0.6, -0.7, 0.8, -0.9, 1.0]]],
     )
 
 
@@ -98,6 +98,8 @@ async def model_info():
     """Get model information."""
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
+    if config is None:
+        raise HTTPException(status_code=503, detail="Configuration not loaded")
     return {
         "model_type": config["model"]["type"],
         "n_features": config["data"]["n_features"],
@@ -111,6 +113,8 @@ async def predict(request: PredictionRequest):
     """Make predictions for given features."""
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
+    if config is None:
+        raise HTTPException(status_code=503, detail="Configuration not loaded")
 
     # Validate feature dimensions
     expected_features = config["data"]["n_features"]
