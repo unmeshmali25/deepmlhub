@@ -1,15 +1,12 @@
 """Tests for data generation and preprocessing."""
 
-import pytest
-import pandas as pd
 from pathlib import Path
 import sys
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from src.data.generate import generate_data, load_config
-from src.data.preprocess import preprocess_data
+from src.data.generate import load_config
 
 
 class TestDataGeneration:

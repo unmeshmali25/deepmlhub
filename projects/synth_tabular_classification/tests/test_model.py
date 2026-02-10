@@ -1,6 +1,5 @@
 """Tests for model training and evaluation."""
 
-import pytest
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 

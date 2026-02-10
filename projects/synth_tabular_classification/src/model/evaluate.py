@@ -68,7 +68,7 @@ def evaluate_model() -> dict:
     print(f"F1 Score:  {test_metrics['test_f1']:.4f}")
     print(f"Precision: {test_metrics['test_precision']:.4f}")
     print(f"Recall:    {test_metrics['test_recall']:.4f}")
-    print(f"\nClassification Report:")
+    print("\nClassification Report:")
     print(classification_report(y_test, y_pred))
 
     # Log to MLflow
