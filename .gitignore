@@ -11,3 +11,5 @@ deepenv/
 # Ignore all projects except synth_tabular_classification
 projects/pytorch_*/
 projects/.DS_Store
+projects/README.md 
+
