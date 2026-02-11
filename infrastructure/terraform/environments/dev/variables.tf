@@ -55,3 +55,16 @@ variable "mlflow_max_instances" {
   type        = string
   default     = "2"
 }
+
+# GKE Module Variables
+variable "gke_cluster_name" {
+  description = "Name of the GKE cluster"
+  type        = string
+  default     = "deepmlhub-cluster"
+}
+
+variable "gke_enable_private_nodes" {
+  description = "Enable private nodes for GKE (recommended for production)"
+  type        = bool
+  default     = false
+}

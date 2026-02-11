@@ -49,6 +49,39 @@ output "mlflow_service_account" {
   value       = module.mlflow.service_account_email
 }
 
+# VPC Outputs
+output "vpc_network_id" {
+  description = "VPC network ID"
+  value       = module.vpc.network_id
+}
+
+output "vpc_network_name" {
+  description = "VPC network name"
+  value       = module.vpc.network_name
+}
+
+output "vpc_subnetwork_id" {
+  description = "VPC subnetwork ID"
+  value       = module.vpc.subnetwork_id
+}
+
+output "vpc_subnetwork_name" {
+  description = "VPC subnetwork name"
+  value       = module.vpc.subnetwork_name
+}
+
+# GKE Outputs
+output "gke_cluster_name" {
+  description = "GKE cluster name"
+  value       = module.gke.cluster_name
+}
+
+output "gke_cluster_endpoint" {
+  description = "GKE cluster endpoint"
+  value       = module.gke.cluster_endpoint
+  sensitive   = true
+}
+
 # Summary Output
 output "infrastructure_summary" {
   description = "Summary of created infrastructure"
@@ -67,9 +100,18 @@ output "infrastructure_summary" {
    - URL: ${module.mlflow.service_url}
    - Service Account: ${module.mlflow.service_account_email}
 
+🌐 Network:
+   - VPC: ${module.vpc.network_name}
+   - Subnet: ${module.vpc.subnetwork_name}
+
+☸️  GKE Cluster:
+   - Name: ${module.gke.cluster_name}
+   - Endpoint: ${module.gke.cluster_endpoint}
+
 📝 Next Steps:
    1. Configure DVC remote: dvc remote add -d gcs gs://${module.gcs.dvc_bucket_name}
    2. Authenticate Docker: gcloud auth configure-docker ${var.region}-docker.pkg.dev
    3. Set MLflow tracking URI: export MLFLOW_TRACKING_URI=${module.mlflow.service_url}
+   4. Configure kubectl: gcloud container clusters get-credentials ${module.gke.cluster_name} --region ${var.region}
 EOT
 }

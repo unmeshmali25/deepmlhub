@@ -58,3 +58,28 @@ module "mlflow" {
   max_instances         = var.mlflow_max_instances
   labels                = local.common_labels
 }
+
+# VPC Module - Creates network infrastructure for GKE
+module "vpc" {
+  source = "../../modules/vpc"
+
+  project_id   = var.project_id
+  region       = var.region
+  network_name = "deepmlhub-vpc"
+  subnet_name  = "deepmlhub-subnet"
+}
+
+# GKE Module - Creates Kubernetes cluster for ML workloads
+# Note: GKE Autopilot clusters have a control plane cost (~$70/month)
+# but no node management overhead. Nodes scale to zero when not in use.
+module "gke" {
+  source = "../../modules/gke"
+
+  project_id           = var.project_id
+  region               = var.region
+  cluster_name         = var.gke_cluster_name
+  enable_private_nodes = var.gke_enable_private_nodes
+  labels               = local.common_labels
+  network_id           = module.vpc.network_id
+  subnetwork_id        = module.vpc.subnetwork_id
+}
