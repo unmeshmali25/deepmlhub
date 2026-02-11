@@ -93,6 +93,18 @@ modules/<name>/
 
 **Convention:** Keep them separate. The GKE module breaks this by putting outputs in `main.tf` (still works, but inconsistent).
 
+## Module Naming Convention
+
+We use two naming patterns:
+
+**Infrastructure Modules** (named after GCP services):
+- `gcs`, `gke`, `vpc`, `artifact-registry` — Generic, reusable building blocks
+
+**Application Modules** (named after purpose):
+- `mlflow` — Deploys a complete MLflow server (uses Cloud Run + service account + IAM bindings)
+
+The `mlflow` module is named after the application because it packages multiple resources together to deploy MLflow specifically, not just a generic Cloud Run service.
+
 ## Common Issues & Fixes
 
 ### Error: `labels` not expected
