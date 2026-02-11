@@ -34,6 +34,22 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
       
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install ruff mypy
+          pip install -r projects/synth_tabular_classification/requirements.txt
+      
+      - name: Lint and type check
+        run: |
+          ruff check projects/synth_tabular_classification/src
+          mypy projects/synth_tabular_classification/src --ignore-missing-imports
+      
       - name: Build and push training image
         run: |
           if [ -f projects/synth_tabular_classification/docker/training/Dockerfile ]; then
