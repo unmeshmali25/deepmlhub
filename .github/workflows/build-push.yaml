@@ -82,7 +82,7 @@ jobs:
         run: |
           if [ -f projects/synth_tabular_classification/docker/mlflow/Dockerfile ]; then
             docker buildx build \
-              --build-arg ARTIFACTS_BUCKET=${{ env.ARTIFACTS_BUCKET }} \
+              --build-arg "ARTIFACTS_BUCKET=${{ env.ARTIFACTS_BUCKET }}" \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest \
               -f projects/synth_tabular_classification/docker/mlflow/Dockerfile \
