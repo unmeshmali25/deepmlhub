@@ -1,0 +1,9 @@
+# Kubernetes Namespace for ML Inference
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ml-inference
+  labels:
+    app.kubernetes.io/name: ml-inference
+    app.kubernetes.io/component: namespace
+    app.kubernetes.io/part-of: deepmlhub

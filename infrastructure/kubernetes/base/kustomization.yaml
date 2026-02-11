@@ -1,0 +1,17 @@
+# Base kustomization for ML inference infrastructure
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Namespace to apply all resources
+namespace: ml-inference
+
+# Common labels applied to all resources
+commonLabels:
+  app.kubernetes.io/name: ml-inference
+  app.kubernetes.io/component: base
+  app.kubernetes.io/part-of: deepmlhub
+
+# Resources to include
+resources:
+  - namespace.yaml
+  - configmap.yaml

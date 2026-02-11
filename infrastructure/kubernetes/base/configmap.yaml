@@ -1,0 +1,22 @@
+# ConfigMap for ML Inference configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inference-config
+  namespace: ml-inference
+data:
+  # Environment configuration
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  
+  # MLflow configuration
+  MLFLOW_TRACKING_URI: "https://mlflow-232921823125226370.us-central1.run.app"
+  MLFLOW_EXPERIMENT_NAME: "synth_tabular_classification"
+  
+  # Model configuration
+  MODEL_PATH: "/app/models/model.joblib"
+  CONFIG_PATH: "/app/configs/config.yaml"
+  
+  # Server configuration
+  HOST: "0.0.0.0"
+  PORT: "8000"

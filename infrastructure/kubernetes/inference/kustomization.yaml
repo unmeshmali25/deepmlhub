@@ -1,0 +1,25 @@
+# Kustomization for inference API resources
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ml-inference
+
+commonLabels:
+  app.kubernetes.io/name: inference-api
+  app.kubernetes.io/component: api
+  app.kubernetes.io/part-of: deepmlhub
+
+resources:
+  - serviceaccount.yaml
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+
+images:
+  - name: inference
+    newName: us-central1-docker.pkg.dev/deepmlhub-voiceoffers/ml-images/inference
+    newTag: latest
+
+replicas:
+  - name: inference-api
+    count: 2

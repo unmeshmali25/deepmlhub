@@ -1,0 +1,55 @@
+# Development overlay for ML inference
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ml-inference-dev
+
+nameSuffix: -dev
+
+commonLabels:
+  app.kubernetes.io/name: inference-api
+  app.kubernetes.io/component: api
+  app.kubernetes.io/part-of: deepmlhub
+  app.kubernetes.io/env: dev
+
+resources:
+  - ../../base
+  - ../../inference
+
+patches:
+  # Reduce replicas for dev
+  - target:
+      kind: Deployment
+      name: inference-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  
+  # Change service type to ClusterIP in dev (no external LB)
+  - target:
+      kind: Service
+      name: inference-api
+    patch: |-
+      - op: replace
+        path: /spec/type
+        value: ClusterIP
+  
+  # Disable HPA in dev
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: inference-api-hpa
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 1
+      - op: replace
+        path: /spec/maxReplicas
+        value: 2
+
+configMapGenerator:
+  - name: inference-config
+    behavior: merge
+    literals:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=DEBUG

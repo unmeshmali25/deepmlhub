@@ -1,0 +1,52 @@
+# Production overlay for ML inference
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ml-inference
+
+nameSuffix: -prod
+
+commonLabels:
+  app.kubernetes.io/name: inference-api
+  app.kubernetes.io/component: api
+  app.kubernetes.io/part-of: deepmlhub
+  app.kubernetes.io/env: production
+
+resources:
+  - ../../base
+  - ../../inference
+
+patches:
+  # Increase replicas for production
+  - target:
+      kind: Deployment
+      name: inference-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+  
+  # Increase resources for production
+  - target:
+      kind: Deployment
+      name: inference-api
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 1Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 1000m
+
+configMapGenerator:
+  - name: inference-config
+    behavior: merge
+    literals:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO

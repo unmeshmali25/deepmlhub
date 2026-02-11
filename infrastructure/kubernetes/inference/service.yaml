@@ -1,0 +1,17 @@
+# Service for ML Inference API
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-api
+  namespace: ml-inference
+  labels:
+    app: inference-api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app: inference-api
