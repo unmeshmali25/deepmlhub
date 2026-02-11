@@ -1,6 +1,8 @@
 """Generate synthetic classification data."""
 
+from typing import cast
 import yaml
+import numpy as np
 import pandas as pd
 from pathlib import Path
 from sklearn.datasets import make_classification
@@ -32,10 +34,12 @@ def generate_data() -> pd.DataFrame:
         random_state=data_config["random_seed"],
         flip_y=0.1,  # Add some noise
     )
+    X = cast(np.ndarray, X)
+    y = cast(np.ndarray, y)
 
     # Create DataFrame
     feature_cols = [f"feature_{i}" for i in range(X.shape[1])]
-    df = pd.DataFrame(X, columns=feature_cols)
+    df = pd.DataFrame(X, columns=pd.Index(feature_cols))
     df["target"] = y
 
     # Save to CSV
