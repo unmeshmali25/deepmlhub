@@ -30,7 +30,7 @@ paths:
 # MLflow settings
 mlflow:
   experiment_name: "synth_tabular_classification"
-  # tracking_uri is set via MLFLOW_TRACKING_URI env var
+  tracking_uri: "https://mlflow-server-2rdqrmk2sq-uc.a.run.app"
 
 # Inference settings
 inference:

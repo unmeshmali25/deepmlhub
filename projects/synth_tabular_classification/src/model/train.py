@@ -20,9 +20,14 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
-def get_mlflow_tracking_uri(base_path: Path) -> str:
-    """Get MLflow tracking URI from env or default to local."""
-    return os.getenv("MLFLOW_TRACKING_URI", f"file://{base_path}/mlruns")
+def get_mlflow_tracking_uri(config: dict, base_path: Path) -> str:
+    """Get MLflow tracking URI from config, env var, or default to local."""
+    # Priority: 1) Environment variable, 2) Config file, 3) Local default
+    mlflow_config = config.get("mlflow", {})
+    return os.getenv(
+        "MLFLOW_TRACKING_URI",
+        mlflow_config.get("tracking_uri", f"file://{base_path}/mlruns"),
+    )
 
 
 def train_model() -> tuple:
@@ -34,7 +39,7 @@ def train_model() -> tuple:
     base_path = Path(__file__).parents[2]
 
     # Set MLflow tracking URI
-    mlflow_uri = get_mlflow_tracking_uri(base_path)
+    mlflow_uri = get_mlflow_tracking_uri(config, base_path)
     mlflow.set_tracking_uri(mlflow_uri)
     mlflow.set_experiment(mlflow_config["experiment_name"])
     print(f"MLflow tracking URI: {mlflow_uri}")
