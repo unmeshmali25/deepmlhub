@@ -41,16 +41,16 @@ stages:
       md5: 2c6b87b230a5662bbea4ac7a3c785857
       size: 787076
   train:
-    cmd: python -m src.data.preprocess
+    cmd: python -m src.model.train
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: 41a530417252fb112675a24f26706ae1
-      size: 1057
+      md5: f6833f0cfc1877f8f428dd4144c74ef1
+      size: 1056
     - path: data/processed/train.csv
       hash: md5
-      md5: a443d39f642dad22d675771c1f01a2ef
-      size: 403674
+      md5: 2c6b87b230a5662bbea4ac7a3c785857
+      size: 787076
     - path: src/model/train.py
       hash: md5
       md5: 9545124f256b0d355f396814f4d750b0
@@ -58,37 +58,37 @@ stages:
     outs:
     - path: metrics/metrics.json
       hash: md5
-      md5: 58015824b8fed406ea16cbd8aa5d3353
-      size: 176
+      md5: 7462b2f7765fb8e9360f470877a982a4
+      size: 171
     - path: models/model.joblib
       hash: md5
-      md5: 9344a23984c145c809ad4b5a52b87e02
-      size: 1644977
+      md5: f71f7996053dc20b887cb48e62e73a72
+      size: 263513
   evaluate:
     cmd: python -m src.model.evaluate
     deps:
     - path: data/processed/test.csv
       hash: md5
-      md5: e1fd539a86649802cc67882b9be0c611
-      size: 100984
+      md5: 979b514b2f5b946d89eb330228eeb31d
+      size: 196724
     - path: metrics/metrics.json
       hash: md5
-      md5: 7996e206263e3ec4a463e3e344a233e7
-      size: 301
+      md5: e0ec0b4bc9e27c46d65ae8ebbae087a8
+      size: 294
     - path: models/model.joblib
       hash: md5
-      md5: 9344a23984c145c809ad4b5a52b87e02
-      size: 1644977
+      md5: f71f7996053dc20b887cb48e62e73a72
+      size: 263513
     - path: src/model/evaluate.py
       hash: md5
-      md5: 6527e2b7ddd9e9afcaaaa7fc6a97fbd3
-      size: 3216
+      md5: ac48d6c1cd6f8b85426b2785a52cc633
+      size: 3215
     outs:
     - path: metrics/classification_report.txt
       hash: md5
-      md5: 175f79f989b72d39df618101e2ef5ed7
-      size: 380
+      md5: ce56b939d6d6d04c532f66be6f397a89
+      size: 326
     - path: metrics/confusion_matrix.txt
       hash: md5
-      md5: c30b079e413535628dc12f0d6ff36e6d
-      size: 45
+      md5: 6d02a0902de2da247f228aff56a95688
+      size: 22
