@@ -4,9 +4,5 @@
   "train_precision": 0.900707145650049,
   "train_recall": 0.90025,
   "n_samples": 8000,
-  "n_features": 5,
-  "test_accuracy": 0.893,
-  "test_f1": 0.8929962549063727,
-  "test_precision": 0.8930800355251156,
-  "test_recall": 0.893
+  "n_features": 5
 }
