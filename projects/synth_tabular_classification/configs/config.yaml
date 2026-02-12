@@ -8,7 +8,7 @@
 data:
   n_samples: 10000          # Small for testing (use 100000+ for prod)
   n_features: 5           # Simple feature set
-  n_classes: 3             # Binary classification
+  n_classes: 2             # Binary classification
   random_seed: 42
   test_size: 0.2
 
