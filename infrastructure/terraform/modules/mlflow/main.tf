@@ -22,29 +22,24 @@ resource "google_cloud_run_service" "mlflow" {
   template {
     spec {
       service_account_name = google_service_account.mlflow_sa.email
-      
+
       containers {
         image = var.mlflow_image
-        
+
         ports {
           container_port = 5000
         }
-        
+
         env {
           name  = "BACKEND_STORE_URI"
-          value = "sqlite:///tmp/mlflow.db"
+          value = var.database_url
         }
-        
+
         env {
           name  = "DEFAULT_ARTIFACT_ROOT"
           value = "gs://${var.artifacts_bucket_name}"
         }
-        
-        env {
-          name  = "MLFLOW_TRACKING_URI"
-          value = ""
-        }
-        
+
         resources {
           limits = {
             cpu    = "1"
@@ -52,24 +47,24 @@ resource "google_cloud_run_service" "mlflow" {
           }
         }
       }
-      
+
       container_concurrency = 80
       timeout_seconds       = 300
     }
-    
+
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale" = var.min_instances
-        "autoscaling.knative.dev/maxScale" = var.max_instances
+        "autoscaling.knative.dev/minScale"  = var.min_instances
+        "autoscaling.knative.dev/maxScale"  = var.max_instances
         "run.googleapis.com/cpu-throttling" = var.min_instances == "0" ? "true" : "false"
       }
-      
+
       labels = merge(var.labels, {
         purpose = "mlflow-tracking"
       })
     }
   }
-  
+
   depends_on = [google_storage_bucket_iam_member.mlflow_gcs_access]
 }
 

@@ -56,6 +56,17 @@ variable "mlflow_max_instances" {
   default     = "2"
 }
 
+variable "mlflow_db_password" {
+  description = "Password for MLflow PostgreSQL database"
+  type        = string
+  sensitive   = true
+}
+
+variable "authorized_ip" {
+  description = "IP address authorized to access Cloud SQL"
+  type        = string
+}
+
 # GKE Module Variables
 variable "gke_cluster_name" {
   description = "Name of the GKE cluster"

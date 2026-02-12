@@ -45,6 +45,18 @@ module "artifact_registry" {
   labels        = local.common_labels
 }
 
+# Cloud SQL Module - Creates PostgreSQL database for MLflow
+module "cloud_sql" {
+  source = "../../modules/cloud-sql"
+
+  project_id        = var.project_id
+  region            = var.region
+  instance_name     = "mlflow-db"
+  database_password = var.mlflow_db_password
+  authorized_ip     = var.authorized_ip
+  labels            = local.common_labels
+}
+
 # MLflow Cloud Run Module - Deploys MLflow tracking server
 module "mlflow" {
   source = "../../modules/mlflow"
@@ -54,6 +66,7 @@ module "mlflow" {
   service_name          = var.mlflow_service_name
   mlflow_image          = var.mlflow_image
   artifacts_bucket_name = module.gcs.mlflow_bucket_name
+  database_url          = module.cloud_sql.connection_string
   min_instances         = var.mlflow_min_instances
   max_instances         = var.mlflow_max_instances
   labels                = local.common_labels

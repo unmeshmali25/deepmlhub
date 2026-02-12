@@ -18,7 +18,7 @@ variable "service_name" {
 variable "mlflow_image" {
   description = "MLflow Docker image to deploy"
   type        = string
-  default     = "gcr.io/cloudrun/hello"  # Placeholder - replace with actual MLflow image
+  default     = "gcr.io/cloudrun/hello" # Placeholder - replace with actual MLflow image
 }
 
 variable "artifacts_bucket_name" {
@@ -42,4 +42,10 @@ variable "labels" {
   description = "Labels to apply to Cloud Run service"
   type        = map(string)
   default     = {}
+}
+
+variable "database_url" {
+  description = "PostgreSQL connection string for MLflow backend store"
+  type        = string
+  sensitive   = true
 }
