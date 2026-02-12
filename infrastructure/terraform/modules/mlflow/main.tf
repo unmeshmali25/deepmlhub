@@ -14,6 +14,13 @@ resource "google_storage_bucket_iam_member" "mlflow_gcs_access" {
   member = "serviceAccount:${google_service_account.mlflow_sa.email}"
 }
 
+# Grant MLflow service account access to Cloud SQL
+resource "google_project_iam_member" "mlflow_cloudsql_access" {
+  project = var.project_id
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${google_service_account.mlflow_sa.email}"
+}
+
 # Cloud Run service for MLflow
 resource "google_cloud_run_service" "mlflow" {
   name     = var.service_name
@@ -32,7 +39,7 @@ resource "google_cloud_run_service" "mlflow" {
 
         env {
           name  = "BACKEND_STORE_URI"
-          value = var.database_url
+          value = "postgresql://${var.database_user}:${var.database_password}@/mlflow?host=/cloudsql/${var.cloud_sql_instance_connection_name}"
         }
 
         env {
@@ -42,8 +49,8 @@ resource "google_cloud_run_service" "mlflow" {
 
         resources {
           limits = {
-            cpu    = "1"
-            memory = "512Mi"
+            cpu    = "2"
+            memory = "4Gi"
           }
         }
       }
@@ -54,9 +61,10 @@ resource "google_cloud_run_service" "mlflow" {
 
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale"  = var.min_instances
-        "autoscaling.knative.dev/maxScale"  = var.max_instances
-        "run.googleapis.com/cpu-throttling" = var.min_instances == "0" ? "true" : "false"
+        "autoscaling.knative.dev/minScale"      = var.min_instances
+        "autoscaling.knative.dev/maxScale"      = var.max_instances
+        "run.googleapis.com/cpu-throttling"     = var.min_instances == "0" ? "true" : "false"
+        "run.googleapis.com/cloudsql-instances" = var.cloud_sql_instance_connection_name
       }
 
       labels = merge(var.labels, {
@@ -65,7 +73,10 @@ resource "google_cloud_run_service" "mlflow" {
     }
   }
 
-  depends_on = [google_storage_bucket_iam_member.mlflow_gcs_access]
+  depends_on = [
+    google_storage_bucket_iam_member.mlflow_gcs_access,
+    google_project_iam_member.mlflow_cloudsql_access
+  ]
 }
 
 # Allow unauthenticated invocations (for dev/testing)

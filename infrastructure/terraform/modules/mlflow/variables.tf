@@ -44,8 +44,19 @@ variable "labels" {
   default     = {}
 }
 
-variable "database_url" {
-  description = "PostgreSQL connection string for MLflow backend store"
+variable "cloud_sql_instance_connection_name" {
+  description = "Cloud SQL instance connection name for Auth Proxy"
+  type        = string
+}
+
+variable "database_user" {
+  description = "PostgreSQL database username"
+  type        = string
+  default     = "mlflow"
+}
+
+variable "database_password" {
+  description = "PostgreSQL database password"
   type        = string
   sensitive   = true
 }

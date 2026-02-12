@@ -61,15 +61,17 @@ module "cloud_sql" {
 module "mlflow" {
   source = "../../modules/mlflow"
 
-  project_id            = var.project_id
-  region                = var.region
-  service_name          = var.mlflow_service_name
-  mlflow_image          = var.mlflow_image
-  artifacts_bucket_name = module.gcs.mlflow_bucket_name
-  database_url          = module.cloud_sql.connection_string
-  min_instances         = var.mlflow_min_instances
-  max_instances         = var.mlflow_max_instances
-  labels                = local.common_labels
+  project_id                         = var.project_id
+  region                             = var.region
+  service_name                       = var.mlflow_service_name
+  mlflow_image                       = var.mlflow_image
+  artifacts_bucket_name              = module.gcs.mlflow_bucket_name
+  cloud_sql_instance_connection_name = module.cloud_sql.instance_connection_name
+  database_user                      = "mlflow"
+  database_password                  = var.mlflow_db_password
+  min_instances                      = var.mlflow_min_instances
+  max_instances                      = var.mlflow_max_instances
+  labels                             = local.common_labels
 }
 
 # VPC Module - Creates network infrastructure for GKE
