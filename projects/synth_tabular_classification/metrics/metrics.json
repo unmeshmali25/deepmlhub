@@ -1,8 +1,12 @@
 {
-  "train_accuracy": 0.90025,
-  "train_f1": 0.900225768123998,
-  "train_precision": 0.900707145650049,
-  "train_recall": 0.90025,
-  "n_samples": 8000,
-  "n_features": 5
+  "train_accuracy": 0.8784285714285714,
+  "train_f1": 0.8781444704126007,
+  "train_precision": 0.8820155422420443,
+  "train_recall": 0.8784285714285714,
+  "n_samples": 14000,
+  "n_features": 4,
+  "test_accuracy": 0.8745,
+  "test_f1": 0.8741238364084255,
+  "test_precision": 0.8790631630369069,
+  "test_recall": 0.8745
 }

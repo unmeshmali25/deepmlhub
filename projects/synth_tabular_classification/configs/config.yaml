@@ -6,17 +6,17 @@
 
 # Data generation settings
 data:
-  n_samples: 10000          # Small for testing (use 100000+ for prod)
-  n_features: 5           # Simple feature set
+  n_samples: 20000          # Small for testing (use 100000+ for prod)
+  n_features: 4           # Simple feature set
   n_classes: 2             # Binary classification
   random_seed: 42
-  test_size: 0.2
+  test_size: 0.3
 
 # Model settings (sklearn RandomForest - CPU only)
 model:
   type: "random_forest"
-  n_estimators: 32         # Small for testing (use 200+ for prod)
-  max_depth: 6
+  n_estimators: 37         # Small for testing (use 200+ for prod)
+  max_depth: 5
   random_seed: 42
 
 # Paths (relative to project root)
