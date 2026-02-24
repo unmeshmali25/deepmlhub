@@ -13,3 +13,10 @@ projects/pytorch_*/
 projects/.DS_Store
 projects/README.md 
 
+# Ignore interview explanations
+MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
+
+# Ignore microprojects Python cache files (keep .ipynb notebooks!)
+microprojects/**/*.pyc
+microprojects/**/.ipynb_checkpoints/
+microprojects/**/__pycache__/
