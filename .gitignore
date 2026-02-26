@@ -17,6 +17,6 @@ projects/README.md
 MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
 
 # Ignore microprojects Python cache files (keep .ipynb notebooks!)
-microprojects/**/*.pyc
-microprojects/**/.ipynb_checkpoints/
-microprojects/**/__pycache__/
+projects/microprojects/**/*.pyc
+projects/microprojects/**/.ipynb_checkpoints/
+projects/microprojects/**/__pycache__/
