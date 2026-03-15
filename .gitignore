@@ -10,8 +10,11 @@ deepenv/
 
 # Ignore all projects except synth_tabular_classification
 projects/pytorch_*/
-projects/.DS_Store
-projects/README.md 
+projects/README.md
+
+# macOS system files
+.DS_Store
+**/.DS_Store 
 
 # Ignore interview explanations
 MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
