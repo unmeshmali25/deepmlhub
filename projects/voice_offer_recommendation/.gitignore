@@ -37,6 +37,11 @@ build/
 # Feast
 feast/data/
 
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/profiles.yml
+
 # Metrics (keep in git, but generated files might be ignored)
 # /metrics/
 

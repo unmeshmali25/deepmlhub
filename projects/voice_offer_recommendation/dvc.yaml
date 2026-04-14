@@ -1,4 +1,14 @@
 stages:
+  transform_features:
+    cmd: cd dbt && dbt run --profiles-dir .
+    deps:
+      - dbt/models/
+      - dbt/dbt_project.yml
+    outs:
+      - dbt/target/:
+          cache: false
+          persist: false
+
   fetch_features:
     cmd: python -m src.data.fetch_features
     deps:
