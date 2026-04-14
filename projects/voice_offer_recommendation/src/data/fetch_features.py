@@ -1,4 +1,10 @@
-"""Fetch training features from Feast offline store or Supabase directly."""
+"""Fetch training features from Feast offline store or Supabase directly.
+
+With dbt pipeline, feature tables are materialized in the dbt_vor schema.
+The fetch script can either:
+1. Use Feast offline store (preferred for production training)
+2. Query Supabase directly as fallback (for testing without Feast)
+"""
 
 from pathlib import Path
 
@@ -28,23 +34,15 @@ def fetch_features_from_feast(config: dict) -> pd.DataFrame:
     feast_config = config["feast"]
     store = FeatureStore(repo_path=feast_config["repo_path"])
 
-    # Build feature references
     feature_refs = []
     for view_name in feast_config["feature_views"]:
-        # Get all features from this view
         feature_service = store.get_feature_view(view_name)
         for feature in feature_service.features:
             feature_refs.append(f"{view_name}:{feature.name}")
 
-    # Create entity dataframe
-    # For training, we need all agent-product pairs with timestamps
-    # This is a simplified version - in production, you'd query your
-    # actual transactions table for entity keys and timestamps
     print("Fetching historical features from Feast...")
     print(f"Feature references: {feature_refs}")
 
-    # TODO: Replace with actual entity dataframe from Supabase
-    # For now, return a dummy dataframe to allow pipeline testing
     raise NotImplementedError(
         "fetch_features_from_feast requires an entity dataframe from your source data. "
         "Use fetch_features_from_supabase() as a fallback until Feast offline store is fully configured."
@@ -52,22 +50,22 @@ def fetch_features_from_feast(config: dict) -> pd.DataFrame:
 
 
 def fetch_features_from_supabase(config: dict) -> pd.DataFrame:
-    """Fetch training data directly from Supabase as a fallback."""
+    """Fetch training data directly from Supabase dbt feature tables."""
     from supabase_client import supabase
 
-    print("Fetching training data directly from Supabase...")
+    dbt_schema = config.get("dbt", {}).get("schema", "dbt_vor")
 
-    # Query agent features
-    agent_response = supabase.table("agent_stats").select("*").execute()
+    print(f"Fetching training data from Supabase (schema: {dbt_schema})...")
+
+    # Query dbt feature tables
+    agent_response = supabase.table("fct_agent_features").select("*").execute()
     agent_df = pd.DataFrame(agent_response.data)
 
-    # Query product features
-    product_response = supabase.table("product_stats").select("*").execute()
+    product_response = supabase.table("fct_product_features").select("*").execute()
     product_df = pd.DataFrame(product_response.data)
 
-    # Query interactions (our target data)
     interaction_response = (
-        supabase.table("agent_product_interactions").select("*").execute()
+        supabase.table("fct_agent_product_interactions").select("*").execute()
     )
     interaction_df = pd.DataFrame(interaction_response.data)
 
@@ -80,7 +78,7 @@ def fetch_features_from_supabase(config: dict) -> pd.DataFrame:
     )
 
     # Create binary target: purchased or not
-    training_df["purchased"] = (training_df["times_purchased"] > 0).astype(int)
+    training_df["purchased"] = (training_df["purchase_count"] > 0).astype(int)
 
     return training_df
 
@@ -91,7 +89,6 @@ def fetch_training_features() -> pd.DataFrame:
     paths = config["paths"]
     base_path = Path(__file__).parents[2]
 
-    # Try Feast first, fall back to direct Supabase query
     try:
         df = fetch_features_from_feast(config)
     except Exception as e:
@@ -99,7 +96,6 @@ def fetch_training_features() -> pd.DataFrame:
         print("Falling back to direct Supabase query...")
         df = fetch_features_from_supabase(config)
 
-    # Save to parquet
     output_path = base_path / paths["training_features"]
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(output_path, index=False)
