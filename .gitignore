@@ -1,5 +1,5 @@
-#.agents/
-#.agents
+.agents/
+.opencode/
 .claude
 AGENTS.md
 GETTING_STARTED.md
@@ -19,7 +19,11 @@ projects/README.md
 # Ignore interview explanations
 MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
 
-# Ignore microprojects Python cache files (keep .ipynb notebooks!)
+# Ignore microprojects cache and notebook churn
 projects/microprojects/**/*.pyc
 projects/microprojects/**/.ipynb_checkpoints/
 projects/microprojects/**/__pycache__/
+*.ipynb_checkpoints/
+
+# Jupyter notebooks - ignore volatile outputs, track only .py exports
+projects/microprojects/**/*.ipynb
