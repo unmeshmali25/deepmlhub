@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pt
+*.ckpt
+*.bin
+outputs/
+logs/
+.venv/
+.eggs/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+ruff_cache/
+*.swp
+*.swo
+.DS_Store

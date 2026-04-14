@@ -1,0 +1,35 @@
+model:
+  name: gpt2
+  variant: 124m
+  checkpoint_path: outputs/pretrain/best.pt
+
+data:
+  train_path: data/shakespeare/sft_train.jsonl
+  val_path: data/shakespeare/sft_val.jsonl
+
+training:
+  max_iters: 5000
+  batch_size: 8
+  sequence_length: 512
+  learning_rate: 0.0001
+  warmup_iters: 50
+  lr_decay_iters: 5000
+  min_lr: 0.00001
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  grad_clip: 1.0
+
+device:
+  type: cuda
+  mixed_precision: true
+
+logging:
+  mlflow_tracking_uri: null
+  log_interval: 5
+  eval_interval: 250
+  save_interval: 500
+
+checkpoint:
+  save_dir: outputs/sft
+  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-training

@@ -1,0 +1,29 @@
+model:
+  name: gpt2
+  variant: 124m
+  checkpoint_path: outputs/sft/best.pt
+
+data:
+  train_path: data/shakespeare/dpo_train.jsonl
+  val_path: data/shakespeare/dpo_val.jsonl
+
+training:
+  max_iters: 3000
+  batch_size: 4
+  sequence_length: 512
+  learning_rate: 0.00005
+  beta: 0.3
+  margin_loss: 0.5
+
+device:
+  type: mps  # M1 Pro compatible!
+
+logging:
+  mlflow_tracking_uri: null
+  log_interval: 5
+  eval_interval: 200
+  save_interval: 400
+
+checkpoint:
+  save_dir: outputs/dpo
+  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-training
