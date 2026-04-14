@@ -1,0 +1,130 @@
+version: 2
+
+sources:
+  - name: public
+    schema: public
+    tables:
+      - name: agents
+        description: "371 simulated shopping agents with traits and preferences"
+        columns:
+          - name: id
+            description: "Agent UUID (primary key)"
+            tests:
+              - unique
+              - not_null
+          - name: agent_id
+            description: "Agent string identifier"
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            description: "FK to users table"
+          - name: is_active
+            description: "Whether agent is currently active"
+
+      - name: agent_state_snapshots
+        description: "Daily snapshots of agent dynamic state (108K rows)"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: agent_id
+            description: "FK to agents.id"
+            tests:
+              - not_null
+          - name: snapshot_date
+            description: "Date of the snapshot (point-in-time key)"
+            tests:
+              - not_null
+          - name: remaining_budget
+            tests:
+              - not_null
+
+      - name: products
+        description: "72 products across 10 stores"
+        columns:
+          - name: id
+            description: "Product UUID (primary key)"
+            tests:
+              - unique
+              - not_null
+          - name: price
+            tests:
+              - not_null
+          - name: margin_percent
+            description: "Profit margin percentage"
+
+      - name: orders
+        description: "92,550 completed orders"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            tests:
+              - not_null
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ["completed", "delivered", "picked_up", "cancelled", "pending"]
+
+      - name: order_items
+        description: "150,509 line items across orders"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: order_id
+            tests:
+              - not_null
+          - name: product_id
+            tests:
+              - not_null
+
+      - name: coupon_interactions
+        description: "101,912 coupon view/click/redeem events"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            tests:
+              - not_null
+          - name: coupon_id
+            tests:
+              - not_null
+          - name: action
+            tests:
+              - accepted_values:
+                  values: ["view", "click", "redeem", "dismiss"]
+
+      - name: user_coupons
+        description: "96,211 coupon assignments to users"
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: user_id
+            tests:
+              - not_null
+          - name: coupon_id
+            tests:
+              - not_null
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ["assigned", "redeemed", "expired", "active"]
+
+      - name: store_inventory
+        description: "720 product-store inventory records"
+        columns:
+          - name: product_id
+            tests:
+              - not_null
+          - name: store_id
+            tests:
+              - not_null

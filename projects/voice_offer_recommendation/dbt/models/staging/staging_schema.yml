@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: stg_agents
+    description: "Cleaned agents table with active agents only, mapping user_id to agent_id"
+    columns:
+      - name: agent_id
+        description: "Agent string identifier (join key)"
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "FK to users table"
+        tests:
+          - not_null
+
+  - name: stg_agent_snapshots
+    description: "Agent state snapshots with derived percentages (remaining_budget_pct, spend_this_week_pct)"
+    columns:
+      - name: agent_id
+        tests:
+          - not_null
+      - name: snapshot_date
+        tests:
+          - not_null
+      - name: remaining_budget_pct
+        description: "remaining_budget / weekly_budget (0-1 scale)"
+      - name: spend_this_week_pct
+        description: "spend_this_week / weekly_budget (0-1 scale)"
+
+  - name: stg_products
+    description: "Cleaned products table"
+    columns:
+      - name: product_uuid
+        tests:
+          - unique
+          - not_null
+      - name: product_category
+        tests:
+          - not_null
+
+  - name: stg_orders
+    description: "Completed/delivered orders only, filtering out cancelled/pending"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+
+  - name: stg_order_items
+    description: "Order items enriched with user_id and order_created_at from orders"
+    columns:
+      - name: order_item_id
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+
+  - name: stg_coupon_interactions
+    description: "Coupon interactions enriched with coupon type and discount details"
+    columns:
+      - name: interaction_id
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+      - name: coupon_action
+        tests:
+          - accepted_values:
+              values: ["view", "click", "redeem", "dismiss"]
