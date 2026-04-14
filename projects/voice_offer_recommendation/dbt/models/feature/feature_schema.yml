@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: fct_agent_features
+    description: |
+      Feature Group 1: Who is this user?
+      Combines static agent traits (agents table) with dynamic state (agent_state_snapshots)
+      and coupon behavior. Uses latest snapshot per agent.
+      Grain: one row per agent_id
+    columns:
+      - name: agent_id
+        description: "Agent identifier (primary key)"
+        tests:
+          - unique
+          - not_null
+      - name: snapshot_date
+        description: "Date of the latest snapshot (point-in-time key)"
+        tests:
+          - not_null
+      - name: price_sensitivity
+        description: "Agent price sensitivity (0-1)"
+      - name: brand_loyalty
+        description: "Agent brand loyalty (0-1)"
+      - name: coupon_affinity
+        description: "Agent coupon affinity (0-1)"
+      - name: remaining_budget_pct
+        description: "remaining_budget / weekly_budget (0-1)"
+      - name: spend_this_week_pct
+        description: "spend_this_week / weekly_budget"
+      - name: days_since_last_purchase
+        description: "Recency signal"
+      - name: total_orders_lifetime
+        description: "Lifetime order count"
+      - name: diversity_ratio
+        description: "Category diversity in purchases"
+      - name: coupon_redemption_rate
+        description: "Overall coupon redemption rate (0-1)"
+
+  - name: fct_product_features
+    description: |
+      Feature Group 2: What can we offer?
+      Product catalog enriched with sales popularity and store availability.
+      Grain: one row per product_id
+    columns:
+      - name: product_id
+        description: "Product UUID (primary key)"
+        tests:
+          - unique
+          - not_null
+      - name: product_category
+        description: "Product category for matching"
+      - name: price
+        description: "Product price"
+      - name: margin_percent
+        description: "Profit margin percentage"
+      - name: total_units_sold
+        description: "Lifetime units sold"
+      - name: unique_buyers_count
+        description: "Number of distinct buyers"
+      - name: available_quantity
+        description: "Total inventory across all stores"
+
+  - name: fct_agent_product_interactions
+    description: |
+      Feature Group 3: How do they engage?
+      Purchase history and coupon behavior at the agent-product level.
+      Grain: one row per (agent_id, product_id)
+    columns:
+      - name: agent_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: purchase_count
+        description: "Times this agent purchased this product"
+      - name: total_spent
+        description: "Total spend on this product by this agent"
+      - name: category_purchase_count
+        description: "How many items in this product's category the agent bought"
+      - name: coupon_redemption_rate
+        description: "Agent's overall coupon redemption rate"
