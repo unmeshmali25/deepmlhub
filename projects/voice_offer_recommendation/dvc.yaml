@@ -1,0 +1,38 @@
+stages:
+  fetch_features:
+    cmd: python -m src.data.fetch_features
+    deps:
+      - src/data/fetch_features.py
+      - src/supabase_client.py
+      - configs/config.yaml
+    outs:
+      - data/processed/training_features.parquet:
+          cache: true
+          persist: false
+
+  train:
+    cmd: python -m src.model.train
+    deps:
+      - src/model/train.py
+      - src/model/recommendation_algorithm.py
+      - data/processed/training_features.parquet
+      - configs/config.yaml
+    outs:
+      - models/model.joblib:
+          cache: true
+          persist: false
+      - metrics/metrics.json:
+          cache: false
+          persist: true
+
+  evaluate:
+    cmd: python -m src.model.evaluate
+    deps:
+      - src/model/evaluate.py
+      - models/model.joblib
+      - data/processed/training_features.parquet
+      - configs/config.yaml
+    outs:
+      - metrics/evaluation_report.txt:
+          cache: false
+          persist: true

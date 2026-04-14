@@ -1,0 +1,91 @@
+# ============================================
+# VOICE OFFER RECOMMENDATION CONFIG
+# ============================================
+# MLOps configuration for CVS Offer Engine recommendation system
+# Starting with rule-based algorithm, designed for deep learning upgrade
+
+# Data settings
+data:
+  # Entity columns for Feast and model
+  agent_id_col: "agent_id"
+  product_id_col: "product_id"
+  target_col: "purchased"
+  timestamp_col: "event_timestamp"
+  
+  # Training data output
+  training_features: "data/processed/training_features.parquet"
+  test_size: 0.2
+  random_seed: 42
+
+# Feast feature store configuration
+feast:
+  repo_path: "./feast"
+  project_name: "voice_offer_recommendation"
+  
+  # Entities
+  entities:
+    - name: "agent"
+      join_key: "agent_id"
+      value_type: "INT64"
+    - name: "product"
+      join_key: "product_id"
+      value_type: "INT64"
+  
+  # Feature view names
+  feature_views:
+    - "agent_features"
+    - "product_features"
+    - "agent_product_interaction"
+
+# Model settings
+model:
+  # Algorithm type: "simple_rule" | "collaborative_filtering" | "neural_cf"
+  type: "simple_rule"
+  
+  # Simple rule parameters (for MLOps pipeline testing)
+  simple_rule:
+    top_k: 10
+    discount_weight: 0.3
+    popularity_weight: 0.2
+    recency_weight: 0.5
+  
+  # Collaborative filtering parameters (future use)
+  collaborative_filtering:
+    embedding_dim: 64
+    regularization: 0.01
+  
+  # Neural collaborative filtering parameters (future use)
+  neural_cf:
+    embedding_dim: 128
+    hidden_layers: [256, 128, 64]
+    dropout: 0.2
+    learning_rate: 0.001
+    epochs: 10
+    batch_size: 256
+
+# Paths (relative to project root)
+paths:
+  raw_data: "data/raw/"
+  processed_data: "data/processed/"
+  training_features: "data/processed/training_features.parquet"
+  model: "models/model.joblib"
+  metrics: "metrics/metrics.json"
+
+# MLflow settings
+mlflow:
+  experiment_name: "voice_offer_recommendation"
+  tracking_uri: "https://mlflow-server-2rdqrmk2sq-uc.a.run.app"
+
+# Inference settings
+inference:
+  host: "0.0.0.0"
+  port: 8000
+  default_top_k: 10
+
+# Supabase connection (used by Feast data source)
+supabase:
+  # URL and key loaded from environment variables:
+  # SUPABASE_URL, SUPABASE_SERVICE_KEY (or SUPABASE_KEY)
+  # These are already handled by src/supabase_client.py
+  schemas:
+    - "public"

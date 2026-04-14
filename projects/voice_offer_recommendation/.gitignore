@@ -10,6 +10,35 @@ __pycache__/
 env/
 venv/
 .venv/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Data (DVC tracked) - ignore actual data files but keep .dvc metadata
+/data/raw/*.csv
+/data/raw/*.json
+/data/raw/*.parquet
+/data/processed/*.csv
+/data/processed/*.json
+/data/processed/*.parquet
+
+# Models (DVC tracked)
+/models/*.joblib
+/models/*.pt
+/models/*.pkl
+
+# MLflow local tracking
+/mlruns/
+
+# DVC cache
+.dvc/cache/
+
+# Feast
+feast/data/
+
+# Metrics (keep in git, but generated files might be ignored)
+# /metrics/
 
 # IDE
 .vscode/
@@ -20,3 +49,9 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# pytest
+.pytest_cache/

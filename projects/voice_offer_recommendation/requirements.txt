@@ -1,2 +1,33 @@
+# Existing
 supabase
 python-dotenv
+
+# Core ML
+pandas>=2.0.0
+numpy>=2.0,<3.0
+PyYAML>=6.0
+joblib>=1.3.0
+scikit-learn>=1.5.0
+
+# MLOps
+mlflow>=2.10.0
+dvc[gs]>=3.30.0
+
+# Feast (with PostgreSQL support)
+feast>=0.35.0
+feast[postgres]>=0.35.0
+psycopg2-binary>=2.9.0
+
+# API
+fastapi>=0.109.0
+uvicorn>=0.27.0
+pydantic>=2.0.0
+httpx>=0.25.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Quality
+ruff>=0.1.0
+mypy>=1.7.0
