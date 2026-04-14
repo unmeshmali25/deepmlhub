@@ -1,6 +1,6 @@
 """FastAPI inference server for voice offer recommendations."""
 
-import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Optional
 
@@ -12,9 +12,7 @@ from pydantic import BaseModel
 from src.inference.feast_client import get_online_features
 from src.inference.predict import RecommendationPredictor
 
-app = FastAPI(title="Voice Offer Recommendation API", version="0.1.0")
-
-# Load model at startup
+# Global state
 model = None
 predictor = None
 
@@ -26,8 +24,8 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
-@app.on_event("startup")
-def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     """Load model and predictor on startup."""
     global model, predictor
     config = load_config()
@@ -39,11 +37,23 @@ def startup_event():
         print(f"Warning: Model not found at {model_path}")
         model = None
         predictor = None
-        return
+    else:
+        model = joblib.load(model_path)
+        predictor = RecommendationPredictor(model)
+        print(f"Loaded model from {model_path}")
 
-    model = joblib.load(model_path)
-    predictor = RecommendationPredictor(model)
-    print(f"Loaded model from {model_path}")
+    yield
+
+    # Cleanup on shutdown
+    model = None
+    predictor = None
+
+
+app = FastAPI(
+    title="Voice Offer Recommendation API",
+    version="0.1.0",
+    lifespan=lifespan,
+)
 
 
 class RecommendRequest(BaseModel):

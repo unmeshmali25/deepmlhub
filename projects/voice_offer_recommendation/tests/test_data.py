@@ -1,6 +1,5 @@
 """Tests for data fetching and feature engineering."""
 
-import pandas as pd
 import pytest
 
 from src.data.fetch_features import load_config
@@ -27,14 +26,6 @@ class TestSupabaseFallback:
     def test_fetch_features_from_supabase_mock(self, monkeypatch):
         """Test that Supabase fallback can be triggered with mock data."""
         # This test validates the fallback path without requiring real Supabase tables
-        mock_df = pd.DataFrame(
-            {
-                "agent_id": [1, 1, 2],
-                "product_id": [101, 102, 101],
-                "times_purchased": [1, 0, 2],
-            }
-        )
-
         # Since we can't easily mock Supabase without the client library,
         # we just verify the function signatures and fallback logic conceptually
         from src.data.fetch_features import fetch_features_from_supabase

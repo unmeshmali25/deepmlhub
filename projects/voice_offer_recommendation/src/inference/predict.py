@@ -2,7 +2,6 @@
 
 from typing import List, Optional
 
-import pandas as pd
 
 from src.inference.feast_client import get_online_features
 

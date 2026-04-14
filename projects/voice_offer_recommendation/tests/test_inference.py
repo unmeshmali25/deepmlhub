@@ -1,6 +1,5 @@
 """Tests for FastAPI inference endpoints."""
 
-import pytest
 from fastapi.testclient import TestClient
 
 from src.inference.server import app

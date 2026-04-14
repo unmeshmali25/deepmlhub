@@ -1,11 +1,14 @@
 """Fetch training features from Feast offline store or Supabase directly."""
 
-import os
 from pathlib import Path
 
 import pandas as pd
 import yaml
-from feast import FeatureStore
+
+try:
+    from feast import FeatureStore
+except ImportError:
+    FeatureStore = None
 
 
 def load_config() -> dict:
@@ -17,6 +20,11 @@ def load_config() -> dict:
 
 def fetch_features_from_feast(config: dict) -> pd.DataFrame:
     """Fetch historical features from Feast offline store."""
+    if FeatureStore is None:
+        raise ImportError(
+            "Feast is not installed. Use fetch_features_from_supabase() instead."
+        )
+
     feast_config = config["feast"]
     store = FeatureStore(repo_path=feast_config["repo_path"])
 

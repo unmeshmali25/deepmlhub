@@ -3,7 +3,11 @@
 from pathlib import Path
 
 import yaml
-from feast import FeatureStore
+
+try:
+    from feast import FeatureStore
+except ImportError:
+    FeatureStore = None
 
 
 def load_config() -> dict:
@@ -20,6 +24,10 @@ def get_online_features(agent_id: int) -> dict:
     """
     config = load_config()
     feast_config = config["feast"]
+
+    if FeatureStore is None:
+        print("Feast is not installed. Returning fallback features.")
+        return {"agent_id": agent_id, "status": "fallback_no_feast"}
 
     try:
         store = FeatureStore(repo_path=feast_config["repo_path"])
