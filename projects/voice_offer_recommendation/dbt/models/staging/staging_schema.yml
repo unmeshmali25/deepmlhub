@@ -29,11 +29,15 @@ models:
         description: "spend_this_week / weekly_budget (0-1 scale)"
 
   - name: stg_products
-    description: "Cleaned products table"
+    description: "Cleaned products table with product_id (varchar) and product_uuid"
     columns:
-      - name: product_uuid
+      - name: product_id
+        description: "Product identifier as varchar (join key)"
         tests:
           - unique
+          - not_null
+      - name: product_uuid
+        tests:
           - not_null
       - name: product_category
         tests:

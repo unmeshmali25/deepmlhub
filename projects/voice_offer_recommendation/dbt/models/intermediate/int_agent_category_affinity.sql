@@ -21,7 +21,7 @@ category_agg as (
         sum(order_items.quantity) as category_total_quantity
     from order_items
     inner join agents on order_items.user_id = agents.user_id
-    inner join products on order_items.product_id = products.product_uuid
+    inner join products on order_items.product_id = products.product_id
     group by agents.agent_id, products.product_category
 )
 

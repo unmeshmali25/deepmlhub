@@ -14,7 +14,7 @@ enriched as (
         items.order_id,
         orders.user_id,
         orders.order_created_at,
-        items.product_id,
+        cast(items.product_id as varchar) as product_id,
         items.product_name,
         items.product_price,
         items.quantity,

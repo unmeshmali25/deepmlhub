@@ -9,7 +9,12 @@ products as (
 ),
 
 inventory as (
-    select * from {{ source('public', 'store_inventory') }}
+    select
+        cast(product_id as varchar) as product_id,
+        sum(quantity) as available_quantity,
+        count(distinct store_id) as stores_available
+    from {{ source('public', 'store_inventory') }}
+    group by product_id
 ),
 
 sales_metrics as (
@@ -23,19 +28,10 @@ sales_metrics as (
         sum(order_items.line_total) as total_revenue
     from order_items
     group by order_items.product_id
-),
-
-availability as (
-    select
-        product_id,
-        sum(quantity) as available_quantity,
-        count(distinct store_id) as stores_available
-    from inventory
-    group by product_id
 )
 
 select
-    products.product_uuid as product_id,
+    products.product_id,
     products.product_category,
     products.product_brand,
     products.price,
@@ -52,5 +48,5 @@ select
     coalesce(avail.available_quantity, 0) as available_quantity,
     coalesce(avail.stores_available, 0) as stores_available
 from products
-left join sales_metrics sales on products.product_uuid = sales.product_id
-left join availability avail on products.product_uuid = avail.product_id
+left join sales_metrics sales on products.product_id = sales.product_id
+left join inventory avail on products.product_id = avail.product_id

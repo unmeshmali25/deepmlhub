@@ -1,75 +1,67 @@
-"""Fetch training features from Feast offline store or Supabase directly.
+"""Fetch training features from dbt feature tables in Supabase.
 
-With dbt pipeline, feature tables are materialized in the dbt_vor schema.
-The fetch script can either:
-1. Use Feast offline store (preferred for production training)
-2. Query Supabase directly as fallback (for testing without Feast)
+Uses direct PostgreSQL connection (SQLAlchemy + psycopg2) to query
+dbt materialized tables in the dbt_vor schema. This is preferred over
+the Supabase REST client because:
+1. dbt tables live in dbt_vor schema (not public), which PostgREST can't access
+2. Direct SQL is faster for batch feature extraction
+3. Consistent with Feast offline store access pattern
 """
 
+import os
 from pathlib import Path
 
 import pandas as pd
 import yaml
-
-try:
-    from feast import FeatureStore
-except ImportError:
-    FeatureStore = None
+from sqlalchemy import create_engine, text
 
 
 def load_config() -> dict:
-    """Load configuration from config.yaml."""
     config_path = Path(__file__).parents[2] / "configs" / "config.yaml"
     with open(config_path) as f:
         return yaml.safe_load(f)
 
 
-def fetch_features_from_feast(config: dict) -> pd.DataFrame:
-    """Fetch historical features from Feast offline store."""
-    if FeatureStore is None:
-        raise ImportError(
-            "Feast is not installed. Use fetch_features_from_supabase() instead."
+def get_db_engine(config: dict):
+    dbt_config = config.get("dbt", {})
+    schema = dbt_config.get("schema", "dbt_vor")
+
+    db_url = os.getenv("DATABASE_URL")
+    if not db_url:
+        host = os.getenv("SUPABASE_DB_HOST")
+        user = os.getenv("SUPABASE_DB_USER")
+        password = os.getenv("SUPABASE_DB_PASSWORD")
+        db_url = f"postgresql://{user}:{password}@{host}:5432/postgres?sslmode=require"
+
+    engine = create_engine(
+        db_url, connect_args={"options": f"-c search_path={schema},public"}
+    )
+    return engine, schema
+
+
+def fetch_features_from_db(config: dict) -> pd.DataFrame:
+    engine, schema = get_db_engine(config)
+
+    print(f"Fetching training data from schema: {schema}")
+
+    with engine.connect() as conn:
+        agent_df = pd.read_sql(text(f"SELECT * FROM {schema}.fct_agent_features"), conn)
+        product_df = pd.read_sql(
+            text(f"SELECT * FROM {schema}.fct_product_features"), conn
+        )
+        interaction_df = pd.read_sql(
+            text(f"SELECT * FROM {schema}.fct_agent_product_interactions"), conn
         )
 
-    feast_config = config["feast"]
-    store = FeatureStore(repo_path=feast_config["repo_path"])
+    for df in [agent_df, product_df, interaction_df]:
+        for col in df.columns:
+            if df[col].dtype == object:
+                df[col] = df[col].astype(str)
 
-    feature_refs = []
-    for view_name in feast_config["feature_views"]:
-        feature_service = store.get_feature_view(view_name)
-        for feature in feature_service.features:
-            feature_refs.append(f"{view_name}:{feature.name}")
+    print(f"Agent features: {len(agent_df)} rows")
+    print(f"Product features: {len(product_df)} rows")
+    print(f"Interactions: {len(interaction_df)} rows")
 
-    print("Fetching historical features from Feast...")
-    print(f"Feature references: {feature_refs}")
-
-    raise NotImplementedError(
-        "fetch_features_from_feast requires an entity dataframe from your source data. "
-        "Use fetch_features_from_supabase() as a fallback until Feast offline store is fully configured."
-    )
-
-
-def fetch_features_from_supabase(config: dict) -> pd.DataFrame:
-    """Fetch training data directly from Supabase dbt feature tables."""
-    from supabase_client import supabase
-
-    dbt_schema = config.get("dbt", {}).get("schema", "dbt_vor")
-
-    print(f"Fetching training data from Supabase (schema: {dbt_schema})...")
-
-    # Query dbt feature tables
-    agent_response = supabase.table("fct_agent_features").select("*").execute()
-    agent_df = pd.DataFrame(agent_response.data)
-
-    product_response = supabase.table("fct_product_features").select("*").execute()
-    product_df = pd.DataFrame(product_response.data)
-
-    interaction_response = (
-        supabase.table("fct_agent_product_interactions").select("*").execute()
-    )
-    interaction_df = pd.DataFrame(interaction_response.data)
-
-    # Merge into training dataset
     training_df = interaction_df.merge(
         agent_df, on="agent_id", how="left", suffixes=("", "_agent")
     )
@@ -77,24 +69,18 @@ def fetch_features_from_supabase(config: dict) -> pd.DataFrame:
         product_df, on="product_id", how="left", suffixes=("", "_product")
     )
 
-    # Create binary target: purchased or not
-    training_df["purchased"] = (training_df["purchase_count"] > 0).astype(int)
+    if "purchase_count" in training_df.columns:
+        training_df["purchased"] = (training_df["purchase_count"] > 0).astype(int)
 
     return training_df
 
 
 def fetch_training_features() -> pd.DataFrame:
-    """Fetch training features and save to parquet."""
     config = load_config()
     paths = config["paths"]
     base_path = Path(__file__).parents[2]
 
-    try:
-        df = fetch_features_from_feast(config)
-    except Exception as e:
-        print(f"Feast fetch failed: {e}")
-        print("Falling back to direct Supabase query...")
-        df = fetch_features_from_supabase(config)
+    df = fetch_features_from_db(config)
 
     output_path = base_path / paths["training_features"]
     output_path.parent.mkdir(parents=True, exist_ok=True)

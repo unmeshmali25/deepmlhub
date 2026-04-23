@@ -13,7 +13,6 @@ stages:
     cmd: python -m src.data.fetch_features
     deps:
       - src/data/fetch_features.py
-      - src/supabase_client.py
       - configs/config.yaml
     outs:
       - data/processed/training_features.parquet:

@@ -22,15 +22,21 @@ class TestDataConfig:
         assert "feature_views" in config["feast"]
 
 
-class TestSupabaseFallback:
-    def test_fetch_features_from_supabase_mock(self, monkeypatch):
-        """Test that Supabase fallback can be triggered with mock data."""
-        # This test validates the fallback path without requiring real Supabase tables
-        # Since we can't easily mock Supabase without the client library,
-        # we just verify the function signatures and fallback logic conceptually
-        from src.data.fetch_features import fetch_features_from_supabase
+class TestDatabaseFetch:
+    def test_fetch_features_from_db_raises_without_connection(self):
+        """Test that fetch_features_from_db raises without a real DB connection."""
+        from src.data.fetch_features import fetch_features_from_db
 
-        # The function should raise if Supabase tables don't exist
-        # which is expected in test environments
         with pytest.raises(Exception):
-            fetch_features_from_supabase(load_config())
+            fetch_features_from_db(load_config())
+
+    def test_get_db_engine_uses_env_var(self, monkeypatch):
+        """Test that get_db_engine uses DATABASE_URL env var."""
+        from src.data.fetch_features import get_db_engine
+
+        monkeypatch.setenv(
+            "DATABASE_URL",
+            "postgresql://user:pass@localhost:5432/testdb?sslmode=require",
+        )
+        engine, schema = get_db_engine(load_config())
+        assert schema == "dbt_vor"

@@ -1,6 +1,7 @@
 # Existing
 supabase
 python-dotenv
+sqlalchemy>=2.0.0
 
 # Core ML
 pandas>=2.0.0
@@ -11,6 +12,7 @@ scikit-learn>=1.5.0
 
 # MLOps
 mlflow>=2.10.0
+protobuf>=3.12,<5
 dvc[gs]>=3.30.0
 
 # Feast (with PostgreSQL support)

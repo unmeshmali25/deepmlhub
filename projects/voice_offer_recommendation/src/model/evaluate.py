@@ -25,8 +25,8 @@ def precision_at_k(y_true: np.ndarray, y_pred: np.ndarray, k: int) -> float:
     if len(y_pred) == 0:
         return 0.0
     top_k = y_pred[:k]
-    relevant = np.sum(y_true[np.isin(y_true, top_k)])
-    return relevant / k
+    relevant = np.sum(np.isin(y_true, top_k))
+    return float(relevant) / k
 
 
 def recall_at_k(y_true: np.ndarray, y_pred: np.ndarray, k: int) -> float:
@@ -34,8 +34,8 @@ def recall_at_k(y_true: np.ndarray, y_pred: np.ndarray, k: int) -> float:
     if len(y_true) == 0:
         return 0.0
     top_k = y_pred[:k]
-    relevant = np.sum(y_true[np.isin(y_true, top_k)])
-    return relevant / len(y_true)
+    relevant = np.sum(np.isin(y_true, top_k))
+    return float(relevant) / len(y_true)
 
 
 def evaluate_model() -> dict:
@@ -73,10 +73,10 @@ def evaluate_model() -> dict:
 
     # Evaluate each test agent
     k_values = [5, 10]
-    results = {f"precision@{k}": [] for k in k_values}
-    results.update({f"recall@{k}": [] for k in k_values})
+    results = {f"precision_at_{k}": [] for k in k_values}
+    results.update({f"recall_at_{k}": [] for k in k_values})
 
-    for agent_id in test_agents[:100]:  # Limit to 100 agents for speed
+    for agent_id in test_agents[:100]:
         agent_data = test_df[test_df["agent_id"] == agent_id]
         y_true = agent_data[agent_data["purchased"] == 1]["product_id"].values
 
@@ -87,8 +87,8 @@ def evaluate_model() -> dict:
         y_pred = predictions["product_id"].values
 
         for k in k_values:
-            results[f"precision@{k}"].append(precision_at_k(y_true, y_pred, k))
-            results[f"recall@{k}"].append(recall_at_k(y_true, y_pred, k))
+            results[f"precision_at_{k}"].append(precision_at_k(y_true, y_pred, k))
+            results[f"recall_at_{k}"].append(recall_at_k(y_true, y_pred, k))
 
     # Aggregate metrics
     test_metrics = {}

@@ -94,6 +94,6 @@ supabase:
   # Credentials loaded from environment variables:
   # SUPABASE_URL, SUPABASE_SERVICE_KEY (or SUPABASE_KEY)
   # SUPABASE_DB_HOST, SUPABASE_DB_USER, SUPABASE_DB_PASSWORD
-  # These are already handled by src/supabase_client.py
+  # Connection handled via DATABASE_URL or individual env vars in fetch_features.py
   schemas:
     - "public"

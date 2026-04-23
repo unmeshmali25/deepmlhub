@@ -20,10 +20,7 @@ models:
   voice_offer_recommendation:
     staging:
       +materialized: view
-      +schema: staging
     intermediate:
       +materialized: table
-      +schema: intermediate
     feature:
       +materialized: table
-      +schema: feature

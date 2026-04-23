@@ -1,0 +1,10 @@
+{
+  "train_coverage": 1.0,
+  "n_samples": 9106,
+  "n_products": 72,
+  "n_agents": 371,
+  "precision_at_5": 0.3013333333333333,
+  "precision_at_10": 0.30933333333333335,
+  "recall_at_5": 0.06872229993184095,
+  "recall_at_10": 0.1370497349119993
+}

@@ -1,0 +1,88 @@
+schema: '2.0'
+stages:
+  transform_features:
+    cmd: cd dbt && dbt run --profiles-dir .
+    deps:
+    - path: dbt/dbt_project.yml
+      hash: md5
+      md5: d50a517a63eb2b9eba66bbefd8d31ac0
+      size: 493
+    - path: dbt/models/
+      hash: md5
+      md5: 1ba5b3fb90cd9c7abc779f1e3e48943c.dir
+      size: 27880
+      nfiles: 17
+    outs:
+    - path: dbt/target/
+      hash: md5
+      md5: c556f6ac512688671d92e7284f043217.dir
+      size: 1868244
+      nfiles: 32
+  fetch_features:
+    cmd: python -m src.data.fetch_features
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: 27520bf22afddf9e47ef92988b7a0957
+      size: 2558
+    - path: src/data/fetch_features.py
+      hash: md5
+      md5: 62a6b1af84ef0b749e61b545629beff8
+      size: 3020
+    outs:
+    - path: data/processed/training_features.parquet
+      hash: md5
+      md5: e7478b7f3474609512fd2020b09ee0f5
+      size: 414662
+  train:
+    cmd: python -m src.model.train
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: 27520bf22afddf9e47ef92988b7a0957
+      size: 2558
+    - path: data/processed/training_features.parquet
+      hash: md5
+      md5: e7478b7f3474609512fd2020b09ee0f5
+      size: 414662
+    - path: src/model/recommendation_algorithm.py
+      hash: md5
+      md5: edf80a3b2668cc932dc7291326961a8f
+      size: 8648
+    - path: src/model/train.py
+      hash: md5
+      md5: abed6f2eacc7950df64492565d648c16
+      size: 3902
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: 6dc0eaec2a90f7ec0fc4f7a858ad9a2a
+      size: 87
+    - path: models/model.joblib
+      hash: md5
+      md5: c0eaf6e336c6a22f2729551338e64f74
+      size: 161129
+  evaluate:
+    cmd: python -m src.model.evaluate
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: 27520bf22afddf9e47ef92988b7a0957
+      size: 2558
+    - path: data/processed/training_features.parquet
+      hash: md5
+      md5: e7478b7f3474609512fd2020b09ee0f5
+      size: 414662
+    - path: models/model.joblib
+      hash: md5
+      md5: c0eaf6e336c6a22f2729551338e64f74
+      size: 161129
+    - path: src/model/evaluate.py
+      hash: md5
+      md5: 9f74343ff2ba864f3c181201b00b3646
+      size: 4143
+    outs:
+    - path: metrics/evaluation_report.txt
+      hash: md5
+      md5: 7ad58a3faa916dfe9eeaf2c280894800
+      size: 176

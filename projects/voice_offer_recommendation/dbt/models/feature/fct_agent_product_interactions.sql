@@ -28,7 +28,7 @@ purchases_with_category as (
         purchases.total_quantity as total_units_bought,
         products.product_category
     from purchases
-    inner join products on purchases.product_id = products.product_uuid
+    inner join products on purchases.product_id = products.product_id
 )
 
 select

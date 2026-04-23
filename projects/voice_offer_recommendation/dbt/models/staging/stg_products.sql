@@ -6,6 +6,7 @@ with source as (
 
 cleaned as (
     select
+        cast(id as varchar) as product_id,
         id as product_uuid,
         name as product_name,
         description,
