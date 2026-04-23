@@ -45,8 +45,8 @@ latest_snapshot as (
 
 combined as (
     select
-        latest.agent_id,
-        latest.snapshot_date,
+        latest_snapshot.agent_id,
+        latest_snapshot.snapshot_date,
 
         -- Static traits from agents
         agents.age,
@@ -74,27 +74,27 @@ combined as (
         agents.deal_seeking_behavior,
 
         -- Dynamic state from snapshots
-        latest.remaining_budget,
-        latest.spend_this_week,
-        latest.spend_this_month,
-        latest.days_since_last_purchase,
-        latest.total_orders_lifetime,
-        latest.total_orders_this_week,
-        latest.cart_value,
-        latest.cart_item_count,
-        latest.has_active_cart,
-        latest.products_viewed_count,
-        latest.sessions_count_today,
-        latest.sessions_count_this_week,
-        latest.categories_purchased_count,
-        latest.categories_purchased_this_week,
-        latest.diversity_ratio,
-        latest.pref_day_match,
-        latest.pref_time_match,
-        latest.active_coupons_count,
-        latest.coupons_redeemed_this_week,
-        latest.remaining_budget_pct,
-        latest.spend_this_week_pct,
+        latest_snapshot.remaining_budget,
+        latest_snapshot.spend_this_week,
+        latest_snapshot.spend_this_month,
+        latest_snapshot.days_since_last_purchase,
+        latest_snapshot.total_orders_lifetime,
+        latest_snapshot.total_orders_this_week,
+        latest_snapshot.cart_value,
+        latest_snapshot.cart_item_count,
+        latest_snapshot.has_active_cart,
+        latest_snapshot.products_viewed_count,
+        latest_snapshot.sessions_count_today,
+        latest_snapshot.sessions_count_this_week,
+        latest_snapshot.categories_purchased_count,
+        latest_snapshot.categories_purchased_this_week,
+        latest_snapshot.diversity_ratio,
+        latest_snapshot.pref_day_match,
+        latest_snapshot.pref_time_match,
+        latest_snapshot.active_coupons_count,
+        latest_snapshot.coupons_redeemed_this_week,
+        latest_snapshot.remaining_budget_pct,
+        latest_snapshot.spend_this_week_pct,
 
         -- Coupon behavior
         coalesce(coupon.coupon_views, 0) as coupon_views,
@@ -103,9 +103,9 @@ combined as (
         coalesce(coupon.total_coupons_assigned, 0) as total_coupons_assigned,
         coalesce(coupon.total_coupons_redeemed, 0) as total_coupons_redeemed,
         coalesce(coupon.coupon_redemption_rate, 0) as coupon_redemption_rate
-    from latest
-    inner join agents on latest.agent_id = agents.agent_id
-    left join coupon_behavior coupon on latest.agent_id = coupon.agent_id
+    from latest_snapshot
+    inner join agents on latest_snapshot.agent_id = agents.agent_id
+    left join coupon_behavior coupon on latest_snapshot.agent_id = coupon.agent_id
 )
 
 select * from combined

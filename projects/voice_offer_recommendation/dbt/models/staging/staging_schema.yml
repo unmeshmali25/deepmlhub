@@ -77,4 +77,4 @@ models:
       - name: coupon_action
         tests:
           - accepted_values:
-              values: ["view", "click", "redeem", "dismiss"]
+              values: ["added_to_cart", "redeemed"]

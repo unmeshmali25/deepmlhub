@@ -84,8 +84,24 @@ sources:
             tests:
               - not_null
 
+      - name: coupons
+        description: "257 available coupons with type, discount, and category"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: type
+            tests:
+              - not_null
+          - name: category_or_brand
+          - name: discount_type
+          - name: discount_value
+          - name: min_purchase_amount
+          - name: max_discount
+
       - name: coupon_interactions
-        description: "101,912 coupon view/click/redeem events"
+        description: "101,912 coupon interaction events"
         columns:
           - name: id
             tests:
@@ -100,7 +116,7 @@ sources:
           - name: action
             tests:
               - accepted_values:
-                  values: ["view", "click", "redeem", "dismiss"]
+                  values: ["added_to_cart", "redeemed"]
 
       - name: user_coupons
         description: "96,211 coupon assignments to users"
@@ -117,7 +133,7 @@ sources:
           - name: status
             tests:
               - accepted_values:
-                  values: ["assigned", "redeemed", "expired", "active"]
+                  values: ["active", "expired", "used"]
 
       - name: store_inventory
         description: "720 product-store inventory records"

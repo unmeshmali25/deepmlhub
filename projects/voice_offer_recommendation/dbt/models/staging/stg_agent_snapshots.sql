@@ -7,7 +7,7 @@ with source as (
 with_derived as (
     select
         id as snapshot_uuid,
-        agent_id,
+        cast(agent_id as varchar) as agent_id,
         snapshot_date,
         remaining_budget,
         weekly_budget,

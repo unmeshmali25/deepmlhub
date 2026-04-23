@@ -9,30 +9,30 @@ sales_metrics as (
 )
 
 select
-    sales.product_id,
-    sales.product_category,
-    sales.product_brand,
-    sales.price,
-    sales.margin_percent,
-    sales.rating,
-    sales.review_count,
-    sales.in_stock,
-    sales.order_count,
-    sales.total_units_sold,
-    sales.unique_buyers_count,
-    sales.avg_selling_price,
-    sales.avg_discount_given,
-    sales.total_revenue,
-    sales.available_quantity,
-    sales.stores_available,
+    sm.product_id,
+    sm.product_category,
+    sm.product_brand,
+    sm.price,
+    sm.margin_percent,
+    sm.rating,
+    sm.review_count,
+    sm.in_stock,
+    sm.order_count,
+    sm.total_units_sold,
+    sm.unique_buyers_count,
+    sm.avg_selling_price,
+    sm.avg_discount_given,
+    sm.total_revenue,
+    sm.available_quantity,
+    sm.stores_available,
     case
-        when sales.total_units_sold > 0
-        then round(sales.total_revenue / sales.total_units_sold, 2)
-        else sales.price
+        when sm.total_units_sold > 0
+        then round(sm.total_revenue / sm.total_units_sold, 2)
+        else sm.price
     end as revenue_per_unit,
     case
-        when sales.unique_buyers_count > 0
-        then round(sales.total_units_sold::numeric / sales.unique_buyers_count, 2)
+        when sm.unique_buyers_count > 0
+        then round(sm.total_units_sold::numeric / sm.unique_buyers_count, 2)
         else 0
     end as avg_quantity_per_buyer
-from sales
+from sales_metrics sm

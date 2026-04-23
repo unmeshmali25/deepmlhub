@@ -25,19 +25,18 @@ interaction_agg as (
 view_counts as (
     select agent_id, action_count as coupon_views
     from interaction_agg
-    where coupon_action = 'view'
+    where coupon_action = 'added_to_cart'
 ),
 
 click_counts as (
-    select agent_id, action_count as coupon_clicks
-    from interaction_agg
-    where coupon_action = 'click'
+    select agent_id, 0 as coupon_clicks
+    from (select distinct agent_id from agents) a
 ),
 
 redeem_counts as (
     select agent_id, action_count as coupon_redeems
     from interaction_agg
-    where coupon_action = 'redeem'
+    where coupon_action = 'redeemed'
 ),
 
 category_coupon as (
@@ -55,7 +54,7 @@ redemption_agg as (
     select
         agents.agent_id,
         count(*) as total_coupons_assigned,
-        count(case when user_coupons.status = 'redeemed' then 1 end) as total_coupons_redeemed
+        count(case when user_coupons.status = 'used' then 1 end) as total_coupons_redeemed
     from user_coupons
     inner join agents on user_coupons.user_id = agents.user_id
     group by agents.agent_id
