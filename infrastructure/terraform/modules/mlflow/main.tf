@@ -79,6 +79,15 @@ resource "google_cloud_run_service" "mlflow" {
   ]
 }
 
+# Grant CI/CD service account permission to act as mlflow SA for Cloud Run deployments
+resource "google_service_account_iam_member" "deployer_actas" {
+  count = var.deployer_service_account_email != "" ? 1 : 0
+
+  service_account_id = google_service_account.mlflow_sa.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${var.deployer_service_account_email}"
+}
+
 # Allow unauthenticated invocations (for dev/testing)
 # In production, you might want to restrict this
 resource "google_cloud_run_service_iam_member" "invoker" {

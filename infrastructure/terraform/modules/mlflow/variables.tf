@@ -60,3 +60,9 @@ variable "database_password" {
   type        = string
   sensitive   = true
 }
+
+variable "deployer_service_account_email" {
+  description = "Email of CI/CD service account that deploys to Cloud Run (granted actAs on mlflow SA)"
+  type        = string
+  default     = ""
+}

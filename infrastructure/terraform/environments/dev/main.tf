@@ -72,6 +72,7 @@ module "mlflow" {
   min_instances                      = var.mlflow_min_instances
   max_instances                      = var.mlflow_max_instances
   labels                             = local.common_labels
+  deployer_service_account_email     = var.deployer_service_account_email
 }
 
 # VPC Module - Creates network infrastructure for GKE

@@ -79,3 +79,9 @@ variable "gke_enable_private_nodes" {
   type        = bool
   default     = false
 }
+
+variable "deployer_service_account_email" {
+  description = "Email of CI/CD service account that deploys to Cloud Run"
+  type        = string
+  default     = ""
+}
