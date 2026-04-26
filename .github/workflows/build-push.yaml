@@ -83,6 +83,7 @@ jobs:
           if [ -f projects/synth_tabular_classification/docker/mlflow/Dockerfile ]; then
             docker buildx build \
               --build-arg "ARTIFACTS_BUCKET=${{ env.ARTIFACTS_BUCKET }}" \
+              --load \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }} \
               -t ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest \
               -f projects/synth_tabular_classification/docker/mlflow/Dockerfile \
@@ -91,4 +92,15 @@ jobs:
             docker push ${{ env.ARTIFACT_REGISTRY }}/mlflow:latest
           else
             echo "MLflow Dockerfile not found, skipping..."
+          fi
+      
+      - name: Deploy MLflow to Cloud Run
+        if: success()
+        run: |
+          if [ -f projects/synth_tabular_classification/docker/mlflow/Dockerfile ]; then
+            gcloud run services update mlflow-server \
+              --region ${{ env.REGION }} \
+              --image ${{ env.ARTIFACT_REGISTRY }}/mlflow:${{ github.sha }}
+          else
+            echo "MLflow image not built, skipping deploy..."
           fi
