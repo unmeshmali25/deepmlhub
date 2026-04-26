@@ -23,28 +23,40 @@ stages:
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: 27520bf22afddf9e47ef92988b7a0957
-      size: 2558
+      md5: 5a2e1b7505388949d932c6929220de23
+      size: 2565
+    - path: feature_repo/data/registry.db
+      hash: md5
+      md5: 93cb4c048d87c4929be7c21caed2486a
+      size: 16937
+    - path: feature_repo/feature_definitions.py
+      hash: md5
+      md5: 91c5803971bf6e8fa6aa9e926edf7743
+      size: 9549
+    - path: feature_repo/feature_store.yaml
+      hash: md5
+      md5: 5a6744513a56867430d75e9b65d80590
+      size: 273
     - path: src/data/fetch_features.py
       hash: md5
-      md5: 62a6b1af84ef0b749e61b545629beff8
-      size: 3020
+      md5: 0fc1d483d29879f106b0721cb659e0f4
+      size: 8904
     outs:
     - path: data/processed/training_features.parquet
       hash: md5
-      md5: e7478b7f3474609512fd2020b09ee0f5
-      size: 414662
+      md5: 81c5c94f6ba0e1ef90ce5140d26f2cc9
+      size: 404727
   train:
     cmd: python -m src.model.train
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: 27520bf22afddf9e47ef92988b7a0957
-      size: 2558
+      md5: 5a2e1b7505388949d932c6929220de23
+      size: 2565
     - path: data/processed/training_features.parquet
       hash: md5
-      md5: e7478b7f3474609512fd2020b09ee0f5
-      size: 414662
+      md5: 81c5c94f6ba0e1ef90ce5140d26f2cc9
+      size: 404727
     - path: src/model/recommendation_algorithm.py
       hash: md5
       md5: edf80a3b2668cc932dc7291326961a8f
@@ -60,23 +72,23 @@ stages:
       size: 87
     - path: models/model.joblib
       hash: md5
-      md5: c0eaf6e336c6a22f2729551338e64f74
-      size: 161129
+      md5: 9c3e67ac1bb62905254ebb7240dbd18f
+      size: 161130
   evaluate:
     cmd: python -m src.model.evaluate
     deps:
     - path: configs/config.yaml
       hash: md5
-      md5: 27520bf22afddf9e47ef92988b7a0957
-      size: 2558
+      md5: 5a2e1b7505388949d932c6929220de23
+      size: 2565
     - path: data/processed/training_features.parquet
       hash: md5
-      md5: e7478b7f3474609512fd2020b09ee0f5
-      size: 414662
+      md5: 81c5c94f6ba0e1ef90ce5140d26f2cc9
+      size: 404727
     - path: models/model.joblib
       hash: md5
-      md5: c0eaf6e336c6a22f2729551338e64f74
-      size: 161129
+      md5: 9c3e67ac1bb62905254ebb7240dbd18f
+      size: 161130
     - path: src/model/evaluate.py
       hash: md5
       md5: 9f74343ff2ba864f3c181201b00b3646
@@ -84,5 +96,29 @@ stages:
     outs:
     - path: metrics/evaluation_report.txt
       hash: md5
-      md5: 7ad58a3faa916dfe9eeaf2c280894800
+      md5: 5b2ffcce6e2bdb90444d5d6a04c32dae
       size: 176
+  feast_apply:
+    cmd: cd feature_repo && feast apply
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: 5a2e1b7505388949d932c6929220de23
+      size: 2565
+    - path: feature_repo/feature_definitions.py
+      hash: md5
+      md5: 91c5803971bf6e8fa6aa9e926edf7743
+      size: 9549
+    - path: feature_repo/feature_store.yaml
+      hash: md5
+      md5: 5a6744513a56867430d75e9b65d80590
+      size: 273
+    - path: src/data/feast_apply.py
+      hash: md5
+      md5: 69e2dc10706d5196c504535f549337ad
+      size: 981
+    outs:
+    - path: feature_repo/data/registry.db
+      hash: md5
+      md5: 93cb4c048d87c4929be7c21caed2486a
+      size: 16937

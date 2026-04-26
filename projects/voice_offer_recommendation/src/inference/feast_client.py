@@ -30,7 +30,10 @@ def get_online_features(agent_id: int) -> dict:
         return {"agent_id": agent_id, "status": "fallback_no_feast"}
 
     try:
-        store = FeatureStore(repo_path=feast_config["repo_path"])
+        repo_path = Path(__file__).parents[2] / feast_config.get(
+            "repo_path", "./feature_repo"
+        )
+        store = FeatureStore(repo_path=str(repo_path))
 
         feature_refs = []
         for view_name in feast_config["feature_views"]:

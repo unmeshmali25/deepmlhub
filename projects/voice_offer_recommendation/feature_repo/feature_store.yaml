@@ -1,0 +1,12 @@
+project: voice_offer_recommendation
+registry: data/registry.db
+provider: local
+
+offline_store:
+    type: postgres
+    host: ${SUPABASE_DB_HOST}
+    port: 5432
+    database: postgres
+    db_schema: dbt_vor
+    user: ${SUPABASE_DB_USER}
+    password: ${SUPABASE_DB_PASSWORD}

@@ -9,10 +9,25 @@ stages:
           cache: false
           persist: false
 
+  feast_apply:
+    cmd: cd feature_repo && feast apply
+    deps:
+      - src/data/feast_apply.py
+      - feature_repo/feature_definitions.py
+      - feature_repo/feature_store.yaml
+      - configs/config.yaml
+    outs:
+      - feature_repo/data/registry.db:
+          cache: false
+          persist: false
+
   fetch_features:
     cmd: python -m src.data.fetch_features
     deps:
       - src/data/fetch_features.py
+      - feature_repo/feature_definitions.py
+      - feature_repo/feature_store.yaml
+      - feature_repo/data/registry.db
       - configs/config.yaml
     outs:
       - data/processed/training_features.parquet:

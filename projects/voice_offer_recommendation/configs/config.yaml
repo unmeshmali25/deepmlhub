@@ -19,7 +19,7 @@ data:
 
 # Feast feature store configuration
 feast:
-  repo_path: "./feast"
+  repo_path: "./feature_repo"
   project_name: "voice_offer_recommendation"
   
   # Entities
