@@ -1,6 +1,6 @@
 import torch
 
-from src.utils.device import get_default_device, get_device
+from llm_training.utils.device import get_default_device, get_device
 
 
 class TestDevice:

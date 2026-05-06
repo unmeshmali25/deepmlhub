@@ -3,11 +3,11 @@ from pathlib import Path
 import torch
 import yaml
 
-from src.data.dataset import ShakespeareDataset
-from src.data.tokenizer import Tokenizer
-from src.models.gpt2.config import GPT2Config
-from src.models.gpt2.model import GPT2Model
-from src.utils.device import get_default_device
+from llm_training.data.dataset import ShakespeareDataset
+from llm_training.data.tokenizer import Tokenizer
+from llm_training.models.gpt2.config import GPT2Config
+from llm_training.models.gpt2.model import GPT2Model
+from llm_training.utils.device import get_default_device
 
 
 @torch.no_grad()

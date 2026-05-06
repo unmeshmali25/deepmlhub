@@ -8,6 +8,9 @@ End-to-end LLM training pipeline following Karpathy's nanoGPT philosophy.
 # Install dependencies
 make install
 
+# Install in editable mode (recommended for development)
+make install-dev
+
 # Prepare Shakespeare data
 python data/shakespeare/prepare.py
 
@@ -28,14 +31,35 @@ make eval
 
 ```
 llm-training/
-├── src/
-│   ├── models/gpt2/      # GPT-2 implementation
-│   ├── training/         # Training loops (pretrain, SFT, DPO)
-│   ├── data/            # Tokenizer, datasets
-│   └── utils/           # Checkpointing, logging
-├── configs/             # YAML configs
-├── scripts/             # Docker, kubectl
-└── tests/               # Unit tests
+├── src/llm_training/      # Shared library (pip installable)
+│   ├── models/gpt2/       # GPT-2 implementation
+│   ├── training/          # Training loops (pretrain, SFT, DPO)
+│   ├── data/              # Tokenizer, datasets
+│   └── utils/             # Checkpointing, logging
+├── courses/               # Course-specific sandboxes
+│   ├── karpathy_zero2hero/
+│   └── deeplearning_posttraining/
+├── experiments/           # Your own cross-course research
+├── configs/               # YAML configs
+├── scripts/               # Docker, kubectl
+├── tests/                 # Unit tests
+├── Makefile               # Easy commands
+├── setup.py               # Package installer
+└── requirements.txt
+```
+
+## Using as a Library
+
+Install the package to import it from course notebooks or experiments:
+
+```bash
+pip install -e .
+```
+
+```python
+from llm_training.data.tokenizer import Tokenizer
+from llm_training.models.gpt2 import GPT2Model, GPT2Config
+from llm_training.training.dpo import DPOTrainer
 ```
 
 ## Hardware

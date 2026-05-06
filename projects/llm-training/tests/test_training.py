@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-from src.data.tokenizer import Tokenizer
+from llm_training.data.tokenizer import Tokenizer
 
 
 class TestTokenizer:

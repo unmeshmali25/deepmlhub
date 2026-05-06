@@ -15,3 +15,10 @@ ruff_cache/
 *.swp
 *.swo
 .DS_Store
+
+# Course and experiment artifacts
+courses/**/data/*
+!courses/**/data/.gitkeep
+experiments/**/outputs/
+experiments/**/logs/
+experiments/**/checkpoints/

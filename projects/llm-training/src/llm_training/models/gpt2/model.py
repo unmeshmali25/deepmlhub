@@ -7,7 +7,7 @@ import torch.nn as nn
 from torch import Tensor
 
 if TYPE_CHECKING:
-    from src.models.gpt2.config import GPT2Config
+    from llm_training.models.gpt2.config import GPT2Config
 
 
 class MultiHeadAttention(nn.Module):

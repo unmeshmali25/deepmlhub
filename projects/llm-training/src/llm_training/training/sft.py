@@ -6,12 +6,12 @@ import torch.nn as nn
 import yaml
 from torch.utils.data import DataLoader
 
-from src.data.dataset import SFTDataset
-from src.data.tokenizer import Tokenizer
-from src.models.gpt2.config import GPT2Config
-from src.models.gpt2.model import GPT2Model
-from src.utils.checkpoint import CheckpointManager, MLflowLogger
-from src.utils.device import get_default_device
+from llm_training.data.dataset import SFTDataset
+from llm_training.data.tokenizer import Tokenizer
+from llm_training.models.gpt2.config import GPT2Config
+from llm_training.models.gpt2.model import GPT2Model
+from llm_training.utils.checkpoint import CheckpointManager, MLflowLogger
+from llm_training.utils.device import get_default_device
 
 
 def train(
