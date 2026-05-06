@@ -1,19 +1,63 @@
 
+Q
+1
+__dummy"
+__dummy_idJvoice_offer_recommendation
+ÀîÏèê´´ÀîÏèê´´
 b
 B
 agentCustomer/agent ID"agent_idJvoice_offer_recommendation
-úØµÏ Åü„úØµÏ Åü„
+ÀîÏğ‚º´ÀîÏğ‚º´
 _
 ?
 product
 Product ID"
 product_idJvoice_offer_recommendation
-úØµÏğÈ€…úØµÏğÈ€…
-Q
-1
-__dummy"
-__dummy_idJvoice_offer_recommendation
-úØµÏ ­„…úØµÏ ­„…1"$5d7d2cb4-a123-4a04-82cc-747c6240d077*úØµÏ ††2Ş
+ÀîÏà¥¾´ÀîÏà¥¾´1"$9e4265be-55d6-4c95-b6c6-a21ee896e084*ÀîÏ€¹¿µ2É
+
+¨
+
+product_featuresvoice_offer_recommendationproduct"
+product_category"
+product_brand"	
+price"
+margin_percent"
+
+rating"
+review_count"
+in_stock"
+order_count"
+total_units_sold"
+unique_buyers_count"
+avg_selling_price"
+avg_discount_given"
+total_revenue"
+available_quantity"
+stores_available"
+revenue_per_unit"
+avg_quantity_per_buyer2€¼àß:÷event_timestamp‚Ê
+Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_source’ÀîÏ˜Äª¬"ÀîÏ˜‚¨´b
+
+product_id’latest
+ÀîÏÈ¡Â´ÀîÏÈ¡Â´2Ì	
+«	
+agent_product_interactionvoice_offer_recommendationagentproduct"
+last_purchase_date"
+purchase_count"
+total_spent"
+avg_discount_received"
+total_units_bought"
+product_category"
+category_purchase_count"
+category_total_spent"
+total_coupons_assigned"
+total_coupons_redeemed"
+coupon_redemption_rate2€¼àß:¡event_timestamp‚ë
+è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_source’ÀîÏ Ü¯¬"ÀîÏĞ®¡´b
+agent_idb
+
+product_id’latest
+ÀîÏ€Üà´ÀîÏ€Üà´2Ş
 ½
 agent_featuresvoice_offer_recommendationagent"
 snapshot_date"
@@ -69,9 +113,26 @@ cart_value"
 total_coupons_assigned"
 total_coupons_redeemed"
 coupon_redemption_rate2€¼àß:Ğevent_timestamp‚¥
-¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_source’úØµÏğ½òü"úØµÏ€Üê„b
+¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_source’ÀîÏ ı¤¬"ÀîÏ€û¬´b
 agent_id’latest
-úØµÏ ¡ˆ…úØµÏ ¡ˆ…2É
+ÀîÏÈü÷´ÀîÏÈü÷´Rô
+Ê
+,feast.infra.online_stores.sqlite.SqliteTable"™
+l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db)voice_offer_recommendation_agent_features
+Õ
+,feast.infra.online_stores.sqlite.SqliteTable"¤
+l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db4voice_offer_recommendation_agent_product_interaction
+Ì
+,feast.infra.online_stores.sqlite.SqliteTable"›
+l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db+voice_offer_recommendation_product_featuresb¾event_timestamp‚ë
+è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_sourceªvoice_offer_recommendation’ÀîÏ Ü¯¬"ÀîÏĞ®¡´b”event_timestamp‚Ê
+Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_sourceªvoice_offer_recommendation’ÀîÏ˜Äª¬"ÀîÏ˜‚¨´bíevent_timestamp‚¥
+¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_sourceªvoice_offer_recommendation’ÀîÏ ı¤¬"ÀîÏ€û¬´Š<
+
+voice_offer_recommendation
+ÀîÏ¸í­ÀîÏ¸í­’Ü0
+¼
+product_featuresvoice_offer_recommendation"feature_view*É
 
 ¨
 
@@ -94,10 +155,13 @@ cart_value"
 stores_available"
 revenue_per_unit"
 avg_quantity_per_buyer2€¼àß:÷event_timestamp‚Ê
-Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_source’úØµÏ¸”øü"úØµÏè¼÷„b
+Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_source’ÀîÏ˜Äª¬"ÀîÏ˜‚¨´b
 
 product_id’latest
-úØµÏğŞÌ…úØµÏğŞÌ…2Ì	
+ÀîÏÈ¡Â´ÀîÏÈ¡Â´2ÀîÏ€âŞ´B$1517e357-6283-41a3-9bc7-d26a8cc08ca3
+È
+
+agent_product_interactionvoice_offer_recommendation"feature_view*Ì	
 «	
 agent_product_interactionvoice_offer_recommendationagentproduct"
 last_purchase_date"
@@ -111,26 +175,11 @@ product_id’latest
 total_coupons_assigned"
 total_coupons_redeemed"
 coupon_redemption_rate2€¼àß:¡event_timestamp‚ë
-è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_source’úØµÏØ¤ıü"úØµÏøœò„b
+è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_source’ÀîÏ Ü¯¬"ÀîÏĞ®¡´b
 agent_idb
 
 product_id’latest
-úØµÏÀ”ê…úØµÏÀ”ê…Rô
-Ê
-,feast.infra.online_stores.sqlite.SqliteTable"™
-l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db)voice_offer_recommendation_agent_features
-Õ
-,feast.infra.online_stores.sqlite.SqliteTable"¤
-l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db4voice_offer_recommendation_agent_product_interaction
-Ì
-,feast.infra.online_stores.sqlite.SqliteTable"›
-l/Users/unmeshmali/Downloads/Unmesh/deepmlhub/projects/voice_offer_recommendation/feature_repo/data/online.db+voice_offer_recommendation_product_featuresbíevent_timestamp‚¥
-¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_sourceªvoice_offer_recommendation’úØµÏğ½òü"úØµÏ€Üê„b¾event_timestamp‚ë
-è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_sourceªvoice_offer_recommendation’úØµÏØ¤ıü"úØµÏøœò„b”event_timestamp‚Ê
-Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_sourceªvoice_offer_recommendation’úØµÏ¸”øü"úØµÏè¼÷„Š<
-
-voice_offer_recommendation
-úØµÏ€®¸şúØµÏ€®¸ş’Ü0
+ÀîÏ€Üà´ÀîÏ€Üà´2ÀîÏøïö´B$d75fc89b-6a55-42e5-9e5f-c67288b87037
 Ï
 agent_featuresvoice_offer_recommendation"feature_view*Ş
 ½
@@ -188,55 +237,6 @@ cart_value"
 total_coupons_assigned"
 total_coupons_redeemed"
 coupon_redemption_rate2€¼àß:Ğevent_timestamp‚¥
-¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_source’úØµÏğ½òü"úØµÏ€Üê„b
+¢{"name": "agent_features_source", "query": "\n        SELECT\n            agent_id,\n            snapshot_date,\n            snapshot_date AS event_timestamp,\n            age,\n            age_group,\n            gender,\n            income_bracket,\n            household_size,\n            has_children,\n            location_region,\n            price_sensitivity,\n            brand_loyalty,\n            impulsivity,\n            tech_savviness,\n            preferred_categories,\n            declared_weekly_budget,\n            shopping_frequency,\n            declared_avg_cart_value,\n            pref_day_weekday,\n            pref_day_saturday,\n            pref_day_sunday,\n            pref_time_morning,\n            pref_time_afternoon,\n            pref_time_evening,\n            coupon_affinity,\n            deal_seeking_behavior,\n            remaining_budget,\n            spend_this_week,\n            spend_this_month,\n            days_since_last_purchase,\n            total_orders_lifetime,\n            total_orders_this_week,\n            cart_value,\n            cart_item_count,\n            has_active_cart,\n            products_viewed_count,\n            sessions_count_today,\n            sessions_count_this_week,\n            categories_purchased_count,\n            categories_purchased_this_week,\n            diversity_ratio,\n            pref_day_match,\n            pref_time_match,\n            active_coupons_count,\n            coupons_redeemed_this_week,\n            remaining_budget_pct,\n            spend_this_week_pct,\n            coupon_views,\n            coupon_clicks,\n            coupon_redeems,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢agent_features_source’ÀîÏ ı¤¬"ÀîÏ€û¬´b
 agent_id’latest
-úØµÏ ¡ˆ…úØµÏ ¡ˆ…2úØµÏğíÇ…B$403cb970-58dc-4783-9891-5e64030db058
-¼
-product_featuresvoice_offer_recommendation"feature_view*É
-
-¨
-
-product_featuresvoice_offer_recommendationproduct"
-product_category"
-product_brand"	
-price"
-margin_percent"
-
-rating"
-review_count"
-in_stock"
-order_count"
-total_units_sold"
-unique_buyers_count"
-avg_selling_price"
-avg_discount_given"
-total_revenue"
-available_quantity"
-stores_available"
-revenue_per_unit"
-avg_quantity_per_buyer2€¼àß:÷event_timestamp‚Ê
-Ç{"name": "product_features_source", "query": "\n        SELECT\n            product_id,\n            '2020-01-01 00:00:00'::timestamp AS event_timestamp,\n            product_category,\n            product_brand,\n            price,\n            margin_percent,\n            rating,\n            review_count,\n            in_stock,\n            order_count,\n            total_units_sold,\n            unique_buyers_count,\n            avg_selling_price,\n            avg_discount_given,\n            total_revenue,\n            available_quantity,\n            stores_available,\n            revenue_per_unit,\n            avg_quantity_per_buyer\n        FROM dbt_vor.fct_product_features\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢product_features_source’úØµÏ¸”øü"úØµÏè¼÷„b
-
-product_id’latest
-úØµÏğŞÌ…úØµÏğŞÌ…2úØµÏ˜Ñè…B$015eaa85-69be-40c8-85c5-b5017b23e9aa
-È
-
-agent_product_interactionvoice_offer_recommendation"feature_view*Ì	
-«	
-agent_product_interactionvoice_offer_recommendationagentproduct"
-last_purchase_date"
-purchase_count"
-total_spent"
-avg_discount_received"
-total_units_bought"
-product_category"
-category_purchase_count"
-category_total_spent"
-total_coupons_assigned"
-total_coupons_redeemed"
-coupon_redemption_rate2€¼àß:¡event_timestamp‚ë
-è{"name": "agent_product_interaction_source", "query": "\n        SELECT\n            agent_id,\n            product_id,\n            last_purchase_date,\n            last_purchase_date AS event_timestamp,\n            purchase_count,\n            total_spent,\n            avg_discount_received,\n            total_units_bought,\n            product_category,\n            category_purchase_count,\n            category_total_spent,\n            total_coupons_assigned,\n            total_coupons_redeemed,\n            coupon_redemption_rate\n        FROM dbt_vor.fct_agent_product_interactions\n    ", "table": ""}ŠZfeast.infra.offline_stores.contrib.postgres_offline_store.postgres_source.PostgreSQLSource¢ agent_product_interaction_source’úØµÏØ¤ıü"úØµÏøœò„b
-agent_idb
-
-product_id’latest
-úØµÏÀ”ê…úØµÏÀ”ê…2úØµÏ°ş€†B$912b8bdc-ba8c-4e83-9eea-0645a7c61b9a
+ÀîÏÈü÷´ÀîÏÈü÷´2ÀîÏ¸å¸µB$82deefa4-f26f-4727-ab0a-867ee9de8f3c

@@ -15,9 +15,33 @@ stages:
     outs:
     - path: dbt/target/
       hash: md5
-      md5: c556f6ac512688671d92e7284f043217.dir
-      size: 1868244
+      md5: 0fbc72977823d29d092994d84d8e1238.dir
+      size: 1868222
       nfiles: 32
+  feast_apply:
+    cmd: cd feature_repo && feast apply
+    deps:
+    - path: configs/config.yaml
+      hash: md5
+      md5: 5a2e1b7505388949d932c6929220de23
+      size: 2565
+    - path: feature_repo/feature_definitions.py
+      hash: md5
+      md5: 91c5803971bf6e8fa6aa9e926edf7743
+      size: 9549
+    - path: feature_repo/feature_store.yaml
+      hash: md5
+      md5: 5a6744513a56867430d75e9b65d80590
+      size: 273
+    - path: src/data/feast_apply.py
+      hash: md5
+      md5: 69e2dc10706d5196c504535f549337ad
+      size: 981
+    outs:
+    - path: feature_repo/data/registry.db
+      hash: md5
+      md5: 9ce228650412970a0c8cd1806e8f46e8
+      size: 16937
   fetch_features:
     cmd: python -m src.data.fetch_features
     deps:
@@ -27,7 +51,7 @@ stages:
       size: 2565
     - path: feature_repo/data/registry.db
       hash: md5
-      md5: 93cb4c048d87c4929be7c21caed2486a
+      md5: 9ce228650412970a0c8cd1806e8f46e8
       size: 16937
     - path: feature_repo/feature_definitions.py
       hash: md5
@@ -96,29 +120,5 @@ stages:
     outs:
     - path: metrics/evaluation_report.txt
       hash: md5
-      md5: 5b2ffcce6e2bdb90444d5d6a04c32dae
+      md5: 3176f30b5e8d079217631ed67aaf09fe
       size: 176
-  feast_apply:
-    cmd: cd feature_repo && feast apply
-    deps:
-    - path: configs/config.yaml
-      hash: md5
-      md5: 5a2e1b7505388949d932c6929220de23
-      size: 2565
-    - path: feature_repo/feature_definitions.py
-      hash: md5
-      md5: 91c5803971bf6e8fa6aa9e926edf7743
-      size: 9549
-    - path: feature_repo/feature_store.yaml
-      hash: md5
-      md5: 5a6744513a56867430d75e9b65d80590
-      size: 273
-    - path: src/data/feast_apply.py
-      hash: md5
-      md5: 69e2dc10706d5196c504535f549337ad
-      size: 981
-    outs:
-    - path: feature_repo/data/registry.db
-      hash: md5
-      md5: 93cb4c048d87c4929be7c21caed2486a
-      size: 16937
