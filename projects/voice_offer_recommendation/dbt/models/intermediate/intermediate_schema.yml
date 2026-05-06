@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_agent_product_purchases
+    description: "Aggregated user-product purchase metrics: count, last date, spend, discount"
+    columns:
+      - name: agent_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+      - name: purchase_count
+        description: "Number of times this agent purchased this product"
+        tests:
+          - not_null
+
+  - name: int_agent_category_affinity
+    description: "Aggregated user-category purchase metrics showing category preferences"
+    columns:
+      - name: agent_id
+        tests:
+          - not_null
+      - name: product_category
+        tests:
+          - not_null
+      - name: category_purchase_count
+        description: "How many items in this category the agent purchased"
+
+  - name: int_product_sales_metrics
+    description: "Product-level popularity and availability metrics from order history + store inventory"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: total_units_sold
+        description: "Lifetime units sold"
+      - name: unique_buyers_count
+        description: "Number of distinct buyers"
+
+  - name: int_agent_coupon_behavior
+    description: "Per-agent coupon engagement: views, clicks, redeems, and redemption rate"
+    columns:
+      - name: agent_id
+        tests:
+          - unique
+          - not_null
+      - name: coupon_redemption_rate
+        description: "redeemed / assigned (0-1 scale)"
