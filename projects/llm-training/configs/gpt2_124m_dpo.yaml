@@ -15,9 +15,6 @@ training:
   beta: 0.3
   margin_loss: 0.5
 
-device:
-  type: mps  # M1 Pro compatible!
-
 logging:
   mlflow_tracking_uri: null
   log_interval: 5

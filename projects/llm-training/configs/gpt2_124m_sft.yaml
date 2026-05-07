@@ -20,10 +20,6 @@ training:
   beta2: 0.95
   grad_clip: 1.0
 
-device:
-  type: cuda
-  mixed_precision: true
-
 logging:
   mlflow_tracking_uri: null
   log_interval: 5
