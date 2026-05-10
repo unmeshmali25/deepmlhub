@@ -136,7 +136,7 @@ def main(config_path: str = "configs/gpt2_124m_pretrain.yaml") -> None:
     )
 
     logger = MLflowLogger(
-        experiment_name="llm-training-pretrain",
+        experiment_name="llm-retard-lab-pretrain",
         tracking_uri=config["logging"].get("mlflow_tracking_uri"),
     )
     logger.log_params({k: v for k, v in config.items()})

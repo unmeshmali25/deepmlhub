@@ -11,7 +11,7 @@ class CheckpointManager:
         self,
         save_dir: str,
         GCS_bucket: Optional[str] = None,
-        experiment_name: str = "llm-training",
+        experiment_name: str = "llm-retard-lab",
     ):
         self.save_dir = Path(save_dir)
         self.save_dir.mkdir(parents=True, exist_ok=True)
@@ -86,7 +86,7 @@ class CheckpointManager:
 class MLflowLogger:
     def __init__(
         self,
-        experiment_name: str = "llm-training",
+        experiment_name: str = "llm-retard-lab",
         tracking_uri: Optional[str] = None,
     ):
         mlflow.set_experiment(experiment_name)

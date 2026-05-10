@@ -1,7 +1,7 @@
 .PHONY: help install install-dev test lint format pretrain sft dpo eval clean
 
 help:
-	@echo "llm-training Makefile"
+	@echo "llm-retard-lab Makefile"
 	@echo ""
 	@echo "Available targets:"
 	@echo "  install     - Install dependencies"

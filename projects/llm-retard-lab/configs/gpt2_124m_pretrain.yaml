@@ -29,4 +29,4 @@ logging:
 
 checkpoint:
   save_dir: outputs/pretrain
-  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-training
+  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-retard-lab

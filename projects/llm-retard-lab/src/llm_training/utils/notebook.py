@@ -189,7 +189,7 @@ def clone_and_install(env: str, root: Path, repo_url: str = "https://github.com/
     Returns:
         Updated project root path after potential clone
     """
-    project_dir = root / "projects" / "llm-training"
+    project_dir = root / "projects" / "llm-retard-lab"
 
     # Already cloned?
     if project_dir.exists():
@@ -199,13 +199,13 @@ def clone_and_install(env: str, root: Path, repo_url: str = "https://github.com/
         # IPython magic works in notebook cells; here we simulate it
         print(f"[notebook] Cloning {repo_url} into {root}...")
         subprocess.run(["git", "clone", repo_url, str(root / "deepmlhub")], check=True)
-        project_dir = root / "deepmlhub" / "projects" / "llm-training"
+        project_dir = root / "deepmlhub" / "projects" / "llm-retard-lab"
         os.chdir(project_dir)
         subprocess.run([sys.executable, "-m", "pip", "install", "-e", ".", "-q"], check=True)
     elif env == "lambda":
         print(f"[notebook] Cloning {repo_url}...")
         subprocess.run(["git", "clone", repo_url, str(root / "deepmlhub")], check=True)
-        project_dir = root / "deepmlhub" / "projects" / "llm-training"
+        project_dir = root / "deepmlhub" / "projects" / "llm-retard-lab"
         os.chdir(project_dir)
         subprocess.run([sys.executable, "-m", "pip", "install", "-e", "."], check=True)
     else:
@@ -388,7 +388,7 @@ def setup_notebook(
         Hardware-patched config dict ready for training
     """
     print("=" * 60)
-    print("llm-training notebook bootstrap")
+    print("llm-retard-lab notebook bootstrap")
     print("=" * 60)
 
     env = detect_environment()

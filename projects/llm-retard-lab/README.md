@@ -1,4 +1,4 @@
-# llm-training
+# llm-retard-lab
 
 End-to-end LLM training pipeline following Karpathy's nanoGPT philosophy.
 
@@ -30,7 +30,7 @@ make eval
 ## Project Structure
 
 ```
-llm-training/
+llm-retard-lab/
 ├── src/llm_training/      # Shared library (pip installable)
 │   ├── models/gpt2/       # GPT-2 implementation
 │   ├── training/          # Training loops (pretrain, SFT, DPO)
@@ -69,4 +69,4 @@ from llm_training.training.dpo import DPOTrainer
 
 ## Checkpoints
 
-Saved to: `gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-training`
+Saved to: `gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-retard-lab`

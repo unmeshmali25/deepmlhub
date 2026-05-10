@@ -23,4 +23,4 @@ logging:
 
 checkpoint:
   save_dir: outputs/dpo
-  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-training
+  GCS_bucket: gs://deepmlhub-voiceoffers-dvc/checkpoints/llm-retard-lab

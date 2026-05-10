@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="llm-training",
+    name="llm-retard-lab",
     version="0.1.0",
     description="End-to-end LLM training pipeline following Karpathy's nanoGPT philosophy",
     packages=find_packages(where="src"),
