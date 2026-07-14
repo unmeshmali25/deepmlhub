@@ -19,7 +19,13 @@ projects/README.md
 # Ignore interview explanations
 MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
 
-# Ignore microprojects Python cache files (keep .ipynb notebooks!)
+# Ignore secrets and editor config
+.env
+.opencode/
+
+# Ignore all notebook checkpoints (not just microprojects)
+**/.ipynb_checkpoints/
+
+# Ignore Python cache
 projects/microprojects/**/*.pyc
-projects/microprojects/**/.ipynb_checkpoints/
 projects/microprojects/**/__pycache__/
