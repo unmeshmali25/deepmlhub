@@ -14,16 +14,20 @@ projects/README.md
 
 # macOS system files
 .DS_Store
-**/.DS_Store 
+**/.DS_Store
 
 # Ignore interview explanations
 MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
 
-# Ignore microprojects cache and notebook churn
+# Ignore secrets and editor config
+.env
+
+# Ignore all notebook checkpoints (not just microprojects)
+**/.ipynb_checkpoints/
+
+# Ignore Python cache
 projects/microprojects/**/*.pyc
-projects/microprojects/**/.ipynb_checkpoints/
 projects/microprojects/**/__pycache__/
-*.ipynb_checkpoints/
 
 # Jupyter notebooks - ignore volatile outputs, track only .py exports
 projects/microprojects/**/*.ipynb

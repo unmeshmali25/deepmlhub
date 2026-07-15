@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pt
+*.ckpt
+*.bin
+outputs/
+logs/
+.venv/
+.eggs/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+ruff_cache/
+*.swp
+*.swo
+.DS_Store
+
+# Course and experiment artifacts
+courses/**/data/*
+!courses/**/data/.gitkeep
+experiments/**/outputs/
+experiments/**/logs/
+experiments/**/checkpoints/
