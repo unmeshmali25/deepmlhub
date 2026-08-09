@@ -20,5 +20,7 @@ ruff_cache/
 courses/**/data/*
 !courses/**/data/.gitkeep
 experiments/**/outputs/
+!courses/**/data/*.py
+!courses/**/data/__init__.py
 experiments/**/logs/
 experiments/**/checkpoints/

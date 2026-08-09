@@ -3,20 +3,20 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
 
-from datasets import Dataset, load_dataset
-import datasets
+if TYPE_CHECKING:
+    from datasets import Dataset
 
 
 def to_message(example: dict[str, Any]) -> dict[str, list[dict[str, str]]]:
-    """Convert {prompt, response} -> {message: [user, assitant]} for TRL.
+    """Convert {prompt, response} -> {message: [user, assistant]} for TRL.
     Pure: no I/O, no globals, deterministic
     """
     return {
         "messages": [
             {"role": "user", "content": example["prompt"]},
-            {"role": "assitant", "content": example["response"]},
+            {"role": "assistant", "content": example["response"]},
         ]
     }
 
@@ -42,7 +42,7 @@ def parse_pred(text: str) -> dict[str, Optional[str]]:
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
     """
     Read a .jsonl file into a list of dicts. Raises FileNotFoundError if missing
-    Pure-ish: deteministic I/O, no globals, east to test with tmp_path
+    Pure-ish: deterministic I/O, no globals, easy to test with tmp_path
     """
     records: list[dict[str, Any]] = []
     with open(path, "r", encoding="utf-8") as f:
@@ -61,9 +61,9 @@ def to_sft_dataset(
     path: Path,
     val_frac: float = 0.1,
     seed: int = 42,
-) -> Tuple[Dataset, Dataset]:
+) -> Tuple["Dataset", "Dataset"]:
     """
-    Load jsonl, map to messages, split into train val hf datasets.
+    Load jsonl, map to messages, Split into train val hf datasets.
 
     Impure: depends on HF datasets library. Integration tests only.
     """
