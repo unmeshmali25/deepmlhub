@@ -2,7 +2,7 @@
 
 Course sandbox for deeplearning.ai's [Fine-Tuning and RL for LLMs](https://learn.deeplearning.ai/courses/fine-tuning-and-reinforcement-learning-for-llms-intro-to-post-training) course. Took the course scaffolding and applied it to my own domain — retail customer service — instead of stopping at the notebooks.
 
-## What We Built
+## What I Built
 
 End-to-end post-training artifact: synthetic data → LoRA SFT → graded eval comparing base vs. fine-tuned. 1/3 of a LinkedIn series; the eval chart is the anchor.
 
@@ -15,7 +15,7 @@ End-to-end post-training artifact: synthetic data → LoRA SFT → graded eval c
 ## Notebooks
 
 | Notebook | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | `notebooks/data_collection.ipynb` | Pydantic schemas for 5 stages (ColdStartCoTSFT, GeneralSFT, DPO, RewardModel, GRPO) + `validate_jsonl()` + OpenRouter synthetic generator |
 | `notebooks/sft_lora_qwen.ipynb` | Local SFT runner (LoRA) |
 | `notebooks/sft_lora_qwen_runpod.ipynb` | RunPod GPU run |
@@ -67,3 +67,4 @@ from llm_training.training.dpo import DPOTrainer
 cd ../..  # project root
 pip install -e .
 ```
+
