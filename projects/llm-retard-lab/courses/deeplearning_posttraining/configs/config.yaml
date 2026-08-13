@@ -1,0 +1,30 @@
+model:
+  name: Qwen/Qwen2.5-1.5B
+
+data:
+  path: data/01_cold_start_cot_sft/data.jsonl
+
+output:
+  directory: models/adapter_experiment
+
+peft:
+  method: lora
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+training:
+  num_train_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  max_length: 1024
+  seed: 42
