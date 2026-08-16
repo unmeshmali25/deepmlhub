@@ -31,3 +31,11 @@ projects/microprojects/**/__pycache__/
 
 # Jupyter notebooks - ignore volatile outputs, track only .py exports
 projects/microprojects/**/*.ipynb
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/adapter_qwen_cot_full.zip
+projects/llm-retard-lab/courses/deeplearning_posttraining/pagila-schema-v3.sql
+projects/llm-retard-lab/courses/deeplearning_posttraining/pagila-data-v3.sql
+projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/adapter_model.safetensors
+projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/adapter_config.json
+projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/chat_template.jinja
+projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer.json
+projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer_config.json
