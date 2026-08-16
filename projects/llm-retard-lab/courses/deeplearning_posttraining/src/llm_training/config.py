@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple
+import yaml
 
 
 @dataclass
@@ -52,3 +53,28 @@ class TrainConfig:
     # --- reproducibility + integrations ---
     seed: int = 42
     report_to: str = "none"
+
+
+def load_train_config(config_path: Path) -> TrainConfig:
+    """Load a training configuration from YAML."""
+
+    with config_path.open("r", encoding="utf-8") as file:
+        raw = yaml.safe_load(file)
+
+    project_root = config_path.parent.parent
+
+    return TrainConfig(
+        model_name=raw["model"]["name"],
+        data_path=project_root / raw["data"]["path"],
+        output_dir=project_root / raw["output"]["directory"],
+        lora_r=raw["peft"]["r"],
+        lora_alpha=raw["peft"]["alpha"],
+        lora_dropout=raw["peft"]["dropout"],
+        lora_target_modules=tuple(raw["peft"]["target_modules"]),
+        num_train_epochs=raw["training"]["num_train_epochs"],
+        per_device_train_batch_size=raw["training"]["batch_size"],
+        gradient_accumulation_steps=raw["training"]["gradient_accumulation_steps"],
+        learning_rate=raw["training"]["learning_rate"],
+        max_length=raw["training"]["max_length"],
+        seed=raw["training"]["seed"],
+    )
