@@ -110,3 +110,34 @@ def test_max_steps_overrides():
 def test_unknown_flag_exits():
     with pytest.raises(SystemExit):
         parse_args(["--data", "data.jsonl", "--bogus"])
+
+
+def test_config_file_is_used():
+    config_path = Path(__file__).parents[1] / "configs" / "config.yaml"
+
+    cfg = parse_args(["--config", str(config_path)])
+
+    assert cfg.model_name == "Qwen/Qwen2.5-1.5B"
+    assert cfg.lora_r == 16
+    assert cfg.learning_rate == 0.0002
+    assert cfg.bf16 is True
+    assert cfg.report_to == "none"
+
+
+def test_cli_overrides_config_value():
+    config_path = Path(__file__).parents[1] / "configs" / "config.yaml"
+
+    cfg = parse_args(
+        [
+            "--config",
+            str(config_path),
+            "--max-steps",
+            "2",
+            "--lr",
+            "0.0001",
+        ]
+    )
+
+    assert cfg.max_steps == 2
+    assert cfg.learning_rate == 0.0001
+    assert cfg.lora_r == 16

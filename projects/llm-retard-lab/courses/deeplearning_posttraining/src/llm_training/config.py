@@ -55,7 +55,7 @@ class TrainConfig:
     report_to: str = "none"
 
 
-def load_train_config(config_path: Path) -> TrainConfig:
+def load_train_config_deprecated(config_path: Path) -> TrainConfig:
     """Load a training configuration from YAML."""
 
     with config_path.open("r", encoding="utf-8") as file:
@@ -77,4 +77,47 @@ def load_train_config(config_path: Path) -> TrainConfig:
         learning_rate=raw["training"]["learning_rate"],
         max_length=raw["training"]["max_length"],
         seed=raw["training"]["seed"],
+    )
+
+
+def load_train_config(config_path: Path) -> TrainConfig:
+    """Load complete training configuration from YAML"""
+
+    with config_path.open("r", encoding="utf-8") as file:
+        raw = yaml.safe_load(file)
+
+    project_root = config_path.parent.parent
+
+    model = raw["model"]
+    data = raw["data"]
+    output = raw["output"]
+    peft = raw["peft"]
+    training = raw["training"]
+    dtype = raw.get("dtype", {})
+    integrations = raw.get("integrations", {})
+
+    return TrainConfig(
+        model_name=model["name"],
+        data_path=project_root / data["path"],
+        output_dir=project_root / output["directory"],
+        lora_r=peft["r"],
+        lora_alpha=peft["alpha"],
+        lora_dropout=peft["dropout"],
+        lora_target_modules=tuple(peft["target_modules"]),
+        num_train_epochs=training["num_train_epochs"],
+        per_device_train_batch_size=training["batch_size"],
+        gradient_accumulation_steps=training["gradient_accumulation_steps"],
+        learning_rate=training["learning_rate"],
+        max_length=training["max_length"],
+        warmup_ratio=training.get("warmup_ratio", 0.03),
+        lr_scheduler_type=training.get("lr_scheduler_type", "cosine"),
+        logging_steps=training.get("logging_steps", 10),
+        eval_steps=training.get("eval_steps", 50),
+        save_steps=training.get("save_steps", 200),
+        save_total_limit=training.get("save_total_limit", 2),
+        max_steps=training.get("max_steps"),
+        fp16=dtype.get("fp16", False),
+        bf16=dtype.get("bf16", True),
+        seed=training.get("seed", 42),
+        report_to=integrations.get("report_to", "none"),
     )

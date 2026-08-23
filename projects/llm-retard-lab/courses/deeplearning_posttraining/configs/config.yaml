@@ -27,4 +27,18 @@ training:
   gradient_accumulation_steps: 4
   learning_rate: 0.0002
   max_length: 1024
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  logging_steps: 10
+  eval_steps: 50
+  save_steps: 200
+  save_total_limit: 2
+  max_steps: null
   seed: 42
+
+dtype:
+  fp16: false
+  bf16: true
+
+integrations:
+  report_to: none

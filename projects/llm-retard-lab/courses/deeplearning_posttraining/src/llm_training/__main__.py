@@ -5,14 +5,14 @@ import sys
 from pathlib import Path
 
 
-from llm_training.config import TrainConfig
+from llm_training.config import TrainConfig, load_train_config
 from llm_training.training.sft_cot_lora import train
 
 
 log = logging.getLogger("llm_training")
 
 
-def parse_args(argv: list[str] | None = None) -> TrainConfig:
+def parse_args_deprecated(argv: list[str] | None = None) -> TrainConfig:
     """ """
     p = argparse.ArgumentParser(
         prog="llm_training", description="LoRA SFT - cold-start CoT on Qwen2.5"
@@ -92,6 +92,90 @@ def parse_args(argv: list[str] | None = None) -> TrainConfig:
         seed=args.seed,
         report_to=args.report_to,
     )
+
+
+def parse_args(argv: list[str] | None = None) -> TrainConfig:
+    """Parse CLI arguments into a TrainConfig."""
+
+    parser = argparse.ArgumentParser(
+        prog="llm_training",
+        description="LoRA SFT - cold-start CoT on Qwen2.5",
+    )
+
+    parser.add_argument(
+        "--config",
+        type=Path,
+        default=None,
+        help="YAML configuration file",
+    )
+
+    parser.add_argument("--model", default=None)
+    parser.add_argument("--data", type=Path, default=None)
+    parser.add_argument("--output", type=Path, default=None)
+
+    parser.add_argument("--lora-r", type=int, default=None)
+    parser.add_argument("--lora-alpha", type=int, default=None)
+    parser.add_argument("--lora-dropout", type=float, default=None)
+
+    parser.add_argument("--epochs", type=int, default=None)
+    parser.add_argument("--batch-size", type=int, default=None)
+    parser.add_argument("--grad-accum", type=int, default=None)
+    parser.add_argument("--lr", type=float, default=None)
+    parser.add_argument("--max-length", type=int, default=None)
+    parser.add_argument("--max-steps", type=int, default=None)
+    parser.add_argument("--eval-steps", type=int, default=None)
+    parser.add_argument("--save-steps", type=int, default=None)
+    parser.add_argument("--logging-steps", type=int, default=None)
+
+    parser.add_argument("--bf16", dest="bf16", action="store_true", default=None)
+    parser.add_argument("--no-bf16", dest="bf16", action="store_false")
+    parser.add_argument("--fp16", action="store_true", default=None)
+
+    parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--report-to", default=None)
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="DEBUG-level logging",
+    )
+
+    args = parser.parse_args(argv)
+
+    if args.config is not None:
+        cfg = load_train_config(args.config)
+    else:
+        if args.data is None:
+            parser.error("either --config or --data is required")
+        cfg = TrainConfig(data_path=args.data)
+
+    overrides = {
+        "model_name": args.model,
+        "data_path": args.data,
+        "output_dir": args.output,
+        "lora_r": args.lora_r,
+        "lora_alpha": args.lora_alpha,
+        "lora_dropout": args.lora_dropout,
+        "num_train_epochs": args.epochs,
+        "per_device_train_batch_size": args.batch_size,
+        "gradient_accumulation_steps": args.grad_accum,
+        "learning_rate": args.lr,
+        "max_length": args.max_length,
+        "max_steps": args.max_steps,
+        "eval_steps": args.eval_steps,
+        "save_steps": args.save_steps,
+        "logging_steps": args.logging_steps,
+        "bf16": args.bf16,
+        "fp16": args.fp16,
+        "seed": args.seed,
+        "report_to": args.report_to,
+    }
+
+    for field_name, value in overrides.items():
+        if value is not None:
+            setattr(cfg, field_name, value)
+
+    return cfg
 
 
 def main(argv: list[str] | None = None) -> int:
