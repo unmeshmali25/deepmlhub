@@ -39,3 +39,10 @@ projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke
 projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/chat_template.jinja
 projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer.json
 projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer_config.json
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/checkpoint-2
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/README.md
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/adapter_config.json
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/adapter_model.safetensors
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/chat_template.jinja
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/tokenizer.json
+projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/tokenizer_config.json
