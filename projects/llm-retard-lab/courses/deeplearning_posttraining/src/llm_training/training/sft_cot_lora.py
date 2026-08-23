@@ -7,9 +7,15 @@ def train(cfg: TrainConfig) -> None:
     # in the training venv (pod), NOT the test venv. Importing them here keeps
     # this module cheap to import, so the CLI tests can still parse args.
     from peft import LoraConfig
-    from transformers import AutoTokenizer
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
     from trl import SFTTrainer, SFTConfig
 
+    model = AutoModelForCausalLM.from_pretrained(
+        cfg.model_name,
+        device_map="cpu",
+        dtype=torch.float32,
+    )
     # Tokenizer
     tokenizer = AutoTokenizer.from_pretrained(cfg.model_name)
     if tokenizer.pad_token is None:
@@ -35,6 +41,7 @@ def train(cfg: TrainConfig) -> None:
         output_dir=str(cfg.output_dir),
         max_length=cfg.max_length,
         packing=False,
+        use_cpu=True,
         completion_only_loss=True,
         num_train_epochs=cfg.num_train_epochs,
         per_device_train_batch_size=cfg.per_device_train_batch_size,
@@ -58,7 +65,7 @@ def train(cfg: TrainConfig) -> None:
 
     # trainer
     trainer = SFTTrainer(
-        model=cfg.model_name,
+        model=model,
         processing_class=tokenizer,
         args=training_args,
         train_dataset=train_ds,
