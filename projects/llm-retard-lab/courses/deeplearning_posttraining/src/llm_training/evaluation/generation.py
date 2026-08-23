@@ -5,7 +5,7 @@ def generate_response(
     model,
     tokenizer,
     prompt: str,
-    max_new_tokens: int = 64,
+    max_new_tokens: int = 256,
 ) -> str:
     """Generate one response for a user prompt."""
     messages = [{"role": "user", "content": prompt}]
