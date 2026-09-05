@@ -1,0 +1,32 @@
+dataset:
+  name: "CIFAR10"
+  data_dir: "./data"
+  num_classes: 10
+  image_size: 32
+
+training:
+  batch_size: 128
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.0005
+
+model:
+  architecture: "SimpleCNN"  # SimpleCNN, ResNet18, ResNet50
+  pretrained: false
+  freeze_features: false
+
+augmentation:
+  random_crop: true
+  random_flip: true
+  random_rotation: false
+  color_jitter: false
+
+transfer_learning:
+  model: "resnet18"
+  freeze_backbone: true
+  finetune_epochs: 10
+
+dataloader:
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true

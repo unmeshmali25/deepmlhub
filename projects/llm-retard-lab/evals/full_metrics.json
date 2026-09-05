@@ -1,0 +1,6 @@
+{
+  "correct_window": 0.7,
+  "correct_refund": 0.3333333333333333,
+  "correct_method": 0.05,
+  "correct_days": 1.0
+}

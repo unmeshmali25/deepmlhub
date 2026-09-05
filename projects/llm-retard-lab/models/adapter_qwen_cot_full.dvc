@@ -1,0 +1,6 @@
+outs:
+- md5: 18fe48de3c6aa3af78399c8dd8f9c65d.dir
+  size: 85348191
+  nfiles: 7
+  hash: md5
+  path: adapter_qwen_cot_full

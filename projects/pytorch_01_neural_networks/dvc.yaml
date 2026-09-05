@@ -1,0 +1,23 @@
+stages:
+  custom_modules:
+    cmd: python src/custom_modules.py
+    params:
+      - custom_modules
+
+  layer_playground:
+    cmd: python src/layer_playground.py
+    params:
+      - layer_experiments
+
+  initialization_study:
+    cmd: python src/initialization_study.py
+    params:
+      - initialization
+    plots:
+      - variance_preservation.png:
+          cache: false
+
+  hooks_and_gradients:
+    cmd: python src/hooks_and_gradients.py
+    params:
+      - hooks

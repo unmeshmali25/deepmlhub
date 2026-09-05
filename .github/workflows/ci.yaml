@@ -7,38 +7,64 @@ on:
     branches: [main, master]
 
 jobs:
-  lint-and-test:
+  synth-tabular:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
           cache: 'pip'
-      
+
       - name: Install dependencies
         run: |
-          pip install ruff mypy pytest pytest-cov
+          pip install ruff mypy pytest pytest-cov dvc
           pip install -r projects/synth_tabular_classification/requirements.txt
-      
+
       - name: Lint with ruff
         run: |
-          ruff check projects/
-          ruff format --check projects/
-      
+          ruff check projects/synth_tabular_classification
+          ruff format --check projects/synth_tabular_classification
+
       - name: Type check with mypy
         run: |
           mypy projects/synth_tabular_classification/src --ignore-missing-imports
-      
+
       - name: Run tests
         run: |
           cd projects/synth_tabular_classification
           pytest tests/ -v --cov=src --cov-report=term-missing
-      
+
       - name: Check DVC pipeline validity
         run: |
           cd projects/synth_tabular_classification
           dvc dag
+
+  voice-offer-recommendation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install ruff pytest pytest-cov
+          pip install -r projects/voice_offer_recommendation/requirements.txt
+
+      - name: Lint with ruff
+        run: |
+          ruff check projects/voice_offer_recommendation
+
+      - name: Run tests
+        run: |
+          cd projects/voice_offer_recommendation
+          pytest tests/ -v

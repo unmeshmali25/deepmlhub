@@ -1,0 +1,44 @@
+custom_modules:
+  mlp:
+    input_dim: 784  # MNIST flattened
+    hidden_dims: [512, 256, 128]
+    output_dim: 10
+    dropout: 0.2
+
+  resnet_block:
+    in_channels: 64
+    out_channels: 64
+    stride: 1
+
+  attention:
+    embed_dim: 512
+    num_heads: 8
+
+layer_experiments:
+  conv:
+    in_channels: 3
+    out_channels: 64
+    kernel_size: 3
+    stride: 1
+    padding: 1
+
+  image_size: 224
+  batch_size: 32
+
+initialization:
+  methods:
+    - xavier_uniform
+    - xavier_normal
+    - kaiming_uniform
+    - kaiming_normal
+    - orthogonal
+
+  network:
+    input_size: 1000
+    hidden_size: 1000
+    num_layers: 10
+    batch_size: 128
+
+hooks:
+  gradient_clip_threshold: 1.0
+  monitor_interval: 10  # Log every N batches

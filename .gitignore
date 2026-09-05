@@ -1,48 +1,49 @@
-.agents/
-.opencode/
-.claude
-AGENTS.md
-GETTING_STARTED.md
-deepmlhub_setup_guide.md
-showYourWork.md
-deepenv/
-.venv/
+# ===== Secrets =====
+.env
+**/.env
 
-# Ignore all projects except synth_tabular_classification
-projects/pytorch_*/
-projects/README.md
-
-# macOS system files
+# ===== OS / tool caches =====
 .DS_Store
 **/.DS_Store
-
-# Ignore interview explanations
-MLOPS_INTERVIEW_QUESTIONS_EXPLAINED.md
-
-# Ignore secrets and editor config
-.env
-
-# Ignore all notebook checkpoints (not just microprojects)
+__pycache__/
+**/__pycache__/
+*.pyc
 **/.ipynb_checkpoints/
+.pytest_cache/
+**/.pytest_cache/
+.ruff_cache/
+**/.ruff_cache/
+.mypy_cache/
+.venv/
+deepenv/
 
-# Ignore Python cache
-projects/microprojects/**/*.pyc
-projects/microprojects/**/__pycache__/
+# ===== Agent / tooling state =====
+.agents/
+.opencode/
+.claude/
 
-# Jupyter notebooks - ignore volatile outputs, track only .py exports
+# ===== Reference material (not code) =====
+resources/
+*.epub
+
+# ===== Heavy binaries — never in git =====
+# Artifacts worth versioning get DVC pointers; everything else stays local.
+mlflow.db
+*.db-journal
+*.tfplan
+infrastructure/terraform/**/tfplan
+
+# ===== Personal working notes =====
+showYourWork.md
+**/SYW.md
+projects/pytorch_*/notebooks/*.png
+
+# Course training runs: local-only. Current adapter is versioned via DVC
+# (see projects/llm-retard-lab/models/adapter_qwen_cot_full.dvc)
+projects/llm-retard-lab/models/*
+!projects/llm-retard-lab/models/*.dvc
+projects/llm-retard-lab/notebooks/models/
+projects/llm-retard-lab/pagila-*.sql
+
+# ===== Microprojects: track .py exports, not notebooks =====
 projects/microprojects/**/*.ipynb
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/adapter_qwen_cot_full.zip
-projects/llm-retard-lab/courses/deeplearning_posttraining/pagila-schema-v3.sql
-projects/llm-retard-lab/courses/deeplearning_posttraining/pagila-data-v3.sql
-projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/adapter_model.safetensors
-projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/adapter_config.json
-projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/chat_template.jinja
-projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer.json
-projects/llm-retard-lab/courses/deeplearning_posttraining/notebooks/models/smoke_test/tokenizer_config.json
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/checkpoint-2
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/README.md
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/adapter_config.json
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/adapter_model.safetensors
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/chat_template.jinja
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/tokenizer.json
-projects/llm-retard-lab/courses/deeplearning_posttraining/models/smoke_test_explicit_cpu/tokenizer_config.json

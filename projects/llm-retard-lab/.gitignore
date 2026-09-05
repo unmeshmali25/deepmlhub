@@ -1,6 +1,5 @@
 __pycache__/
 *.py[cod]
-*$py.class
 *.pt
 *.ckpt
 *.bin
@@ -16,11 +15,12 @@ ruff_cache/
 *.swo
 .DS_Store
 
-# Course and experiment artifacts
-courses/**/data/*
-!courses/**/data/.gitkeep
-experiments/**/outputs/
-!courses/**/data/*.py
-!courses/**/data/__init__.py
-experiments/**/logs/
-experiments/**/checkpoints/
+# Stage-2..5 data dirs are empty placeholders until their phase starts
+data/0[2-5]_*/*
+
+# Smoke-test model outputs under notebooks stay local (README tracked)
+notebooks/models/*
+!notebooks/models/README.md
+!notebooks/models/*/
+notebooks/models/*/*
+!notebooks/models/*/README.md

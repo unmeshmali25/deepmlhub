@@ -1,0 +1,15 @@
+# PyTorch with CUDA support
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Data science and visualization
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+pyyaml>=6.0
+
+# Optional: For advanced visualizations
+tensorboard>=2.12.0

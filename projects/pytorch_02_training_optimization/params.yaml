@@ -1,0 +1,31 @@
+training:
+  batch_size: 128
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+
+model:
+  input_dim: 784
+  hidden_dim: 256
+  output_dim: 10
+  dropout: 0.2
+
+optimizers:
+  sgd:
+    lr: 0.01
+    momentum: 0.9
+  adam:
+    lr: 0.001
+    betas: [0.9, 0.999]
+  adamw:
+    lr: 0.001
+    weight_decay: 0.01
+
+lr_scheduler:
+  type: "cosine"  # step, cosine, exponential
+  warmup_epochs: 5
+  min_lr: 0.00001
+
+amp:
+  enabled: true
+  dtype: "float16"  # float16 or bfloat16
