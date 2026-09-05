@@ -12,7 +12,7 @@ scikit-learn>=1.5.0
 
 # MLOps
 mlflow>=2.10.0
-protobuf>=3.12,<5
+protobuf>=3.12,<7
 dvc[gs]>=3.30.0
 
 # Feast (with PostgreSQL support)
