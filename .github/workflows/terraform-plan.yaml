@@ -1,0 +1,84 @@
+name: Terraform Plan
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'infrastructure/terraform/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: terraform-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TF_IN_AUTOMATION: "true"
+  TF_INPUT: "false"
+  TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+  TF_VAR_region: ${{ secrets.GCP_REGION }}
+  TF_VAR_mlflow_image: ${{ vars.MLFLOW_IMAGE }}
+  TF_VAR_authorized_ip: ${{ vars.AUTHORIZED_IP }}
+  TF_VAR_deployer_service_account_email: ${{ vars.DEPLOYER_SA_EMAIL }}
+  TF_VAR_mlflow_db_password: ${{ secrets.MLFLOW_DB_PASSWORD }}
+
+jobs:
+  plan:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infrastructure/terraform/environments/dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.4"
+
+      - name: Check formatting
+        working-directory: infrastructure/terraform
+        run: terraform fmt -check -recursive
+
+      - name: Init
+        run: terraform init
+
+      - name: Validate
+        run: terraform validate
+
+      - name: Plan
+        id: plan
+        continue-on-error: true
+        run: terraform plan -no-color | tee plan.txt
+
+      - name: Comment plan on pull request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'infrastructure/terraform/environments/dev/plan.txt';
+            let plan = 'plan output not found';
+            try { plan = fs.readFileSync(path, 'utf8'); } catch (e) {}
+            const limit = 60000;
+            const truncated = plan.length > limit
+              ? plan.slice(0, limit) + '\n\n... (truncated)'
+              : plan;
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `### Terraform Plan\n\n\`\`\`\n${truncated}\n\`\`\``,
+            });
+
+      - name: Fail if plan failed
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
