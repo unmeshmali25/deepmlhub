@@ -6,7 +6,6 @@ swapped for collaborative filtering or neural collaborative filtering later.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
 
 import numpy as np
 import pandas as pd
@@ -29,11 +28,10 @@ class BaseRecommender(ABC):
         Returns:
             self for method chaining.
         """
-        pass
 
     @abstractmethod
     def predict(
-        self, agent_id: int, product_ids: Optional[List[int]] = None
+        self, agent_id: int, product_ids: list[int] | None = None
     ) -> pd.DataFrame:
         """Predict scores for a single agent and a list of products.
 
@@ -44,9 +42,8 @@ class BaseRecommender(ABC):
         Returns:
             DataFrame with columns [product_id, score] sorted by score descending.
         """
-        pass
 
-    def recommend(self, agent_id: int, top_k: int = 10) -> List[int]:
+    def recommend(self, agent_id: int, top_k: int = 10) -> list[int]:
         """Return top-k product IDs for the given agent.
 
         Args:
@@ -83,8 +80,8 @@ class SimpleRuleRecommender(BaseRecommender):
         self.discount_weight = discount_weight
         self.popularity_weight = popularity_weight
         self.recency_weight = recency_weight
-        self.product_catalog: Optional[pd.DataFrame] = None
-        self.agent_interactions: Optional[pd.DataFrame] = None
+        self.product_catalog: pd.DataFrame | None = None
+        self.agent_interactions: pd.DataFrame | None = None
 
     def fit(self, df: pd.DataFrame) -> "SimpleRuleRecommender":
         """Build product catalog and agent interaction lookup from training data."""
@@ -111,7 +108,7 @@ class SimpleRuleRecommender(BaseRecommender):
         return self
 
     def predict(
-        self, agent_id: int, product_ids: Optional[List[int]] = None
+        self, agent_id: int, product_ids: list[int] | None = None
     ) -> pd.DataFrame:
         """Score all products for the given agent."""
         if self.product_catalog is None:
@@ -193,7 +190,7 @@ class CollaborativeFilteringRecommender(BaseRecommender):
         )
 
     def predict(
-        self, agent_id: int, product_ids: Optional[List[int]] = None
+        self, agent_id: int, product_ids: list[int] | None = None
     ) -> pd.DataFrame:
         raise NotImplementedError("Not implemented yet.")
 
@@ -207,7 +204,7 @@ class NeuralCollaborativeFilteringRecommender(BaseRecommender):
     def __init__(
         self,
         embedding_dim: int = 128,
-        hidden_layers: Optional[List[int]] = None,
+        hidden_layers: list[int] | None = None,
         dropout: float = 0.2,
         learning_rate: float = 0.001,
         epochs: int = 10,
@@ -227,7 +224,7 @@ class NeuralCollaborativeFilteringRecommender(BaseRecommender):
         )
 
     def predict(
-        self, agent_id: int, product_ids: Optional[List[int]] = None
+        self, agent_id: int, product_ids: list[int] | None = None
     ) -> pd.DataFrame:
         raise NotImplementedError("Not implemented yet.")
 

@@ -1,4 +1,5 @@
 import os
+
 from supabase import create_client
 
 # Print what's actually in environment
@@ -84,7 +85,7 @@ if supabase_url and supabase_key:
         print(f"   Result count: {result.count if hasattr(result, 'count') else 'N/A'}")
         print(f"   Data length: {len(result.data)}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 -- debug script reports any connection failure
         print(f"❌ Error: {e}")
 else:
     print("❌ Missing credentials - cannot connect")

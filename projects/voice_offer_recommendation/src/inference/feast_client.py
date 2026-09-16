@@ -47,7 +47,7 @@ def get_online_features(agent_id: int) -> dict:
         ).to_dict()
 
         return features
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 -- any Feast failure falls back to empty features
         # Fallback: return empty features if Feast is not fully configured
         print(f"Feast online feature fetch failed: {e}")
         return {"agent_id": agent_id, "status": "fallback_empty"}

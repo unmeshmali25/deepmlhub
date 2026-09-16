@@ -1,10 +1,11 @@
 """Generate synthetic classification data."""
 
+from pathlib import Path
 from typing import cast
-import yaml
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
+import yaml
 from sklearn.datasets import make_classification
 
 

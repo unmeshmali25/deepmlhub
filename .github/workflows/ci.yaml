@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ruff mypy pytest pytest-cov dvc
+          pip install "ruff==0.16.8" mypy pytest pytest-cov dvc
           pip install -r projects/synth_tabular_classification/requirements.txt
 
       - name: Lint with ruff
@@ -57,7 +57,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ruff pytest pytest-cov
+          pip install "ruff==0.16.8" pytest pytest-cov
           pip install -r projects/voice_offer_recommendation/requirements.txt
 
       - name: Lint with ruff

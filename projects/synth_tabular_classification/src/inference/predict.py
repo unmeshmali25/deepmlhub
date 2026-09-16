@@ -1,11 +1,11 @@
 """Make predictions with trained model."""
 
-import yaml
-import pandas as pd
-import joblib
 from pathlib import Path
-from typing import Union
+
+import joblib
 import numpy as np
+import pandas as pd
+import yaml
 
 
 def load_config() -> dict:
@@ -28,7 +28,7 @@ def load_model():
     return joblib.load(model_path)
 
 
-def predict(features: Union[list, np.ndarray]) -> tuple[list[int], list[list[float]]]:
+def predict(features: list | np.ndarray) -> tuple[list[int], list[list[float]]]:
     """
     Make predictions for given features.
 

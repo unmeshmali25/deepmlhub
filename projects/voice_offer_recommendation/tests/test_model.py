@@ -3,7 +3,6 @@
 import numpy as np
 import pandas as pd
 import pytest
-
 from src.model.recommendation_algorithm import (
     CollaborativeFilteringRecommender,
     NeuralCollaborativeFilteringRecommender,

@@ -2,7 +2,6 @@
 
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import List, Optional
 
 import joblib
 import yaml
@@ -58,13 +57,13 @@ app = FastAPI(
 
 class RecommendRequest(BaseModel):
     agent_id: int
-    top_k: Optional[int] = 10
-    product_ids: Optional[List[int]] = None
+    top_k: int | None = 10
+    product_ids: list[int] | None = None
 
 
 class RecommendResponse(BaseModel):
     agent_id: int
-    recommendations: List[dict]
+    recommendations: list[dict]
 
 
 class HealthResponse(BaseModel):
@@ -105,7 +104,7 @@ def recommend(request: RecommendRequest):
             agent_id=request.agent_id,
             recommendations=recommendations,
         )
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 -- API boundary converts any failure to HTTP 500
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -115,7 +114,7 @@ def get_features(agent_id: int):
     try:
         features = get_online_features(agent_id)
         return {"agent_id": agent_id, "features": features}
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 -- API boundary converts any failure to HTTP 500
         raise HTTPException(status_code=500, detail=str(e))
 
 
