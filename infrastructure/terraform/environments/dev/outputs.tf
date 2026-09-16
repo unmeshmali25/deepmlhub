@@ -115,3 +115,7 @@ output "infrastructure_summary" {
    4. Configure kubectl: gcloud container clusters get-credentials ${module.gke.cluster_name} --region ${var.region}
 EOT
 }
+
+output "llm_posttraining_dvc_bucket_url" {
+  value = "gs://${google_storage_bucket.llm_posttraining_dvc.name}"
+}

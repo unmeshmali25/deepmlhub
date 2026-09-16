@@ -99,3 +99,16 @@ module "gke" {
   network_id           = module.vpc.network_id
   subnetwork_id        = module.vpc.subnetwork_id
 }
+
+# Dedicated DVC bucket for the post-training project (isolated from shared VOR bucket)
+resource "google_storage_bucket" "llm_posttraining_dvc" {
+  name                        = "deepmlhub-llm-posttraining-dvc"
+  location                    = var.region
+  uniform_bucket_level_access = true
+
+  versioning {
+    enabled = true
+  }
+
+  labels = local.common_labels
+}
