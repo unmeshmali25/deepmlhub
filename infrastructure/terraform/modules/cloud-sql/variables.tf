@@ -71,7 +71,7 @@ variable "enable_backups" {
 variable "deletion_protection" {
   description = "Enable deletion protection"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "labels" {

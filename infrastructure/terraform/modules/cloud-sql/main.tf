@@ -33,6 +33,10 @@ resource "google_sql_database_instance" "mlflow" {
   }
 
   deletion_protection = var.deletion_protection
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Create mlflow database
@@ -40,6 +44,10 @@ resource "google_sql_database" "mlflow" {
   name     = var.database_name
   instance = google_sql_database_instance.mlflow.name
   project  = var.project_id
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Create mlflow user

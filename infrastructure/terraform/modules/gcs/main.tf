@@ -21,6 +21,10 @@ resource "google_storage_bucket" "dvc_storage" {
   labels = merge(var.labels, {
     purpose = "dvc-storage"
   })
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "google_storage_bucket" "mlflow_artifacts" {
@@ -44,4 +48,8 @@ resource "google_storage_bucket" "mlflow_artifacts" {
   labels = merge(var.labels, {
     purpose = "mlflow-artifacts"
   })
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

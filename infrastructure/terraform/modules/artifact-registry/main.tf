@@ -9,4 +9,8 @@ resource "google_artifact_registry_repository" "docker_repo" {
   labels = merge(var.labels, {
     purpose = "ml-docker-images"
   })
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
