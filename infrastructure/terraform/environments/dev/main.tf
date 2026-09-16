@@ -111,4 +111,8 @@ resource "google_storage_bucket" "llm_posttraining_dvc" {
   }
 
   labels = local.common_labels
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
