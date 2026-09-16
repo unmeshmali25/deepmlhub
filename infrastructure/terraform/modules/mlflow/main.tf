@@ -73,6 +73,17 @@ resource "google_cloud_run_service" "mlflow" {
     }
   }
 
+  # CI (build-push.yaml) builds and deploys the MLflow image to Cloud Run with a
+  # SHA tag, so Terraform must not fight it. The image and the gcloud-added
+  # revision annotations/labels are owned by the deploy pipeline, not this config.
+  lifecycle {
+    ignore_changes = [
+      template[0].spec[0].containers[0].image,
+      template[0].metadata[0].annotations,
+      template[0].metadata[0].labels,
+    ]
+  }
+
   depends_on = [
     google_storage_bucket_iam_member.mlflow_gcs_access,
     google_project_iam_member.mlflow_cloudsql_access
