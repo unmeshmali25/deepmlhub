@@ -6,7 +6,6 @@
 
 # Sensitive Configuration Files (user-specific)
 terraform.tfvars
-backend.tf
 
 # Crash logs
 crash.log
