@@ -1,14 +1,12 @@
 """FastAPI inference server for model predictions."""
 
-import yaml
-import joblib
-from pathlib import Path
-from typing import List
 from contextlib import asynccontextmanager
+from pathlib import Path
 
+import joblib
+import yaml
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-
 
 # Global model and config
 model = None
@@ -54,7 +52,7 @@ app = FastAPI(
 class PredictionRequest(BaseModel):
     """Request body for predictions."""
 
-    features: List[List[float]] = Field(
+    features: list[list[float]] = Field(
         ...,
         description="List of feature vectors",
         examples=[[[0.1, -0.2, 0.3, 0.4, -0.5, 0.6, -0.7, 0.8, -0.9, 1.0]]],
@@ -64,8 +62,8 @@ class PredictionRequest(BaseModel):
 class PredictionResponse(BaseModel):
     """Response body for predictions."""
 
-    predictions: List[int] = Field(..., description="Predicted class labels")
-    probabilities: List[List[float]] = Field(..., description="Class probabilities")
+    predictions: list[int] = Field(..., description="Predicted class labels")
+    probabilities: list[list[float]] = Field(..., description="Class probabilities")
 
 
 class HealthResponse(BaseModel):

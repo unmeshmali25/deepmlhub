@@ -1,21 +1,21 @@
 """Evaluate model on test data with MLflow tracking."""
 
 import json
-import yaml
 import os
-import pandas as pd
-import joblib
 from pathlib import Path
+
+import joblib
+import mlflow
+import pandas as pd
+import yaml
 from sklearn.metrics import (
     accuracy_score,
+    classification_report,
+    confusion_matrix,
     f1_score,
     precision_score,
     recall_score,
-    classification_report,
-    confusion_matrix,
 )
-
-import mlflow
 
 
 def load_config() -> dict:

@@ -1,16 +1,16 @@
 """Train a classification model with MLflow tracking."""
 
 import json
-import yaml
 import os
-import pandas as pd
-import joblib
 from pathlib import Path
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
+import joblib
 import mlflow
 import mlflow.sklearn
+import pandas as pd
+import yaml
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 
 def load_config() -> dict:

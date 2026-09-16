@@ -4,13 +4,12 @@ import json
 import os
 from pathlib import Path
 
+import joblib
 import mlflow
 import numpy as np
 import pandas as pd
 import yaml
 from sklearn.model_selection import train_test_split
-
-import joblib
 
 
 def load_config() -> dict:
@@ -62,7 +61,7 @@ def evaluate_model() -> dict:
 
     # Simple split by agents (20% holdout agents)
     agent_ids = df["agent_id"].unique()
-    train_agents, test_agents = train_test_split(
+    _train_agents, test_agents = train_test_split(
         agent_ids, test_size=config["data"]["test_size"], random_state=42
     )
 

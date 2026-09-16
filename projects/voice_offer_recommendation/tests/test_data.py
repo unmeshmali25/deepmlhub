@@ -1,7 +1,6 @@
 """Tests for data fetching and feature engineering."""
 
 import pytest
-
 from src.data.fetch_features import load_config
 
 

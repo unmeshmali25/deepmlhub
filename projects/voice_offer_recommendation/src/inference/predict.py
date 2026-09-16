@@ -1,7 +1,5 @@
 """Prediction logic for the recommendation inference server."""
 
-from typing import List, Optional
-
 
 from src.inference.feast_client import get_online_features
 
@@ -17,8 +15,8 @@ class RecommendationPredictor:
         self.model = model
 
     def predict(
-        self, agent_id: int, top_k: int = 10, product_ids: Optional[List[int]] = None
-    ) -> List[dict]:
+        self, agent_id: int, top_k: int = 10, product_ids: list[int] | None = None
+    ) -> list[dict]:
         """Generate recommendations for an agent.
 
         Args:
