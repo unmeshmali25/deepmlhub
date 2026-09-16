@@ -1,0 +1,27 @@
+stages:
+  train:
+    cmd: PYTHONPATH=src python -m llm_training --config configs/config_smoke.yaml
+    deps:
+      - src/llm_training
+      - data/01_cold_start_cot_sft/data.jsonl
+      - configs/config_smoke.yaml
+    outs:
+      - models/smoke_adapter
+
+  evaluate:
+    cmd: PYTHONPATH=src python -m llm_training.evaluation.evaluate --model Qwen/Qwen2.5-1.5B --adapter models/smoke_adapter --eval-data data/01_cold_start_cot_sft/eval.jsonl --limit 3 --output evals/smoke_predictions.jsonl
+    deps:
+      - src/llm_training/evaluation
+      - data/01_cold_start_cot_sft/eval.jsonl
+      - models/smoke_adapter
+    outs:
+      - evals/smoke_predictions.jsonl
+
+  score:
+    cmd: PYTHONPATH=src python -m llm_training.evaluation.score --predictions evals/smoke_predictions.jsonl --output metrics/smoke_metrics.json
+    deps:
+      - src/llm_training/evaluation
+      - evals/smoke_predictions.jsonl
+    metrics:
+      - metrics/smoke_metrics.json:
+          cache: false

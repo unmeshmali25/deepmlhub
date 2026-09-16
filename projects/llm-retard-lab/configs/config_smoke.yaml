@@ -1,0 +1,39 @@
+model:
+  name: Qwen/Qwen2.5-1.5B
+
+data:
+  path: data/01_cold_start_cot_sft/data.jsonl
+
+output:
+  directory: models/smoke_adapter
+
+peft:
+  method: lora
+  r: 4
+  alpha: 8
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - v_proj
+
+training:
+  num_train_epochs: 1
+  batch_size: 1
+  gradient_accumulation_steps: 1
+  learning_rate: 0.0002
+  max_length: 128
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  logging_steps: 1
+  eval_steps: 1
+  save_steps: 2
+  save_total_limit: 1
+  max_steps: 2
+  seed: 42
+
+dtype:
+  fp16: false
+  bf16: false
+
+integrations:
+  report_to: none
