@@ -1,0 +1,68 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: PYTHONPATH=src python -m llm_training --config 
+      configs/config_smoke.yaml
+    deps:
+    - path: configs/config_smoke.yaml
+      hash: md5
+      md5: 08efd06b9a15947addd9277176463de0
+      size: 570
+    - path: data/01_cold_start_cot_sft/data.jsonl
+      hash: md5
+      md5: 0fb8cd9a3d4de63914ded3b89ea8be4c
+      size: 961414
+    - path: src/llm_training
+      hash: md5
+      md5: 5b5528e2c8f5f4aabd51bd88e972b959.dir
+      size: 22158
+      nfiles: 13
+    outs:
+    - path: models/smoke_adapter
+      hash: md5
+      md5: 70d05f4d1dd32df7c501e38e1c873154.dir
+      size: 40633630
+      nfiles: 26
+  evaluate:
+    cmd: PYTHONPATH=src python -m llm_training.evaluation.evaluate --model 
+      Qwen/Qwen2.5-1.5B --adapter models/smoke_adapter --eval-data 
+      data/01_cold_start_cot_sft/eval.jsonl --limit 3 --output 
+      evals/smoke_predictions.jsonl
+    deps:
+    - path: data/01_cold_start_cot_sft/eval.jsonl
+      hash: md5
+      md5: 9fcee3e7568a05a4f3012b160fe282d4
+      size: 9115
+    - path: models/smoke_adapter
+      hash: md5
+      md5: 70d05f4d1dd32df7c501e38e1c873154.dir
+      size: 40633630
+      nfiles: 26
+    - path: src/llm_training/evaluation
+      hash: md5
+      md5: 4b48f6b5db4e1a3d9167d356f5e54f9d.dir
+      size: 6535
+      nfiles: 6
+    outs:
+    - path: evals/smoke_predictions.jsonl
+      hash: md5
+      md5: 1c2dbc02021ebaf2c8536f252c419d0e
+      size: 2822
+  score:
+    cmd: PYTHONPATH=src python -m llm_training.evaluation.score --predictions 
+      evals/smoke_predictions.jsonl --output metrics/smoke_metrics.json
+    deps:
+    - path: evals/smoke_predictions.jsonl
+      hash: md5
+      md5: 1c2dbc02021ebaf2c8536f252c419d0e
+      size: 2822
+    - path: src/llm_training/evaluation
+      hash: md5
+      md5: 4b48f6b5db4e1a3d9167d356f5e54f9d.dir
+      size: 6535
+      nfiles: 6
+    outs:
+    - path: metrics/smoke_metrics.json
+      hash: md5
+      md5: 36d0d38a6423d2865c0fb77b986af2f6
+      size: 145

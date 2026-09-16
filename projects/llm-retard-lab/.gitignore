@@ -24,3 +24,7 @@ notebooks/models/*
 !notebooks/models/*/
 notebooks/models/*/*
 !notebooks/models/*/README.md
+
+# DVC stage outs (DVC-tracked via dvc.lock, never git-tracked)
+models/smoke_adapter/
+evals/smoke_predictions.jsonl
