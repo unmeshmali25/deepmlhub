@@ -1,0 +1,46 @@
+name: LLM Smoke Pipeline
+
+on:
+  push:
+    paths:
+      - "projects/llm-retard-lab/data/**"
+      - "projects/llm-retard-lab/dvc.yaml"
+      - "projects/llm-retard-lab/dvc.lock"
+      - "projects/llm-retard-lab/configs/**"
+      - "projects/llm-retard-lab/src/**"
+      - ".github/workflows/dvc-smoke.yaml"
+  pull_request:
+    paths:
+      - "projects/llm-retard-lab/data/**"
+      - "projects/llm-retard-lab/dvc.yaml"
+      - "projects/llm-retard-lab/dvc.lock"
+      - "projects/llm-retard-lab/configs/**"
+      - "projects/llm-retard-lab/src/**"
+      - ".github/workflows/dvc-smoke.yaml"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/llm-retard-lab
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps (pinned — transformers 5 breaks trl)
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "transformers==4.57.1" "trl==1.3.0" "peft==0.17.1" datasets accelerate dvc
+
+      - name: Repro smoke pipeline
+        run: |
+          mkdir -p metrics evals models
+          PYTHONPATH=src dvc repro
+          dvc metrics show
+          dvc status
