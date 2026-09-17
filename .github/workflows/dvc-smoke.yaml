@@ -1,26 +1,33 @@
-name: LLM Smoke Pipeline
+name: LLM CI
 
+# Byte-free by design: CI never runs `dvc pull` / `dvc repro` / `dvc push`.
+# Data lives in GCS and is pulled/updated by humans on their own machines.
+# CI only validates pointers + code, so it stays fast and costs no egress.
 on:
   push:
     paths:
-      - "projects/llm-retard-lab/data/**"
+      - "projects/llm-retard-lab/**/*.dvc"
       - "projects/llm-retard-lab/dvc.yaml"
       - "projects/llm-retard-lab/dvc.lock"
       - "projects/llm-retard-lab/configs/**"
       - "projects/llm-retard-lab/src/**"
+      - "projects/llm-retard-lab/tests/**"
+      - "projects/llm-retard-lab/pyproject.toml"
       - ".github/workflows/dvc-smoke.yaml"
   pull_request:
     paths:
-      - "projects/llm-retard-lab/data/**"
+      - "projects/llm-retard-lab/**/*.dvc"
       - "projects/llm-retard-lab/dvc.yaml"
       - "projects/llm-retard-lab/dvc.lock"
       - "projects/llm-retard-lab/configs/**"
       - "projects/llm-retard-lab/src/**"
+      - "projects/llm-retard-lab/tests/**"
+      - "projects/llm-retard-lab/pyproject.toml"
       - ".github/workflows/dvc-smoke.yaml"
   workflow_dispatch:
 
 jobs:
-  smoke:
+  checks:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,22 +39,19 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - name: Install deps (pinned — transformers 5 breaks trl)
-        run: |
-          pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install "transformers==4.57.1" "trl==1.3.0" "peft==0.17.1" datasets accelerate "dvc[gs]"
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Pull data from DVC remote
+      - name: Install check deps (no GCS plugin, no torch)
+        run: pip install "dvc==3.66.1" pytest pyyaml "ruff==0.16.8"
+
+      - name: Validate DVC graph (offline, no data needed)
         run: |
-          dvc pull --verbose
-          ls -lh data/01_cold_start_cot_sft/
-      - name: Repro smoke pipeline
+          dvc dag
+          dvc stage list
+
+      - name: Lint
         run: |
-          mkdir -p metrics evals models
-          PYTHONPATH=src dvc repro
-          dvc metrics show
-          dvc status
+          ruff check src tests
+          ruff format --check src tests
+
+      - name: Tests (offline — no data, no GCP)
+        run: PYTHONPATH=src pytest tests/ -v
