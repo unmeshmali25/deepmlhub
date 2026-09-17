@@ -1,19 +1,21 @@
 from __future__ import annotations
+
 import argparse
 import logging
 import sys
 from pathlib import Path
 
-
 from llm_training.config import TrainConfig, load_train_config
 from llm_training.training.sft_cot_lora import train
-
 
 log = logging.getLogger("llm_training")
 
 
 def parse_args_deprecated(argv: list[str] | None = None) -> TrainConfig:
-    """ """
+    """Parse legacy CLI args into a TrainConfig.
+
+    Deprecated: prefer ``--config <yaml>`` handled in ``main``.
+    """
     p = argparse.ArgumentParser(
         prog="llm_training", description="LoRA SFT - cold-start CoT on Qwen2.5"
     )

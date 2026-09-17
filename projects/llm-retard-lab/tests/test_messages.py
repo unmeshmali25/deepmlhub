@@ -1,9 +1,6 @@
-import re
-from llm_training.data.messages import to_message
-from llm_training.data.messages import parse_pred
-import json
 import pytest
-from llm_training.data.messages import load_jsonl
+
+from llm_training.data.messages import load_jsonl, parse_pred, to_message
 
 
 def test_to_message_basic():

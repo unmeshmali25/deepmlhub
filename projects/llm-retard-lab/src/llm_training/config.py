@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Tuple
+
 import yaml
 
 
@@ -21,7 +21,7 @@ class TrainConfig:
     lora_alpha: int = 32
     lora_dropout: float = 0.05
     # Tuple (not list) so the default is hashable — safe as a dataclass default.
-    lora_target_modules: Tuple[str, ...] = (
+    lora_target_modules: tuple[str, ...] = (
         "q_proj",
         "k_proj",
         "v_proj",
@@ -44,7 +44,7 @@ class TrainConfig:
     save_steps: int = 200
     save_total_limit: int = 2
     # None = use epochs; set to int (e.g. 2) for fast integration tests.
-    max_steps: Optional[int] = None
+    max_steps: int | None = None
 
     # --- dtype ---
     fp16: bool = False

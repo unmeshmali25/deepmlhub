@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from datasets import Dataset
@@ -21,7 +21,7 @@ def to_message(example: dict[str, Any]) -> dict[str, list[dict[str, str]]]:
     }
 
 
-def parse_pred(text: str) -> dict[str, Optional[str]]:
+def parse_pred(text: str) -> dict[str, str | None]:
     """
     Slit a model generation into {thinking, reply}.
     Input format: "<thinking> ... </thinking>\\n\\n<reply text>"
@@ -61,7 +61,7 @@ def to_sft_dataset(
     path: Path,
     val_frac: float = 0.1,
     seed: int = 42,
-) -> Tuple["Dataset", "Dataset"]:
+) -> tuple[Dataset, Dataset]:
     """
     Load jsonl, map to messages, Split into train val hf datasets.
 
