@@ -14,14 +14,14 @@ stages:
       size: 961414
     - path: src/llm_training
       hash: md5
-      md5: 5b5528e2c8f5f4aabd51bd88e972b959.dir
-      size: 22158
+      md5: 44ef4a6c993eb5abb05c9d23cb4ce513.dir
+      size: 22200
       nfiles: 13
     outs:
     - path: models/smoke_adapter
       hash: md5
-      md5: 70d05f4d1dd32df7c501e38e1c873154.dir
-      size: 40633630
+      md5: f6c329c696d4abb0311ac85ba814e1ed.dir
+      size: 40633629
       nfiles: 26
   evaluate:
     cmd: PYTHONPATH=src python -m llm_training.evaluation.evaluate --model 
@@ -35,8 +35,8 @@ stages:
       size: 9115
     - path: models/smoke_adapter
       hash: md5
-      md5: 70d05f4d1dd32df7c501e38e1c873154.dir
-      size: 40633630
+      md5: f6c329c696d4abb0311ac85ba814e1ed.dir
+      size: 40633629
       nfiles: 26
     - path: src/llm_training/evaluation
       hash: md5
