@@ -1,6 +1,8 @@
-from llm_training.__main__ import TrainConfig, parse_args
-import pytest
 from pathlib import Path
+
+import pytest
+
+from llm_training.__main__ import parse_args
 
 
 def test_minimal_argv_applies_default():

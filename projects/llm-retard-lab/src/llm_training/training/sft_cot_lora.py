@@ -6,10 +6,10 @@ def train(cfg: TrainConfig) -> None:
     # Heavy imports deferred to call-time: peft/trl/transformers only exist
     # in the training venv (pod), NOT the test venv. Importing them here keeps
     # this module cheap to import, so the CLI tests can still parse args.
-    from peft import LoraConfig
     import torch
+    from peft import LoraConfig
     from transformers import AutoModelForCausalLM, AutoTokenizer
-    from trl import SFTTrainer, SFTConfig
+    from trl import SFTConfig, SFTTrainer
 
     model = AutoModelForCausalLM.from_pretrained(
         cfg.model_name,

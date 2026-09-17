@@ -3,9 +3,30 @@ name = "llm-training"
 version = "0.1.0"
 requires-python = ">= 3.10"
 
+[project.optional-dependencies]
+# Tooling for pointer/contract checks and linting. No GCS plugin is needed by CI,
+# but [gs] lets collaborators pull/push the GCS remote locally (pinned so the
+# dvc.lock schema stays identical across machines).
+dev = [
+    "dvc[gs]==3.66.1",
+    "pytest",
+    "pyyaml",
+    "ruff==0.16.8",
+]
+# Training stack. transformers is pinned because transformers 5.x breaks trl.
+# Install torch separately with the CPU index for CI/CPU boxes:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+train = [
+    "transformers==4.57.1",
+    "trl==1.3.0",
+    "peft==0.17.1",
+    "datasets",
+    "accelerate",
+    "torch>=2.0",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
-
