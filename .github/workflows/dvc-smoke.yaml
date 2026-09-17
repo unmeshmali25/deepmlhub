@@ -32,12 +32,19 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-
       - name: Install deps (pinned — transformers 5 breaks trl)
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install "transformers==4.57.1" "trl==1.3.0" "peft==0.17.1" datasets accelerate dvc
+          pip install "transformers==4.57.1" "trl==1.3.0" "peft==0.17.1" datasets accelerate "dvc[gs]"
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      - name: Pull data from DVC remote
+        run: |
+          dvc pull --verbose
+          ls -lh data/01_cold_start_cot_sft/
       - name: Repro smoke pipeline
         run: |
           mkdir -p metrics evals models
