@@ -1,6 +1,6 @@
 # DVC Runbook
 
-Operational procedures for data and model artifacts in `llm-retard-lab`.
+Operational procedures for data and model artifacts in `llm-posttraining-lab`.
 
 ## The split
 
@@ -17,7 +17,7 @@ Credentials are **not** in git; each person configures their own.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate   # or reuse repo .venv
-pip install -e "projects/llm-retard-lab[dev,train]"
+pip install -e "projects/llm-posttraining-lab[dev,train]"
 ```
 
 If you only need the data tooling, `pip install -e ".[dev]"` from the project
@@ -40,7 +40,7 @@ Ask the bucket owner to grant these on `deepmlhub-llm-posttraining-dvc`.
 ## 3. Get the data
 
 ```bash
-cd projects/llm-retard-lab
+cd projects/llm-posttraining-lab
 dvc pull --dry                                  # preview size before downloading
 dvc pull data/01_cold_start_cot_sft/data.jsonl.dvc   # or bare `dvc pull` for all
 dvc status                                      # expect: "Data and pipelines are up to date."

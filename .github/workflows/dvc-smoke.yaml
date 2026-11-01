@@ -6,23 +6,23 @@ name: LLM CI
 on:
   push:
     paths:
-      - "projects/llm-retard-lab/**/*.dvc"
-      - "projects/llm-retard-lab/dvc.yaml"
-      - "projects/llm-retard-lab/dvc.lock"
-      - "projects/llm-retard-lab/configs/**"
-      - "projects/llm-retard-lab/src/**"
-      - "projects/llm-retard-lab/tests/**"
-      - "projects/llm-retard-lab/pyproject.toml"
+      - "projects/llm-posttraining-lab/**/*.dvc"
+      - "projects/llm-posttraining-lab/dvc.yaml"
+      - "projects/llm-posttraining-lab/dvc.lock"
+      - "projects/llm-posttraining-lab/configs/**"
+      - "projects/llm-posttraining-lab/src/**"
+      - "projects/llm-posttraining-lab/tests/**"
+      - "projects/llm-posttraining-lab/pyproject.toml"
       - ".github/workflows/dvc-smoke.yaml"
   pull_request:
     paths:
-      - "projects/llm-retard-lab/**/*.dvc"
-      - "projects/llm-retard-lab/dvc.yaml"
-      - "projects/llm-retard-lab/dvc.lock"
-      - "projects/llm-retard-lab/configs/**"
-      - "projects/llm-retard-lab/src/**"
-      - "projects/llm-retard-lab/tests/**"
-      - "projects/llm-retard-lab/pyproject.toml"
+      - "projects/llm-posttraining-lab/**/*.dvc"
+      - "projects/llm-posttraining-lab/dvc.yaml"
+      - "projects/llm-posttraining-lab/dvc.lock"
+      - "projects/llm-posttraining-lab/configs/**"
+      - "projects/llm-posttraining-lab/src/**"
+      - "projects/llm-posttraining-lab/tests/**"
+      - "projects/llm-posttraining-lab/pyproject.toml"
       - ".github/workflows/dvc-smoke.yaml"
   workflow_dispatch:
 
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: projects/llm-retard-lab
+        working-directory: projects/llm-posttraining-lab
     steps:
       - uses: actions/checkout@v4
 
