@@ -20,7 +20,8 @@ infrastructure/  # Shared infra: Terraform (GKE, GCS, Cloud SQL, MLflow, VPC)
 | Project | Purpose | Stack | Status |
 |---|---|---|---|
 | `voice_offer_recommendation` | Offer recommender for simulated retail agents (flagship) | Supabase, dbt, Feast, DVC, MLflow, GCP | E2E pipeline green (17/17 pytest, 70/70 dbt tests) |
-| `llm-retard-lab` | LLM post-training: SFT/DPO/RLHF experiments + evals | PyTorch, PEFT/LoRA, Qwen | Cold-start CoT adapter trained + evaluated || `synth_tabular_classification` | Baseline ML pipeline pattern | sklearn, DVC, FastAPI | Complete |
+| `llm-posttraining-lab` | LLM post-training: SFT/DPO/RLHF experiments + evals | PyTorch, PEFT/LoRA, Qwen | Cold-start CoT adapter trained + evaluated |
+| `synth_tabular_classification` | Baseline ML pipeline pattern | sklearn, DVC, FastAPI | Complete |
 | `pytorch_00..03` | PyTorch fundamentals curriculum | PyTorch | Complete |
 | `microprojects` | Small focused experiments (async, SQLAlchemy, inference) | varies | Ongoing |
 
@@ -28,7 +29,7 @@ infrastructure/  # Shared infra: Terraform (GKE, GCS, Cloud SQL, MLflow, VPC)
 
 - **git**: code, configs, notebooks, docs, DVC pointer files (`.dvc`)
 - **DVC**: model weights and other large artifacts (e.g. the trained
-  LoRA adapter at `projects/llm-retard-lab/models/adapter_qwen_cot_full`)
+  LoRA adapter at `projects/llm-posttraining-lab/models/adapter_qwen_cot_full`)
 - **gitignored `resources/`**: consumed reference material (epub, lecture PDFs)
 - **never tracked**: `.env` (see `.env.example` where relevant), caches,
   old training runs, `mlflow.db`

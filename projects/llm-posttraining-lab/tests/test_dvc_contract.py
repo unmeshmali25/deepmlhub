@@ -82,7 +82,7 @@ def test_pointer_hashes_match_lock_deps():
 
 
 def test_no_data_bytes_committed_to_git():
-    tracked = _git_ls_files("projects/llm-retard-lab/data")
+    tracked = _git_ls_files("projects/llm-posttraining-lab/data")
     offenders = [
         path
         for path in tracked

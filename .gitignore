@@ -39,11 +39,11 @@ showYourWork.md
 projects/pytorch_*/notebooks/*.png
 
 # Course training runs: local-only. Current adapter is versioned via DVC
-# (see projects/llm-retard-lab/models/adapter_qwen_cot_full.dvc)
-projects/llm-retard-lab/models/*
-!projects/llm-retard-lab/models/*.dvc
-projects/llm-retard-lab/notebooks/models/
-projects/llm-retard-lab/pagila-*.sql
+# (see projects/llm-posttraining-lab/models/adapter_qwen_cot_full.dvc)
+projects/llm-posttraining-lab/models/*
+!projects/llm-posttraining-lab/models/*.dvc
+projects/llm-posttraining-lab/notebooks/models/
+projects/llm-posttraining-lab/pagila-*.sql
 
 # ===== Microprojects: track .py exports, not notebooks =====
 projects/microprojects/**/*.ipynb
